@@ -13,7 +13,7 @@ const submit = async () => {
   try {
     setLoading(true);
 
-    const res = await axios.post("/api/briefings", {
+    const res = await axios.post("/api/summaries", {
       text
     }, {
       withCredentials: true
@@ -40,6 +40,13 @@ const submit = async () => {
       <hr/>
 
       <p>{summary}</p>
+      {summary && (
+        <>
+        <button>저장</button>
+        <button>다시 요약</button>
+        <button>뒤로가기</button>
+        </>
+      )}    
     </div>
   );
 }

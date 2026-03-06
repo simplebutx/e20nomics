@@ -12,3 +12,6 @@ public class RestTemplateConfig {
         return new RestTemplate();
     }
 }
+
+// RestTemplate = 자바에서 HTTP 요청을 보내는 도구
+// 브라우저에서는 fetch나 axios쓰는 것 처럼
