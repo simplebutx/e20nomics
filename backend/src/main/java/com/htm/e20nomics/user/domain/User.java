@@ -3,10 +3,12 @@ package com.htm.e20nomics.user.domain;
 
 import com.htm.e20nomics.auth.domain.Role;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Getter
 @Entity
 @NoArgsConstructor
 public class User {
