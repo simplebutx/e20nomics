@@ -10,6 +10,7 @@ import TodayNewsPage from './features/pages/TodayNewsPage';
 import LoginPage from './features/pages/LoginPage';
 import SignupPage from './features/pages/SignupPage';
 import AdminPage from './features/pages/AdminPage';
+import AdminSummaryPage from './features/pages/AdminSummaryPage';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/admin" element={<AdminPage />} />
+      <Route path="/adminSummarize" element={<AdminSummaryPage />} />
       </Routes>
     </>
   )

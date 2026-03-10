@@ -2,7 +2,9 @@ package com.htm.e20nomics.summary.service;
 
 import com.htm.e20nomics.global.exception.UserNotFoundException;
 import com.htm.e20nomics.summary.client.OpenAiChatClient;
+import com.htm.e20nomics.summary.domain.CreatedBy;
 import com.htm.e20nomics.summary.domain.Summary;
+import com.htm.e20nomics.summary.dto.AnnouncementsResponse;
 import com.htm.e20nomics.summary.dto.SummaryGenerateResponse;
 import com.htm.e20nomics.summary.repository.SummaryRepository;
 import com.htm.e20nomics.user.domain.User;
@@ -11,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -59,14 +63,30 @@ public class SummaryService {
         return "YES".equalsIgnoreCase(result.trim());   // yes가 들어있으면 true, no면 false 반환
     }
 
-    @Transactional
+    @Transactional  // 개인 뉴스 저장
     public void saveSummary(String originalText, String summaryText, boolean isPublic, Long userId) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new UserNotFoundException());
 
-        Summary summary = new Summary(originalText, summaryText, user, isPublic);
-
+        Summary summary = new Summary(originalText, summaryText, user, false, CreatedBy.USER);
         summaryRepository.save(summary);
+    }
+
+
+    @Transactional   // 관리자 뉴스 등록
+    public void postAnnouncement(String originalText, String summaryText, boolean isPublic, Long userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new UserNotFoundException());
+
+        Summary summary = new Summary(originalText, summaryText, user, true, CreatedBy.ADMIN);
+        summaryRepository.save(summary);
+    }
+
+    public List<AnnouncementsResponse> getAnnouncements() {
+        List<Summary> lists = summaryRepository.findAllByCreatedBy(CreatedBy.ADMIN);
+        return lists.stream().map((list)->new AnnouncementsResponse(list.getId(), list.getSummaryText()))
+                .toList();
     }
 }

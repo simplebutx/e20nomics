@@ -2,6 +2,7 @@ package com.htm.e20nomics.summary.controller;
 
 
 import com.htm.e20nomics.auth.domain.CustomUserDetails;
+import com.htm.e20nomics.summary.dto.AnnouncementsResponse;
 import com.htm.e20nomics.summary.dto.SummaryCreateRequest;
 import com.htm.e20nomics.summary.dto.SummaryGenerateRequest;
 import com.htm.e20nomics.summary.dto.SummaryGenerateResponse;
@@ -10,9 +11,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,6 +35,12 @@ public class SummaryController {
                                             @AuthenticationPrincipal CustomUserDetails userDetails) {
         summaryService.saveSummary(dto.getOriginalText(), dto.getSummaryText(), dto.isPublic(), userDetails.getUserId());
         return ResponseEntity.status(201).build();
+    }
+
+    @GetMapping("/api/announcements")
+    public List<AnnouncementsResponse> getAnnouncements() {
+
+        return summaryService.getAnnouncements();
     }
 }
 

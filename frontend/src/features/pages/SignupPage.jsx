@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../../api"
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function SignupPage() {
 
@@ -8,6 +9,7 @@ export default function SignupPage() {
     const [password, setPassword] = useState("");
     const [userName, setUserName] = useState("");
     const [displayName, setDisplayName] = useState("");
+    const nav = useNavigate();
   
     async function signup(e) {
         e.preventDefault();
@@ -19,6 +21,7 @@ export default function SignupPage() {
         try {
           await api.post("/api/auth/signup", form);
           toast.success("회원가입을 성공하였습니다.");
+          nav("/login");
         } catch (err) {
           const message = err?.response?.data?.message || "회원가입 실패";
           toast.error(message);

@@ -29,15 +29,19 @@ public class Summary {
 
     private boolean isPublic;
 
+    @Enumerated(EnumType.STRING)
+    private CreatedBy createdBy;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public Summary(String originalText, String summaryText, User author, boolean isPublic) {
+    public Summary(String originalText, String summaryText, User author, boolean isPublic, CreatedBy createdBy) {
         this.originalText = originalText;
         this.summaryText = summaryText;
         this.author = author;
         this.isPublic = isPublic;
+        this.createdBy = createdBy;
     }
 }

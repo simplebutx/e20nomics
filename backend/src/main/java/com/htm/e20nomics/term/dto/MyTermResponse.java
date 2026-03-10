@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class TermCreateRequest {
-    String term;
-    String definition;
-
+public class MyTermResponse {
+    private Long id;
+    private String term;
+    private String definition;
 }

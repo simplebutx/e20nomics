@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import api from "../../api"
 import toast from "react-hot-toast";
 import MySummaries from "../components/MySummaries";
+import MyTerms from "../components/MyTerms";
 
 export default function MyPage() {
     const nav = useNavigate();
 
     const [user, setUser] = useState(null);
     const [openMySummaries, setOpenMySummaries] = useState(false);
+    const [openMyTerms, setOpenMyTerms] = useState(false);
 
     async function myPage(e) {
         try {
@@ -44,11 +46,13 @@ export default function MyPage() {
             <p>내이름: {user.userName}</p>
             <p>내별명: {user.displayName}</p>
             <p>내 선호도 보기 버튼</p>
-            <p onClick={()=>setOpenMySummaries(prev => !prev)}>내가 저장한 기사 목록 보기</p>
+            <p onClick={()=>setOpenMySummaries(prev => !prev)}>내가 저장한 기사</p>
             {openMySummaries ? <MySummaries /> : null}
-           
             
-            <p>내가 저장한 사전 목록 버튼</p>
+            <p onClick={()=>setOpenMyTerms(prev => !prev)}>내 단어 사전</p>
+            {openMyTerms ? <MyTerms /> : null}
+
+            <button>회원탈퇴</button>
         </>
     )
 }
