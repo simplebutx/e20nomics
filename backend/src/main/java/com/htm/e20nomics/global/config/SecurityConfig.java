@@ -60,7 +60,7 @@ public class SecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of("http://localhost:5173", "https://e20nomics.vercel.app/"));
+        config.setAllowedOrigins(List.of("http://localhost:5173", "https://e20nomics-8dyqsfp9v-htms-projects-cd4e3348.vercel.app"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
