@@ -1,0 +1,179 @@
+.my-summaries-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 40px 20px 60px;
+}
+
+.my-summaries-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.my-summaries-header {
+  margin-bottom: 28px;
+}
+
+.my-summaries-label {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #e8eefc;
+  color: #1e3a8a;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.my-summaries-header h1 {
+  margin: 0 0 10px;
+  font-size: 34px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.my-summaries-desc {
+  margin: 0;
+  font-size: 15px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.my-summaries-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.my-summary-card,
+.my-summaries-state-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.my-summary-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.my-summary-badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.my-summary-order {
+  font-size: 13px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+.my-summary-title {
+  margin: 0 0 12px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #0f172a;
+}
+
+.my-summary-text {
+  margin: 0 0 18px;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #334155;
+  white-space: pre-line;
+}
+
+.my-summary-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.my-summary-date {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.my-summary-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.outline-btn,
+.danger-btn {
+  border: none;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.outline-btn {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.outline-btn:hover {
+  background: #dbeafe;
+}
+
+.danger-btn {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.danger-btn:hover {
+  background: #fee2e2;
+}
+
+.my-summaries-state-card {
+  text-align: center;
+  color: #475569;
+  font-size: 15px;
+}
+
+@media (max-width: 768px) {
+  .my-summaries-page {
+    padding: 28px 16px 40px;
+  }
+
+  .my-summaries-header h1 {
+    font-size: 28px;
+  }
+
+  .my-summary-card,
+  .my-summaries-state-card {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .my-summary-title {
+    font-size: 19px;
+  }
+
+  .my-summary-text {
+    font-size: 14px;
+  }
+
+  .my-summary-actions {
+    width: 100%;
+  }
+
+  .outline-btn,
+  .danger-btn {
+    flex: 1;
+  }
+}

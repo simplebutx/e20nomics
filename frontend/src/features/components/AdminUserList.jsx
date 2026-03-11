@@ -1,33 +1,49 @@
 import { useEffect, useState } from "react";
-import api from "../../api"
+import api from "../../api";
 import toast from "react-hot-toast";
+import "@/features/css/AdminUserList.css";
 
 export default function AdminUserList() {
+  const [users, setUsers] = useState([]);
 
-    const [users, setUsers] = useState([]);
-
-    async function fetchUserList() {
-        try {
-            const res = await api.get("/api/admin/users");
-            const data = res.data;
-            setUsers(Array.isArray(data) ? data : []);
-        } catch(err) {
-            toast.error(err?.response?.data?.message || "불러오기 실패");
-        }
+  async function fetchUserList() {
+    try {
+      const res = await api.get("/api/admin/users");
+      const data = res.data;
+      setUsers(Array.isArray(data) ? data : []);
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "불러오기 실패");
     }
+  }
 
-    useEffect(()=> {
-        fetchUserList();
-    }, []);
+  useEffect(() => {
+    fetchUserList();
+  }, []);
 
+  if (users.length === 0) {
+    return <p className="admin-list-empty">회원이 없습니다.</p>;
+  }
 
-    return (
-        <>
-            {users.map((u) => (
-                <div key={u.id}>
-                    <p>이메일: {u.email} 이름: {u.userName} 닉네임: {u.displayName} </p>
-                </div>
-            ))}
-        </>
-    )
+  return (
+    <div className="admin-user-table-wrap">
+      <table className="admin-user-table">
+        <thead>
+          <tr>
+            <th>이메일</th>
+            <th>이름</th>
+            <th>닉네임</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((u) => (
+            <tr key={u.id}>
+              <td>{u.email}</td>
+              <td>{u.userName}</td>
+              <td>{u.displayName}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }

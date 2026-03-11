@@ -22,8 +22,8 @@ public class UserService {
 
     public List<MySummariesResponse> mySummaries(Long userId) {
         return summaryRepository.findAllByAuthorId(userId).stream()
-                .map(summary -> new MySummariesResponse(summary.getId(), summary.getOriginalText(), summary.getSummaryText(),
-                        summary.getAuthor().getUserName(), summary.getCreatedAt(), summary.getUpdatedAt()))
+                .map(summary -> new MySummariesResponse(summary.getId(), summary.getSummaryText(),
+                        summary.isPublic(), summary.getCreatedAt(), summary.getUpdatedAt()))
                 .toList();
     }
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../../api"
 import toast from "react-hot-toast";
+import "@/features/css/MyTerms.css";
 
 export default function MyTerms() {
 
@@ -8,9 +9,11 @@ export default function MyTerms() {
     
     const [term, setTerm] = useState("");
     const [definition, setDefinition] = useState("");
+    const [loading, setLoading] = useState(true);
 
     async function fetchMyTerms() {
         try {
+            setLoading(true);
             const res = await api.get("/api/me/terms");
             const data = res.data;
             setTerms(Array.isArray(data) ? data : []);    // 배열있는지 검증
@@ -18,6 +21,8 @@ export default function MyTerms() {
             setDefinition("");
         } catch (err) {
             toast.error(err?.response?.data?.message || "불러오기 실패");
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -38,25 +43,76 @@ export default function MyTerms() {
         }
     }
 
+    function handleEdit(id) {
+        console.log("수정:", id);
+        toast("수정 기능은 아직 준비 중입니다.");
+    }
+
+    function handleDelete(id) {
+        console.log("삭제:", id);
+        toast("삭제 기능은 아직 준비 중입니다.");
+    }
+
     useEffect(()=> {
         fetchMyTerms();
     }, []);
 
-    return (
-        <>
-          {terms.map((t) => (
-            <div key={t.id}>
-            <p>{t.term}: {t.definition}</p>
-            <button>수정</button> <button>삭제</button>
+     return (
+    <div className="my-terms-page">
+      <div className="my-terms-container">
+        <header className="my-terms-header">
+          <p className="my-terms-label">My Dictionary</p>
+          <h1>내 단어장</h1>
+          <p className="my-terms-desc">
+            자주 보는 경제 용어를 직접 저장하고 정리해보세요.
+          </p>
+        </header>
+
+        <section className="term-form-card">
+          <h2 className="term-form-title">새 단어 등록</h2>
+
+          <form className="term-form" onSubmit={postMyTerm}>
+            <input className="term-input" placeholder="단어" value={term} onChange={(e) => setTerm(e.target.value)}/>
+            <textarea className="term-textarea" placeholder="정의" value={definition} onChange={(e) => setDefinition(e.target.value)} rows={4}/>
+            <button className="term-submit-btn" type="submit">사전에 등록</button>
+          </form>
+        </section>
+
+        <section className="term-list-section">
+          <div className="term-list-top">
+            <h2 className="term-list-title">저장한 단어</h2>
+            {!loading && terms.length > 0 && (
+              <span className="term-count">{terms.length}개</span>
+            )}
+          </div>
+
+          {loading ? (
+            <div className="term-state-card">
+              <p>불러오는 중...</p>
             </div>
-         ))}
+          ) : terms.length === 0 ? (
+            <div className="term-state-card">
+              <p>아직 등록한 단어가 없습니다.</p>
+            </div>
+          ) : (
+            <div className="term-grid">
+              {terms.map((t) => (
+                <article className="term-card" key={t.id}>
+                  <div className="term-card-body">
+                    <h3 className="term-word">{t.term}</h3>
+                    <p className="term-definition">{t.definition}</p>
+                  </div>
 
-            <form onSubmit={postMyTerm}>
-                <input placeholder="단어" value={term} onChange={(e)=>setTerm(e.target.value)}></input>
-                <input placeholder="정의" value={definition} onChange={(e)=>setDefinition(e.target.value)}></input>
-                <button type="submit">사전에 등록</button>
-            </form>
-        </>
-
-    )
+                  <div className="term-card-actions">
+                    <button className="term-action-btn edit-btn" onClick={() => handleEdit(t.id)} type="button">수정</button>
+                    <button className="term-action-btn delete-btn" onClick={() => handleDelete(t.id)} type="button">삭제</button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+      </div>
+    </div>
+  );
 }

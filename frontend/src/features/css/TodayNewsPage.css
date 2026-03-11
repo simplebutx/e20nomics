@@ -1,0 +1,134 @@
+.today-news-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 40px 20px 60px;
+}
+
+.today-news-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.today-news-header {
+  margin-bottom: 28px;
+}
+
+.today-news-label {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #e8eefc;
+  color: #1e3a8a;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.today-news-header h1 {
+  margin: 0 0 10px;
+  font-size: 34px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.today-news-desc {
+  margin: 0;
+  font-size: 15px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.news-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.news-card,
+.today-news-state-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.news-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.news-badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.news-order {
+  font-size: 13px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+.news-title {
+  margin: 0 0 12px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #0f172a;
+}
+
+.news-summary {
+  margin: 0 0 18px;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #334155;
+  white-space: pre-line;
+}
+
+.news-card-bottom {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.news-meta {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.today-news-state-card {
+  text-align: center;
+  color: #475569;
+  font-size: 15px;
+}
+
+@media (max-width: 768px) {
+  .today-news-page {
+    padding: 28px 16px 40px;
+  }
+
+  .today-news-header h1 {
+    font-size: 28px;
+  }
+
+  .news-card,
+  .today-news-state-card {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .news-title {
+    font-size: 19px;
+  }
+
+  .news-summary {
+    font-size: 14px;
+  }
+}
