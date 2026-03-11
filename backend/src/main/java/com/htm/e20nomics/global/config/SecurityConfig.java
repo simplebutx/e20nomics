@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .formLogin(form -> form.disable())
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/summaries", "/api/auth/**").permitAll()
+                .requestMatchers("/api/auth/**", "/api/announcements").permitAll()
                 .requestMatchers("/api/me/**", "/api/summaries/**", "/api/summaries").authenticated()
                 .requestMatchers( "/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
@@ -60,8 +60,8 @@ public class SecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedOrigins(List.of("http://localhost:5173", "https://e20nomics.vercel.app/"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
 
