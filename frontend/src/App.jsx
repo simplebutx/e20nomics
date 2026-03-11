@@ -21,6 +21,7 @@ function App() {
     <Toaster position="top-center" containerStyle={{top:80,}}/>
      <Navbar />
       <Routes>
+      <Route path="/" element={<TodayNewsPage />} />
       <Route path="/health" element={<Health />} />
       <Route path="/summarize" element={<SummaryPage />} />
       <Route path="/mypage" element={<MyPage />} />
