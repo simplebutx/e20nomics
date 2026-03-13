@@ -30,23 +30,39 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = resolveToken(request);
 
-        if(token != null && jwtTokenProvider.validate(token)) {
-            String email = jwtTokenProvider.getEmail(token);
-            System.out.println("token subject/email = " + email);
+        System.out.println("=== JWT FILTER START ===");
+        System.out.println("URI = " + request.getRequestURI());
+        System.out.println("method = " + request.getMethod());
+        System.out.println("token exists = " + (token != null));
 
+        try {
+            if (token != null) {
+                boolean valid = jwtTokenProvider.validate(token);
+                System.out.println("token valid = " + valid);
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);  // db에서 사용자 조회
-            System.out.println("loaded userDetails = " + userDetails);
+                if (valid) {
+                    String email = jwtTokenProvider.getEmail(token);
+                    System.out.println("token subject/email = " + email);
 
-            // Authentication 객체 생성
-            // 서버는 로그인 상태를 기억하지 않으므로 매 요청마다 SecurityContext에 (db에서 방금 꺼내온) 유저정보를 저장해야함
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                    System.out.println("loaded userDetails = " + userDetails);
 
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));   // Authentication 객체에 요청 관련 정보를 추가
-            SecurityContextHolder.getContext().setAuthentication(authentication);    // 생성한 authentication을 security context에 집어넣어라
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                    System.out.println("authentication set = " + SecurityContextHolder.getContext().getAuthentication());
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("JWT filter exception = " + e.getClass().getName());
+            System.out.println("JWT filter message = " + e.getMessage());
+            e.printStackTrace();
         }
-        filterChain.doFilter(request, response);   // 다음 필터로 넘김
+
+        filterChain.doFilter(request, response);
     }
 
     private String resolveToken(HttpServletRequest request) {
