@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +49,8 @@ public class OpenAiChatClient {
         HttpHeaders headers = new HttpHeaders();    // 헤더 객체 생성
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(apiKey);
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(reqBody, headers);
 

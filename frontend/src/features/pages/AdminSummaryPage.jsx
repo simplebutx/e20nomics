@@ -5,7 +5,8 @@ import "@/features/css/AdminSummaryPage.css";
 
 export default function AdminSummaryPage() {
   const [text, setText] = useState("");
-  const [summary, setSummary] = useState("");
+  const [summaryTitle, setSummaryTitle] = useState("");
+  const [summaryText, setSummaryText] = useState("");
   const [loading, setLoading] = useState(false);
   const [canSave, setCanSave] = useState(false);
 
@@ -20,7 +21,8 @@ export default function AdminSummaryPage() {
     try {
       setLoading(true);
       const res = await api.post("/api/admin/announcements/generate", { text });
-      setSummary(res.data.summary);
+      setSummaryTitle(res.data.summaryTitle);
+      setSummaryText(res.data.summaryText);
       setCanSave(res.data.canSave);
     } catch (e) {
       toast.error(e?.response?.data?.message || "요약에 실패했습니다.");
@@ -31,7 +33,7 @@ export default function AdminSummaryPage() {
   }
 
   async function save() {
-    if (!summary.trim()) {
+    if (!summaryText.trim()) {
       toast.error("저장할 요약 내용이 없습니다.");
       return;
     }
@@ -39,8 +41,8 @@ export default function AdminSummaryPage() {
     try {
       await api.post("/api/admin/announcements", {
         originalText: text,
-        summaryText: summary,
-        isPublic: true,
+        summaryTitle: summaryTitle,
+        summaryText: summaryText,
       });
       toast.success("오늘의 뉴스가 등록되었습니다.");
     } catch (err) {
@@ -49,8 +51,8 @@ export default function AdminSummaryPage() {
   }
 
   function resetAll() {
-    setText("");
-    setSummary("");
+    setSummaryText("");
+    setSummaryTitle("");
     setCanSave(false);
   }
 
@@ -110,13 +112,15 @@ export default function AdminSummaryPage() {
         <section className="admin-summary-result-card">
           <div className="admin-summary-section-top">
             <h2>요약 결과</h2>
-            {summary && <span className="admin-summary-result-badge">완료</span>}
+            {summaryTitle && <h3>{summaryTitle}</h3>}
+            {summaryText && <span className="admin-summary-result-badge">완료</span>}
           </div>
 
-          {summary ? (
+          {summaryText ? (
             <>
               <div className="admin-summary-result-box">
-                <p>{summary}</p>
+                <p>제목: {summaryTitle}</p>
+                <p>{summaryText}</p>
               </div>
 
               {canSave && (

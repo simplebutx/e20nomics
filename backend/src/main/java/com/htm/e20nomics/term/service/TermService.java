@@ -8,6 +8,7 @@ import com.htm.e20nomics.user.domain.User;
 import com.htm.e20nomics.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class TermService {
     private final UserRepository userRepository;
     private final TermRepository termRepository;
 
+    @Transactional
     public void saveTerm(String word, String definition, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new UserNotFoundException());

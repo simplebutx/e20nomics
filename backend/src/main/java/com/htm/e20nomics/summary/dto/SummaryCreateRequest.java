@@ -7,7 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class SummaryCreateRequest {
     private String originalText;
+    private String summaryTitle;
     private String summaryText;
-    private boolean isPublic;
-
 }

@@ -4,6 +4,7 @@ import com.htm.e20nomics.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -20,14 +21,15 @@ public class Summary {
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String originalText;
+
+    private String summaryTitle;
+
     @Column(columnDefinition = "TEXT", nullable = false)
     private String summaryText;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
-
-    private boolean isPublic;
 
     @Enumerated(EnumType.STRING)
     private CreatedBy createdBy;
@@ -37,11 +39,11 @@ public class Summary {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public Summary(String originalText, String summaryText, User author, boolean isPublic, CreatedBy createdBy) {
+    public Summary(String originalText, String summaryTitle, String summaryText, User author, CreatedBy createdBy) {
         this.originalText = originalText;
+        this.summaryTitle = summaryTitle;
         this.summaryText = summaryText;
         this.author = author;
-        this.isPublic = isPublic;
         this.createdBy = createdBy;
     }
 }

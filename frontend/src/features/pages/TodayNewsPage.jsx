@@ -56,7 +56,7 @@ export default function TodayNewsPage() {
                   </span>
                 </div>
 
-                <h2 className="news-title">{a.title || `오늘의 경제 뉴스 ${index + 1}`}</h2>
+                <h2 className="news-title">{a.summaryTitle || `오늘의 경제 뉴스 ${index + 1}`}</h2>
 
                 <p className="news-summary">{a.summaryText}</p>
 

@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MySummariesResponse {
     private Long id;
+    private String summaryTitle;
     private String summaryText;
-    private boolean isPublic;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

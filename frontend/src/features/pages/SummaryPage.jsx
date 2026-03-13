@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import api from "../../api";
 import toast from "react-hot-toast";
 import "@/features/css/SummaryPage.css";
 
 export default function SummaryPage() {
   const [text, setText] = useState("");
-  const [summary, setSummary] = useState("");
+  const [summaryTitle, setSummaryTitle] = useState("");
+  const [summaryText, setSummaryText] = useState("");
+  
   const [loading, setLoading] = useState(false);
   const [canSave, setCanSave] = useState(false);
 
@@ -20,7 +22,8 @@ export default function SummaryPage() {
     try {
       setLoading(true);
       const res = await api.post("/api/summaries/generate", { text });
-      setSummary(res.data.summary);
+      setSummaryTitle(res.data.summaryTitle);
+      setSummaryText(res.data.summaryText);
       setCanSave(res.data.canSave);
     } catch (e) {
       toast.error(e?.response?.data?.message || "요약에 실패했습니다.");
@@ -31,7 +34,7 @@ export default function SummaryPage() {
   }
 
   async function save() {
-    if (!summary.trim()) {
+    if (!summaryText.trim()) {
       toast.error("저장할 요약 내용이 없습니다.");
       return;
     }
@@ -39,8 +42,8 @@ export default function SummaryPage() {
     try {
       await api.post("/api/summaries", {
         originalText: text,
-        summaryText: summary,
-        isPublic: false,
+        summaryTitle: summaryTitle,
+        summaryText: summaryText,
       });
       toast.success("저장 완료");
     } catch (err) {
@@ -49,8 +52,8 @@ export default function SummaryPage() {
   }
 
   function resetAll() {
-    setText("");
-    setSummary("");
+    setSummaryText("");
+    setSummaryTitle("");
     setCanSave(false);
   }
 
@@ -101,13 +104,15 @@ export default function SummaryPage() {
         <section className="summary-result-card">
           <div className="section-top">
             <h2>요약 결과</h2>
-            {summary && <span className="result-badge">완료</span>}
+            {summaryTitle && <h3>{summaryTitle}</h3>}
+            {summaryText && <span className="result-badge">완료</span>}
           </div>
 
-          {summary ? (
+          {summaryText ? (
             <>
               <div className="summary-result-box">
-                <p>{summary}</p>
+                <p>제목: {summaryTitle}</p>
+                <p>{summaryText}</p>
               </div>
 
               {canSave && (

@@ -27,7 +27,10 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error?.response?.status;
-    const data = error?.response?.data;
+
+    console.log("status =", status);
+    console.log("data =", error?.response?.data);
+    console.error(error);
 
     if(status === 500) {   // 500 공통 처리
         toast.error("서버 오류가 발생했습니다.");

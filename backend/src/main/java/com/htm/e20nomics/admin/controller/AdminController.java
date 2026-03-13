@@ -35,13 +35,13 @@ public class AdminController {
 
     @PostMapping("/api/admin/announcements/generate")   // 요약 생성
     public SummaryGenerateResponse createAnnouncement(@RequestBody SummaryGenerateRequest request) {
-        return summaryService.summarize(request.text());
+        return summaryService.summarize(request.getText());
     }
 
     @PostMapping("/api/admin/announcements")  // 요약 저장
     public ResponseEntity<Void> postAnnouncement(@Valid @RequestBody SummaryCreateRequest dto,
                                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
-        summaryService.postAnnouncement(dto.getOriginalText(), dto.getSummaryText(), dto.isPublic(), userDetails.getUserId());
+        summaryService.postAnnouncement(dto.getOriginalText(), dto.getSummaryTitle(), dto.getSummaryText(), userDetails.getUserId());
         return ResponseEntity.status(201).build();
     }
 

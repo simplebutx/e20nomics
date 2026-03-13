@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../api"
 import toast from "react-hot-toast";
 import "@/features/css/MySummaries.css";
@@ -7,6 +8,7 @@ export default function MySummaries() {
 
     const [summaries, setSummaries] = useState([]);
     const [loading, setLoading] = useState(true);
+    const nav = useNavigate();
 
     async function fetchMySummaries() {
         try {
@@ -22,13 +24,14 @@ export default function MySummaries() {
     }
 
     useEffect(()=> {
-        fetchMySummaries();
+          const token = localStorage.getItem("accessToken");
+          if (!token) {
+            toast("로그인 후 이용 가능합니다.");
+            nav("/login");
+          }
+          else fetchMySummaries();
     }, []);
 
-    function handleShare(id) {
-    console.log("공유하기:", id);
-    toast("공유 기능은 아직 준비 중입니다.");
-  }
 
   function handleDelete(id) {
     console.log("삭제하기:", id);
@@ -59,11 +62,10 @@ export default function MySummaries() {
             {summaries.map((p, index) => (
               <article className="my-summary-card" key={p.id}>
                 <div className="my-summary-card-top">
-                  <span className="my-summary-badge">{p.isPublic ? "공개" : "비공개"}</span>
                   <span className="my-summary-order">{String(index + 1).padStart(2, "0")}</span>
                 </div>
 
-                <h2 className="my-summary-title">{p.title || `내 기사 ${index + 1}`}</h2>
+                <h2 className="my-summary-title">{p.summaryTitle || `내 기사 ${index + 1}`}</h2>
 
                 <p className="my-summary-text">{p.summaryText}</p>
 
@@ -75,7 +77,6 @@ export default function MySummaries() {
                   </span>
 
                   <div className="my-summary-actions">
-                    <button className="outline-btn" onClick={() => handleShare(p.id)}>공유하기</button>
                     <button className="danger-btn" onClick={() => handleDelete(p.id)}>삭제</button>
                   </div>
                 </div>

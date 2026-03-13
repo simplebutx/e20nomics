@@ -26,20 +26,19 @@ public class SummaryController {
 
     @PostMapping("/api/summaries/generate")
     public SummaryGenerateResponse summarize(@Valid @RequestBody SummaryGenerateRequest request) {
-        return summaryService.summarize(request.text());
+        return summaryService.summarize(request.getText());
     }
     // controller -> service -> OpenAiChatClient(OpenAI API와 통신) -> service -> controller
 
     @PostMapping("/api/summaries")
     public ResponseEntity<Void> saveSummary(@Valid @RequestBody SummaryCreateRequest dto,
                                             @AuthenticationPrincipal CustomUserDetails userDetails) {
-        summaryService.saveSummary(dto.getOriginalText(), dto.getSummaryText(), dto.isPublic(), userDetails.getUserId());
+        summaryService.saveSummary(dto, userDetails.getUserId());
         return ResponseEntity.status(201).build();
     }
 
     @GetMapping("/api/announcements")
     public List<AnnouncementsResponse> getAnnouncements() {
-
         return summaryService.getAnnouncements();
     }
 }

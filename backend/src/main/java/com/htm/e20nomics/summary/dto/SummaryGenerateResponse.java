@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class SummaryGenerateResponse {
-    private String summary;
+    private String summaryTitle;
+    private String summaryText;
     private boolean canSave;
 }

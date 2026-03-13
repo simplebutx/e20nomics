@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../api"
 import toast from "react-hot-toast";
 import "@/features/css/MyTerms.css";
@@ -6,10 +7,10 @@ import "@/features/css/MyTerms.css";
 export default function MyTerms() {
 
     const [terms, setTerms] = useState([]);
-    
     const [term, setTerm] = useState("");
     const [definition, setDefinition] = useState("");
     const [loading, setLoading] = useState(true);
+    const nav = useNavigate();
 
     async function fetchMyTerms() {
         try {
@@ -54,7 +55,12 @@ export default function MyTerms() {
     }
 
     useEffect(()=> {
-        fetchMyTerms();
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        toast("로그인 후 이용 가능합니다.");
+        nav("/login");
+      }
+      else fetchMyTerms();
     }, []);
 
      return (

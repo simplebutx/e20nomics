@@ -14,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 
+    @Transactional
     public void signup(SignupRequest dto) {
         if(userRepository.existsByEmail(dto.getEmail()))
         {
@@ -33,6 +35,7 @@ public class AuthService {
         userRepository.save(user);
     }
 
+    @Transactional
     // 이메일, 비번을 받아서 Spring Security로 인증하고, 성공하면 JWT 토큰을 만들어서 반환
     public TokenResponse login(LoginRequest dto) {
         // authenticationManager.authenticate() -> UserDetailsService.loadUserByUsername() -> CustomUserDetails 생성 -> PasswordEncoder.matches() -> Authentication 생성
@@ -41,7 +44,6 @@ public class AuthService {
                 // UsernamePasswordAuthenticationToken: "이 이메일/비번으로 인증해줘"라는 요청 객체
                 // authenticationManager.authenticate(): db에서 유저 조회, 일치하면 Authentication 객체 반환
         );
-
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         // (Spring Security가 방금 만든) Authentication 안에있는 로그인 성공한 사용자 정보를 꺼내서 (CustomUserDetails 타입으로 다운캐스팅)

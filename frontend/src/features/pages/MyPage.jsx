@@ -3,13 +3,11 @@ import { useNavigate } from "react-router-dom";
 import api from "../../api"
 import toast from "react-hot-toast";
 import "@/features/css/MyPage.css";
-import MySummaries from "../components/MySummaries";
-import MyTerms from "../components/MyTerms";
 
 export default function MyPage() {
-  const nav = useNavigate();
-
+  
   const [user, setUser] = useState(null);
+  const nav = useNavigate();
 
   async function fetchMyPage() {
     try {
@@ -23,7 +21,10 @@ export default function MyPage() {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    if (!token) nav("/login");
+    if (!token) {
+      toast("로그인 후 이용 가능합니다.");
+      nav("/login");
+    }
     else fetchMyPage();
   }, []);
 

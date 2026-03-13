@@ -11,6 +11,7 @@ import com.htm.e20nomics.user.domain.User;
 import com.htm.e20nomics.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class AdminService {
     private final UserRepository userRepository;
     private final TermRepository termRepository;
 
+    @Transactional(readOnly = true)
     public List<AdminUserListResponse> getUserList() {
         List<User> userList = userRepository.findAll();
         return userList.stream().map(user -> new AdminUserListResponse
@@ -29,6 +31,7 @@ public class AdminService {
                 .toList();
     }
 
+    @Transactional
     public void createGlobalTerm(AdminCreateTermRequest dto, Long adminId) {
         User user = userRepository.findById(adminId)
                 .orElseThrow(()-> new UserNotFoundException());
@@ -36,6 +39,7 @@ public class AdminService {
         termRepository.save(term);
     }
 
+    @Transactional(readOnly = true)
     public List<AdminTermResponse> getGlobalTerms() {
         List<Term> globalTerms = termRepository.findAllByTermScope(TermScope.GLOBAL);
         return globalTerms.stream()
