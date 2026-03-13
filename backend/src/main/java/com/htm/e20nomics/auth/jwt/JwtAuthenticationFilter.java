@@ -30,13 +30,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = resolveToken(request);
 
-        if(token != null) {
-            boolean valid = jwtTokenProvider.validate(token);
-        }
         if(token != null && jwtTokenProvider.validate(token)) {
             String email = jwtTokenProvider.getEmail(token);
+            System.out.println("token subject/email = " + email);
+
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);  // db에서 사용자 조회
+            System.out.println("loaded userDetails = " + userDetails);
 
             // Authentication 객체 생성
             // 서버는 로그인 상태를 기억하지 않으므로 매 요청마다 SecurityContext에 (db에서 방금 꺼내온) 유저정보를 저장해야함
