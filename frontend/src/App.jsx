@@ -11,9 +11,11 @@ import SignupPage from './features/pages/SignupPage';
 import AdminPage from './features/pages/AdminPage';
 import AdminSummaryPage from './features/pages/AdminSummaryPage';
 import MyTerms from './features/components/MyTerms';
+import MyTermDetailPage from './features/components/MyTermDetailPage';
 import MySummaries from './features/components/MySummaries';
 import TodayNewsDetailPage from './features/pages/TodayNewsDetailPage';
 import MySummariesDetailPage from './features/components/MySummariesDetailPage';
+import MyTermEditPage from './features/components/MyTermEditPage';
 
 
 function App() {
@@ -35,6 +37,8 @@ function App() {
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/adminSummarize" element={<AdminSummaryPage />} />
       <Route path="/terms" element={<MyTerms />} />
+      <Route path="/terms/:id" element={<MyTermDetailPage />} />
+      <Route path="/terms/:id/edit" element={<MyTermEditPage />} />
       <Route path="/summaries" element={<MySummaries />} />
       <Route path="/summaries/:id" element={<MySummariesDetailPage />} />
       </Routes>

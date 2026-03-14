@@ -32,13 +32,7 @@ export default function MySummaries() {
           else fetchMySummaries();
     }, []);
 
-
-  function handleDelete(id) {
-    console.log("삭제하기:", id);
-    toast("삭제 기능은 아직 준비 중입니다.");
-  }
-
-     return (
+    return (
     <div className="my-summaries-page">
       <div className="my-summaries-container">
         <header className="my-summaries-header">
@@ -76,10 +70,6 @@ export default function MySummaries() {
                       ? new Date(p.createdAt).toLocaleDateString("ko-KR")
                       : "저장한 기사"}
                   </span>
-
-                  <div className="my-summary-actions">
-                    <button className="danger-btn" onClick={() => handleDelete(p.id)}>삭제</button>
-                  </div>
                 </div>
                 </Link>
               </article>

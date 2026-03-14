@@ -193,6 +193,8 @@
   white-space: nowrap;
 }
 
+
+
 @media (max-width: 768px) {
   .my-terms-page {
     padding: 28px 16px 40px;

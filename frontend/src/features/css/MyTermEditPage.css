@@ -1,0 +1,128 @@
+.my-terms-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+  padding: 48px 20px;
+  box-sizing: border-box;
+}
+
+.my-terms-container {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.my-terms-header {
+  margin-bottom: 28px;
+}
+
+.my-terms-header h1 {
+  font-size: 48px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 16px 0 10px;
+}
+
+.my-terms-header p {
+  margin: 0;
+  font-size: 18px;
+  color: #475569;
+}
+
+.my-terms-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #e0e7ff;
+  color: #3157d5;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.my-terms-form-card {
+  background: #ffffff;
+  border: 1px solid #dbe3f0;
+  border-radius: 24px;
+  padding: 28px 20px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.my-terms-form-card h2 {
+  margin: 0 0 18px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.my-terms-input,
+.my-terms-textarea {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  padding: 16px 18px;
+  font-size: 16px;
+  color: #0f172a;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.my-terms-input {
+  margin-bottom: 14px;
+}
+
+.my-terms-textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.my-terms-input::placeholder,
+.my-terms-textarea::placeholder {
+  color: #94a3b8;
+}
+
+.my-terms-form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.my-terms-submit-btn,
+.my-terms-cancel-btn {
+  border: none;
+  border-radius: 14px;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.my-terms-submit-btn {
+  background: #3157d5;
+  color: #ffffff;
+}
+
+.my-terms-submit-btn:hover {
+  background: #2647b8;
+}
+
+.my-terms-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.my-terms-cancel-btn {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.my-terms-cancel-btn:hover {
+  background: #d1d5db;
+}
+
+.my-terms-loading {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color: #64748b;
+}

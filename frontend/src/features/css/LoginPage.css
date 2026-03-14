@@ -166,7 +166,7 @@
 }
 
 .login-footer a:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 @media (max-width: 768px) {

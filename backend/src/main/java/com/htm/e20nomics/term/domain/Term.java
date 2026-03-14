@@ -38,4 +38,10 @@ public class Term {
         this.author = author;
         this.termScope = termScope;
     }
+
+
+    public void update(String term, String definition) {
+        this.term = term;
+        this.definition = definition;
+    }
 }

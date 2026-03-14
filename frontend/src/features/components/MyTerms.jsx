@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import api from "../../api"
 import toast from "react-hot-toast";
 import "@/features/css/MyTerms.css";
@@ -42,16 +42,6 @@ export default function MyTerms() {
             const message = err?.response?.data?.message || "단어 등록 실패";
             toast.error(message);
         }
-    }
-
-    function handleEdit(id) {
-        console.log("수정:", id);
-        toast("수정 기능은 아직 준비 중입니다.");
-    }
-
-    function handleDelete(id) {
-        console.log("삭제:", id);
-        toast("삭제 기능은 아직 준비 중입니다.");
     }
 
     useEffect(()=> {
@@ -106,12 +96,12 @@ export default function MyTerms() {
     <div
       className="term-simple-item"
       key={t.id}
-      onClick={() => nav(`/my-terms/${t.id}`)}
+      onClick={() => nav(`/terms/${t.id}`)}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
-          nav(`/my-terms/${t.id}`);
+          nav(`/terms/${t.id}`);
         }
       }}
     >

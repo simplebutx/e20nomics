@@ -57,7 +57,7 @@ export default function SummaryDetailPage() {
 
       if (loading) {
     return (
-      <div className="summary-detail-page">
+      <div className="today-news-detail-page">
         <div className="summary-detail-card">
           <p className="summary-detail-loading">불러오는 중...</p>
         </div>
@@ -66,7 +66,7 @@ export default function SummaryDetailPage() {
   }
 
 return (
-  <div className="summary-detail-page">
+  <div className="today-news-detail-page">
     <div className="summary-detail-card">
       <div className="summary-detail-header">
         <span className="summary-detail-badge">오늘의 뉴스</span>

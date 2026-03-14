@@ -60,7 +60,7 @@ export default function MySummariesDetailPage() {
 
   if (loading) {
     return (
-      <div className="summary-detail-page">
+      <div className="my-summary-detail-page">
         <div className="summary-detail-card">
           <p className="summary-detail-loading">불러오는 중...</p>
         </div>
@@ -69,7 +69,7 @@ export default function MySummariesDetailPage() {
   }
 
   return (
-    <div className="summary-detail-page">
+    <div className="my-summary-detail-page">
       <div className="summary-detail-card">
         <div className="summary-detail-header">
           <span className="summary-detail-badge">내 요약</span>
