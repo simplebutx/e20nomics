@@ -29,7 +29,6 @@ public class AdminController {
 
     @GetMapping("/api/admin/users")
     public List<AdminUserListResponse> getUserList() {
-
         return adminService.getUserList();
     }
 
@@ -44,19 +43,4 @@ public class AdminController {
         summaryService.postAnnouncement(dto.getOriginalText(), dto.getSummaryTitle(), dto.getSummaryText(), userDetails.getUserId());
         return ResponseEntity.status(201).build();
     }
-
-
-    @PostMapping("/api/admin/terms")
-    public ResponseEntity<Void> createGlobalTerm(@RequestBody AdminCreateTermRequest dto, @AuthenticationPrincipal CustomUserDetails userDetails) {
-
-        adminService.createGlobalTerm(dto ,userDetails.getUserId());
-        return ResponseEntity.status(201).build();
-    }
-
-    @GetMapping("/api/admin/terms")
-    public List<AdminTermResponse> getGlobalTerm() {
-        return adminService.getGlobalTerms();
-    }
-
-
 }

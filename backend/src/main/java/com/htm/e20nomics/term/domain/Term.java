@@ -29,14 +29,11 @@ public class Term {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Enumerated(EnumType.STRING)
-    private TermScope termScope;
 
-    public Term(String term, String definition, User author, TermScope termScope) {
+    public Term(String term, String definition, User author) {
         this.term = term;
         this.definition = definition;
         this.author = author;
-        this.termScope = termScope;
     }
 
 

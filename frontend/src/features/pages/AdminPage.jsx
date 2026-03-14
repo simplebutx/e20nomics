@@ -1,5 +1,4 @@
 import AdminUserList from "../components/AdminUserList";
-import AdminTermList from "../components/AdminTermList";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import "@/features/css/AdminPage.css";
@@ -34,16 +33,6 @@ export default function AdminPage() {
             </button>
           </div>
         </header>
-
-        <section className="admin-section">
-          <div className="admin-section-top">
-            <h2>공용 사전 관리</h2>
-            <p>전체 사용자에게 보여줄 경제 용어를 관리합니다.</p>
-          </div>
-          <div className="admin-section-card">
-            <AdminTermList />
-          </div>
-        </section>
 
         <section className="admin-section">
           <div className="admin-section-top">
