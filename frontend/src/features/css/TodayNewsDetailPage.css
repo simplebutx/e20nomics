@@ -111,3 +111,40 @@
     line-height: 1.8;
   }
 }
+
+.term-link {
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+
+.term-link:hover {
+  color: #1d4ed8;
+}
+
+.term-definition-card {
+  margin-top: 24px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08);
+}
+
+.term-definition-card h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #1e3a8a;
+}
+
+.term-definition-card p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #334155;
+  white-space: pre-line;
+  word-break: keep-all;
+}

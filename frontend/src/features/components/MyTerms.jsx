@@ -101,21 +101,26 @@ export default function MyTerms() {
               <p>아직 등록한 단어가 없습니다.</p>
             </div>
           ) : (
-            <div className="term-grid">
-              {terms.map((t) => (
-                <article className="term-card" key={t.id}>
-                  <div className="term-card-body">
-                    <h3 className="term-word">{t.term}</h3>
-                    <p className="term-definition">{t.definition}</p>
-                  </div>
-
-                  <div className="term-card-actions">
-                    <button className="term-action-btn edit-btn" onClick={() => handleEdit(t.id)} type="button">수정</button>
-                    <button className="term-action-btn delete-btn" onClick={() => handleDelete(t.id)} type="button">삭제</button>
-                  </div>
-                </article>
-              ))}
-            </div>
+            <div className="term-simple-list">
+  {terms.map((t) => (
+    <div
+      className="term-simple-item"
+      key={t.id}
+      onClick={() => nav(`/my-terms/${t.id}`)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          nav(`/my-terms/${t.id}`);
+        }
+      }}
+    >
+      <span className="term-simple-word">{t.term}</span>
+      <span className="term-simple-divider">|</span>
+      <span className="term-simple-definition">{t.definition}</span>
+    </div>
+  ))}
+</div>
           )}
         </section>
       </div>

@@ -5,7 +5,7 @@
 }
 
 .my-terms-container {
-  max-width: 980px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
@@ -39,8 +39,7 @@
 }
 
 .term-form-card,
-.term-state-card,
-.term-card {
+.term-state-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 20px;
@@ -138,74 +137,60 @@
   font-size: 15px;
 }
 
-.term-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+/* 단어 | 뜻 리스트 */
+.term-simple-list {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
 }
 
-.term-card {
-  padding: 20px;
+.term-simple-item {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 18px;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 18px;
+  border-bottom: 1px solid #eef2f7;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-.term-card-body {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.term-simple-item:last-child {
+  border-bottom: none;
 }
 
-.term-word {
-  margin: 0;
-  font-size: 22px;
+.term-simple-item:hover {
+  background: #f8fafc;
+}
+
+.term-simple-item:focus {
+  outline: 2px solid #93c5fd;
+  outline-offset: -2px;
+}
+
+.term-simple-word {
+  flex-shrink: 0;
+  min-width: 120px;
+  font-size: 15px;
   font-weight: 800;
   color: #0f172a;
-  line-height: 1.4;
 }
 
-.term-definition {
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.8;
-  color: #334155;
-  white-space: pre-line;
-}
-
-.term-card-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.term-action-btn {
-  border: none;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-size: 14px;
+.term-simple-divider {
+  flex-shrink: 0;
+  color: #cbd5e1;
   font-weight: 700;
-  cursor: pointer;
-  transition: 0.2s ease;
 }
 
-.edit-btn {
-  background: #eff6ff;
-  color: #1d4ed8;
-}
-
-.edit-btn:hover {
-  background: #dbeafe;
-}
-
-.delete-btn {
-  background: #fef2f2;
-  color: #dc2626;
-}
-
-.delete-btn:hover {
-  background: #fee2e2;
+.term-simple-definition {
+  min-width: 0;
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 @media (max-width: 768px) {
@@ -219,31 +204,39 @@
 
   .term-form-card,
   .term-state-card,
-  .term-card {
+  .term-simple-list {
     border-radius: 16px;
-  }
-
-  .term-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .term-word {
-    font-size: 20px;
-  }
-
-  .term-definition {
-    font-size: 14px;
   }
 
   .term-submit-btn {
     width: 100%;
   }
 
-  .term-card-actions {
-    width: 100%;
+  .term-list-top {
+    align-items: flex-start;
+    gap: 8px;
   }
 
-  .term-action-btn {
-    flex: 1;
+  .term-simple-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 14px 16px;
+  }
+
+  .term-simple-divider {
+    display: none;
+  }
+
+  .term-simple-word {
+    min-width: auto;
+    font-size: 15px;
+  }
+
+  .term-simple-definition {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
