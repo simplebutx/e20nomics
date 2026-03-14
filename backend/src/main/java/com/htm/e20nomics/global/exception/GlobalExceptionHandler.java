@@ -32,4 +32,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(404, e.getMessage()));
     }
+
+    @ExceptionHandler(SummaryNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleSummaryNotFound(SummaryNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(404, e.getMessage()));
+    }
 }

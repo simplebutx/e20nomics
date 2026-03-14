@@ -177,3 +177,12 @@
     flex: 1;
   }
 }
+
+.my-summary-card a,
+.my-summary-card a:visited,
+.my-summary-card a:hover,
+.my-summary-card a:active {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}

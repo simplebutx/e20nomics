@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../api"
 import toast from "react-hot-toast";
 import "@/features/css/TodayNewsPage.css";
+import { Link } from "react-router-dom";
 
 export default function TodayNewsPage() {
 
@@ -49,6 +50,7 @@ export default function TodayNewsPage() {
           <section className="news-feed">
             {announcements.map((a, index) => (
               <article className="news-card" key={a.id}>
+                <Link to={`/today/${a.id}`}>
                 <div className="news-card-top">
                   <span className="news-badge">주요 뉴스</span>
                   <span className="news-order">
@@ -67,6 +69,7 @@ export default function TodayNewsPage() {
                       : "오늘 업데이트"}
                   </span>
                 </div>
+                </Link>
               </article>
             ))}
           </section>

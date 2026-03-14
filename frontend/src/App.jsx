@@ -12,6 +12,9 @@ import AdminPage from './features/pages/AdminPage';
 import AdminSummaryPage from './features/pages/AdminSummaryPage';
 import MyTerms from './features/components/MyTerms';
 import MySummaries from './features/components/MySummaries';
+import TodayNewsDetailPage from './features/pages/TodayNewsDetailPage';
+import MySummariesDetailPage from './features/components/MySummariesDetailPage';
+
 
 function App() {
 
@@ -26,12 +29,14 @@ function App() {
       <Route path="/summarize" element={<SummaryPage />} />
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/today" element={<TodayNewsPage />} />
+      <Route path="/today/:id" element={<TodayNewsDetailPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/adminSummarize" element={<AdminSummaryPage />} />
       <Route path="/terms" element={<MyTerms />} />
       <Route path="/summaries" element={<MySummaries />} />
+      <Route path="/summaries/:id" element={<MySummariesDetailPage />} />
       </Routes>
     </>
   )

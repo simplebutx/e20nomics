@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import api from "../../api"
 import toast from "react-hot-toast";
 import "@/features/css/MySummaries.css";
@@ -61,6 +61,7 @@ export default function MySummaries() {
           <section className="my-summaries-feed">
             {summaries.map((p, index) => (
               <article className="my-summary-card" key={p.id}>
+                <Link to={`/summaries/${p.id}`}>
                 <div className="my-summary-card-top">
                   <span className="my-summary-order">{String(index + 1).padStart(2, "0")}</span>
                 </div>
@@ -80,6 +81,7 @@ export default function MySummaries() {
                     <button className="danger-btn" onClick={() => handleDelete(p.id)}>삭제</button>
                   </div>
                 </div>
+                </Link>
               </article>
             ))}
           </section>
