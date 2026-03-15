@@ -3,7 +3,7 @@ package com.htm.e20nomics.auth.service;
 import com.htm.e20nomics.auth.domain.CustomUserDetails;
 import com.htm.e20nomics.auth.dto.LoginRequest;
 import com.htm.e20nomics.auth.dto.SignupRequest;
-import com.htm.e20nomics.auth.dto.TokenResponse;
+import com.htm.e20nomics.auth.dto.LoginResponse;
 import com.htm.e20nomics.auth.jwt.JwtTokenProvider;
 import com.htm.e20nomics.global.exception.DuplicateEmailException;
 import com.htm.e20nomics.user.domain.User;
@@ -37,7 +37,7 @@ public class AuthService {
 
     @Transactional
     // 이메일, 비번을 받아서 Spring Security로 인증하고, 성공하면 JWT 토큰을 만들어서 반환
-    public TokenResponse login(LoginRequest dto) {
+    public LoginResponse login(LoginRequest dto) {
         // authenticationManager.authenticate() -> UserDetailsService.loadUserByUsername() -> CustomUserDetails 생성 -> PasswordEncoder.matches() -> Authentication 생성
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
@@ -50,7 +50,7 @@ public class AuthService {
 
         String token = jwtTokenProvider.createToken(userDetails);
 
-        return new TokenResponse(token);   // dto로 변환
+        return new LoginResponse(token, userDetails.getRole());   // dto로 변환
     }
 
 

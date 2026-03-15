@@ -110,18 +110,18 @@ public class SummaryService {
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new UserNotFoundException());
 
-        Summary summary = new Summary(dto.getOriginalText(), dto.getSummaryTitle(), dto.getSummaryText(), user, CreatedBy.USER);
+        Summary summary = new Summary(dto.getOriginalText(), dto.getSummaryTitle(), dto.getSummaryText(), dto.getMemo(), user, CreatedBy.USER);
         summaryRepository.save(summary);
     }
 
 
     @Transactional   // 관리자 뉴스 등록
-    public void postAnnouncement(String originalText, String summaryTitle, String summaryText, Long userId) {
+    public void postAnnouncement(SummaryCreateRequest dto, Long userId) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new UserNotFoundException());
 
-        Summary summary = new Summary(originalText, summaryTitle, summaryText, user, CreatedBy.ADMIN);
+        Summary summary = new Summary(dto.getOriginalText(), dto.getSummaryTitle(), dto.getSummaryText(), dto.getMemo(), user, CreatedBy.ADMIN);
         summaryRepository.save(summary);
     }
 

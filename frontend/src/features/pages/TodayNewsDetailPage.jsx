@@ -72,7 +72,8 @@ return (
         <span className="summary-detail-badge">오늘의 뉴스</span>
         <h1 className="summary-detail-title">{summaryTitle}</h1>
         <p className="summary-detail-date">
-          {createdAt ? new Date(createdAt).toLocaleDateString("ko-KR") : ""}
+          {createdAt ? new Date(createdAt).toLocaleDateString("ko-KR", 
+            { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit",minute: "2-digit",}) : ""}
         </p>
       </div>
 

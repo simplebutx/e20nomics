@@ -27,6 +27,9 @@ public class Summary {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String summaryText;
 
+    @Column(columnDefinition = "TEXT")
+    private String memo;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
@@ -39,11 +42,18 @@ public class Summary {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public Summary(String originalText, String summaryTitle, String summaryText, User author, CreatedBy createdBy) {
+    public Summary(String originalText, String summaryTitle, String summaryText, String memo, User author, CreatedBy createdBy) {
         this.originalText = originalText;
         this.summaryTitle = summaryTitle;
         this.summaryText = summaryText;
+        this.memo = memo;
         this.author = author;
         this.createdBy = createdBy;
+    }
+
+    public void update(String summaryTitle, String summaryText, String memo) {
+        this.summaryTitle = summaryTitle;
+        this.summaryText = summaryText;
+        this.memo = memo;
     }
 }

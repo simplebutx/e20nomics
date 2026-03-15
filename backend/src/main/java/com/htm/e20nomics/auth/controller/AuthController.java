@@ -3,11 +3,10 @@ package com.htm.e20nomics.auth.controller;
 
 import com.htm.e20nomics.auth.dto.LoginRequest;
 import com.htm.e20nomics.auth.dto.SignupRequest;
-import com.htm.e20nomics.auth.dto.TokenResponse;
+import com.htm.e20nomics.auth.dto.LoginResponse;
 import com.htm.e20nomics.auth.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.antlr.v4.runtime.Token;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/api/auth/login")
-    public TokenResponse login(@Valid @RequestBody LoginRequest dto) {
+    public LoginResponse login(@Valid @RequestBody LoginRequest dto) {
         return authService.login(dto);
     }
 }

@@ -59,7 +59,7 @@ export default function MyTermDetailPage() {
           <span className="my-term-detail-badge">내 단어장</span>
           <h1 className="my-term-detail-title">{term}</h1>
           <p className="my-term-detail-date">
-            등록일: {createdAt ? new Date(createdAt).toLocaleString() : "-"}
+            등록일: {createdAt ? new Date(createdAt).toLocaleString ("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit",minute: "2-digit",}) : "-"}
           </p>
         </div>
 

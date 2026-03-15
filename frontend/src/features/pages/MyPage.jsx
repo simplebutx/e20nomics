@@ -15,6 +15,7 @@ export default function MyPage() {
       setUser(res.data);
     } catch {
       localStorage.removeItem("accessToken");
+      localStorage.removeItem("role");
       nav("/login");
     }
   }
@@ -30,6 +31,7 @@ export default function MyPage() {
 
   function logout() {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("role");
     toast.success("로그아웃 되었습니다.");
     nav("/today");
   }

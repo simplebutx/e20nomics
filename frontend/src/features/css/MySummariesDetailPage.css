@@ -128,6 +128,61 @@
   word-break: keep-all;
 }
 
+.summary-detail-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.summary-detail-button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.summary-detail-button.edit {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+
+.summary-detail-button.edit:hover {
+  background: #c7d2fe;
+}
+
+.summary-detail-button.delete {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.summary-detail-button.delete:hover {
+  background: #fecaca;
+}
+
+.summary-detail-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.summary-detail-memo-section {
+  margin-top: 32px;
+}
+
+.summary-detail-memo-box {
+  margin-top: 10px;
+  min-height: 120px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #f9fafb;
+  color: #374151;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
 @media (max-width: 768px) {
   .my-summary-detail-page {
     padding: 24px 14px;

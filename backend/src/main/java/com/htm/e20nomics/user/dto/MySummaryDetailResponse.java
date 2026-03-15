@@ -10,5 +10,6 @@ import java.time.LocalDateTime;
 public class MySummaryDetailResponse {
     private String summaryTitle;
     private String summaryText;
+    private String memo;
     private LocalDateTime createdAt;
 }

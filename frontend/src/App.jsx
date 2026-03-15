@@ -16,7 +16,7 @@ import MySummaries from './features/components/MySummaries';
 import TodayNewsDetailPage from './features/pages/TodayNewsDetailPage';
 import MySummariesDetailPage from './features/components/MySummariesDetailPage';
 import MyTermEditPage from './features/components/MyTermEditPage';
-
+import MySummariesEditPage from './features/components/MySummariesEditPage';
 
 function App() {
 
@@ -41,6 +41,7 @@ function App() {
       <Route path="/terms/:id/edit" element={<MyTermEditPage />} />
       <Route path="/summaries" element={<MySummaries />} />
       <Route path="/summaries/:id" element={<MySummariesDetailPage />} />
+      <Route path="/summaries/:id/edit" element={<MySummariesEditPage />} />
       </Routes>
     </>
   )

@@ -27,8 +27,6 @@ public class SummaryController {
     @PostMapping("/api/summaries")
     public ResponseEntity<Void> saveSummary(@Valid @RequestBody SummaryCreateRequest dto,
                                             @AuthenticationPrincipal CustomUserDetails userDetails) {
-        System.out.println("entered /api/summaries controller");
-        System.out.println("userDetails = " + userDetails);
         summaryService.saveSummary(dto, userDetails.getUserId());
         return ResponseEntity.status(201).build();
     }

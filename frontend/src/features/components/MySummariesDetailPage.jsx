@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import api from "../../api";
 import toast from "react-hot-toast";
 import "@/features/css/MySummariesDetailPage.css";
 
 export default function MySummariesDetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [summaryTitle, setSummaryTitle] = useState("");
   const [summaryText, setSummaryText] = useState("");
+  const [memo, setMemo] = useState("");
   const [createdAt, setCreatedAt] = useState("");
   const [loading, setLoading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const [myTerms, setMyTerms] = useState([]);
   const [selectedTerm, setSelectedTerm] = useState(null);
@@ -21,6 +24,7 @@ export default function MySummariesDetailPage() {
       const res = await api.get(`/api/me/summaries/${id}`);
       setSummaryText(res.data.summaryText || "");
       setSummaryTitle(res.data.summaryTitle || "");
+      setMemo(res.data.memo || "");
       setCreatedAt(res.data.createdAt || "");
     } catch (e) {
       toast.error(e?.response?.data?.message || "조회에 실패했습니다.");
@@ -39,6 +43,24 @@ export default function MySummariesDetailPage() {
     }
   }
 
+  async function handleDelete() {
+    if (deleting) return;
+
+    const ok = window.confirm("이 요약을 삭제하시겠습니까?");
+    if (!ok) return;
+
+    try {
+      setDeleting(true);
+      await api.delete(`/api/me/summaries/${id}`);
+      toast.success("삭제되었습니다.");
+      navigate("/summaries");
+    } catch (e) {
+      toast.error(e?.response?.data?.message || "삭제에 실패했습니다.");
+    } finally {
+      setDeleting(false);
+    }
+  }
+
   useEffect(() => {
     if (!id) return;
     fetchDetails();
@@ -53,7 +75,12 @@ export default function MySummariesDetailPage() {
 
   const regex =
     words.length > 0
-      ? new RegExp(`(${words.map((word) => word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "g")
+      ? new RegExp(
+          `(${words
+            .map((word) => word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+            .join("|")})`,
+          "g"
+        )
       : null;
 
   const parts = regex ? summaryText.split(regex) : [summaryText];
@@ -74,9 +101,36 @@ export default function MySummariesDetailPage() {
         <div className="summary-detail-header">
           <span className="summary-detail-badge">내 요약</span>
           <h1 className="summary-detail-title">{summaryTitle}</h1>
+
           <p className="summary-detail-date">
-            {createdAt ? new Date(createdAt).toLocaleDateString("ko-KR") : ""}
+            {createdAt
+              ? new Date(createdAt).toLocaleString("ko-KR", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                })
+              : ""}
           </p>
+
+          <div className="summary-detail-actions">
+            <button
+              className="summary-detail-button edit"
+              onClick={() => navigate(`/summaries/${id}/edit`)}
+            >
+              수정
+            </button>
+
+            <button
+              className="summary-detail-button delete"
+              onClick={handleDelete}
+              disabled={deleting}
+            >
+              {deleting ? "삭제 중..." : "삭제"}
+            </button>
+          </div>
         </div>
 
         <div className="summary-detail-divider"></div>
@@ -93,8 +147,11 @@ export default function MySummariesDetailPage() {
                   <span
                     key={index}
                     className="term-link"
-                    onClick={() => setSelectedTerm((prev) =>
-                        prev?.term === foundTerm.term ? null : foundTerm)}
+                    onClick={() =>
+                      setSelectedTerm((prev) =>
+                        prev?.term === foundTerm.term ? null : foundTerm
+                      )
+                    }
                   >
                     {part}
                   </span>
@@ -111,6 +168,13 @@ export default function MySummariesDetailPage() {
               <p>{selectedTerm.definition}</p>
             </div>
           )}
+
+          <div className="summary-detail-memo-section">
+            <h2 className="summary-detail-subtitle">메모</h2>
+            <div className="summary-detail-memo-box">
+              {memo?.trim() ? memo : "작성된 메모가 없습니다."}
+            </div>
+          </div>
         </div>
       </div>
     </div>

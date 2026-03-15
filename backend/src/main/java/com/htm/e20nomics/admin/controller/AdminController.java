@@ -40,7 +40,7 @@ public class AdminController {
     @PostMapping("/api/admin/announcements")  // 요약 저장
     public ResponseEntity<Void> postAnnouncement(@Valid @RequestBody SummaryCreateRequest dto,
                                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
-        summaryService.postAnnouncement(dto.getOriginalText(), dto.getSummaryTitle(), dto.getSummaryText(), userDetails.getUserId());
+        summaryService.postAnnouncement(dto, userDetails.getUserId());
         return ResponseEntity.status(201).build();
     }
 }

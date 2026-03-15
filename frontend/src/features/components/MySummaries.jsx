@@ -67,7 +67,7 @@ export default function MySummaries() {
                 <div className="my-summary-card-bottom">
                   <span className="my-summary-date">
                     {p.createdAt
-                      ? new Date(p.createdAt).toLocaleDateString("ko-KR")
+                      ? new Date(p.createdAt).toLocaleDateString ("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit",minute: "2-digit",})
                       : "저장한 기사"}
                   </span>
                 </div>

@@ -65,8 +65,8 @@ export default function TodayNewsPage() {
                 <div className="news-card-bottom">
                   <span className="news-meta">
                     {a.createdAt
-                      ? new Date(a.createdAt).toLocaleDateString("ko-KR")
-                      : "오늘 업데이트"}
+                      ? new Date(a.createdAt).toLocaleString
+                      ("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit",minute: "2-digit",}): "오늘 업데이트"}
                   </span>
                 </div>
                 </Link>

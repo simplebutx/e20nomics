@@ -22,8 +22,14 @@ export default function LoginPage() {
           setLoading(true);
           const res = await api.post("/api/auth/login", form);
           localStorage.setItem("accessToken", res.data.accessToken);
+          localStorage.setItem("role", res.data.role);
+          
           toast.success("로그인을 성공하였습니다.");
-          nav("/mypage");
+          if (res.data.role === "ADMIN") {
+            nav("/admin");
+          } else {
+            nav("/mypage");
+          }
         } catch (err) {
           const message = err?.response?.data?.message || "로그인 실패";
           toast.error(message);

@@ -2,12 +2,14 @@ import AdminUserList from "../components/AdminUserList";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import "@/features/css/AdminPage.css";
+import AdminTodayNewsList from "../components/AdminTodayNewsList";
 
 export default function AdminPage() {
   const nav = useNavigate();
 
   function logout() {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("role");
     toast.success("로그아웃 되었습니다.");
     nav("/today");
   }
@@ -25,11 +27,8 @@ export default function AdminPage() {
           </div>
 
           <div className="admin-header-actions">
-            <Link to="/adminSummarize" className="admin-primary-link">
-              오늘의 뉴스 등록
-            </Link>
             <button onClick={logout} className="admin-logout-btn" type="button">
-              관리자 로그아웃
+              로그아웃
             </button>
           </div>
         </header>
@@ -40,7 +39,7 @@ export default function AdminPage() {
             <p>등록된 오늘의 뉴스 목록은 추후 이 영역에서 관리하면 됩니다.</p>
           </div>
           <div className="admin-section-card admin-empty-card">
-            <p>뉴스 목록 기능을 추가하면 여기에 연결하면 됩니다.</p>
+            <AdminTodayNewsList />
           </div>
         </section>
 

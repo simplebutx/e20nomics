@@ -9,4 +9,5 @@ public class SummaryCreateRequest {
     private String originalText;
     private String summaryTitle;
     private String summaryText;
+    private String memo;
 }
