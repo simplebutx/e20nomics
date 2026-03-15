@@ -25,6 +25,4 @@ public class TodayNewsController {
     public PublicTodayNewsDetailResponse getTodayNewsDetail(@PathVariable Long id) {
         return todayNewsService.getPublicTodayNewsDetail(id);
     }
-
-
 }

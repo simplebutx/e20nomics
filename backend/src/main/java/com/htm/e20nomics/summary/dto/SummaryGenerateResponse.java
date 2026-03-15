@@ -1,5 +1,6 @@
 package com.htm.e20nomics.summary.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

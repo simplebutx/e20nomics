@@ -30,8 +30,6 @@ public class SummaryController {
         summaryService.saveSummary(dto, userDetails.getUserId());
         return ResponseEntity.status(201).build();
     }
-
-
 }
 
 

@@ -4,6 +4,7 @@ import com.htm.e20nomics.TodayNews.domain.TodayNews;
 import com.htm.e20nomics.TodayNews.dto.*;
 import com.htm.e20nomics.TodayNews.repository.TodayNewsRepository;
 import com.htm.e20nomics.global.exception.SummaryNotFoundException;
+import com.htm.e20nomics.global.exception.TodayNewsNotFoundException;
 import com.htm.e20nomics.global.exception.UserNotFoundException;
 import com.htm.e20nomics.summary.client.OpenAiChatClient;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,10 @@ public class TodayNewsService {
     public PublicTodayNewsDetailResponse getPublicTodayNewsDetail(Long announcementId) {
         TodayNews todayNews = todayNewsRepository.findById(announcementId)
                 .orElseThrow(() -> new SummaryNotFoundException("요약을 찾을 수 없습니다."));
+
+        if (!todayNews.getIsPublished()) {
+            throw new TodayNewsNotFoundException("오늘의 뉴스를 찾을 수 없습니다.");
+        }
         return new PublicTodayNewsDetailResponse(todayNews.getSummaryTitle(), todayNews.getSummaryText(), todayNews.getCreatedAt());
     }
 
@@ -128,7 +133,8 @@ public class TodayNewsService {
     @Transactional(readOnly = true)
     public TodayNewsDetailResponse getTodayNewsDetail(Long id) {
         TodayNews todayNews = todayNewsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("todayNews not found, id=" + id));   // 나중에 바꿔야함
+                .orElseThrow(() -> new TodayNewsNotFoundException("오늘의 뉴스를 찾을 수 없습니다."));
+
         return new TodayNewsDetailResponse(todayNews.getSummaryTitle(), todayNews.getSummaryText(), todayNews.getIsPublished(), todayNews.getCreatedAt());
     }
 
@@ -136,7 +142,7 @@ public class TodayNewsService {
     @Transactional
     public void updateTodayNews(Long id, TodayNewsUpdateRequest dto) {
         TodayNews todayNews = todayNewsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("todayNews not found, id=" + id));
+                .orElseThrow(() -> new TodayNewsNotFoundException("오늘의 뉴스를 찾을 수 없습니다."));
 
         todayNews.update(dto.getSummaryTitle(), dto.getSummaryText(), dto.getIsPublished());
     }
@@ -145,7 +151,7 @@ public class TodayNewsService {
     @Transactional
     public void deleteTodayNews(Long id) {
         TodayNews todayNews = todayNewsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("todayNews not found, id=" + id));
+                .orElseThrow(() -> new TodayNewsNotFoundException("오늘의 뉴스를 찾을 수 없습니다."));
 
         todayNewsRepository.delete(todayNews);
     }

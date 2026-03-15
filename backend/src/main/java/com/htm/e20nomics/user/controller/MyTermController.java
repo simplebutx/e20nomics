@@ -22,7 +22,7 @@ public class MyTermController {
 
     // 단어 추가하기
     @PostMapping("/api/me/terms")
-    public ResponseEntity<Void> saveTerm(@RequestBody MyTermCreateRequest dto, @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<Void> saveTerm(@Valid @RequestBody MyTermCreateRequest dto, @AuthenticationPrincipal CustomUserDetails userDetails) {
         myTermsService.saveTerm(dto.getTerm(), dto.getDefinition(), userDetails.getUserId());
         return ResponseEntity.status(201).build();
     }

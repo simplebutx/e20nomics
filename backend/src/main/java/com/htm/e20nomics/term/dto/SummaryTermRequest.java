@@ -1,5 +1,6 @@
 package com.htm.e20nomics.term.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -7,6 +8,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class SummaryTermRequest {
+    @NotBlank
     private String term;
+
+    @NotBlank
     private String definition;
 }

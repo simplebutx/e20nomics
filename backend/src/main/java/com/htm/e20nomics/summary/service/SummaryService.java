@@ -105,17 +105,4 @@ public class SummaryService {
         Summary summary = new Summary(dto.getOriginalText(), dto.getSummaryTitle(), dto.getSummaryText(), dto.getMemo(), user);
         summaryRepository.save(summary);
     }
-
-
-    @Transactional   // 관리자 뉴스 등록
-    public void postAnnouncement(SummaryCreateRequest dto, Long userId) {
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(()-> new UserNotFoundException());
-
-        Summary summary = new Summary(dto.getOriginalText(), dto.getSummaryTitle(), dto.getSummaryText(), dto.getMemo(), user);
-        summaryRepository.save(summary);
-    }
-
-
 }

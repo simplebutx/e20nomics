@@ -6,6 +6,7 @@ import com.htm.e20nomics.user.dto.MySummaryDetailResponse;
 import com.htm.e20nomics.user.dto.MySummaryUpdateRequest;
 import com.htm.e20nomics.user.service.MySummaryService;
 import com.htm.e20nomics.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,7 +33,7 @@ public class MySummaryController {
     @PatchMapping("/api/me/summaries/{id}")
     public ResponseEntity<Void> updateSummary(
             @PathVariable Long id,
-            @RequestBody MySummaryUpdateRequest dto,
+            @Valid @RequestBody MySummaryUpdateRequest dto,
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
         mySummaryService.updateSummary(id, userDetails.getUserId(), dto);

@@ -44,4 +44,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(404, e.getMessage()));
     }
+    @ExceptionHandler(TodayNewsNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleTodayNewsNotFound(TodayNewsNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(404, e.getMessage()));
+    }
 }
