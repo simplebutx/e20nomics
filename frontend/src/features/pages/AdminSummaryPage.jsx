@@ -20,7 +20,7 @@ export default function AdminSummaryPage() {
 
     try {
       setLoading(true);
-      const res = await api.post("/api/admin/announcements/generate", { text });
+      const res = await api.post("/api/admin/todayNews/generate", { text });
       setSummaryTitle(res.data.summaryTitle);
       setSummaryText(res.data.summaryText);
       setCanSave(res.data.canSave);
@@ -39,7 +39,7 @@ export default function AdminSummaryPage() {
     }
 
     try {
-      await api.post("/api/admin/announcements", {
+      await api.post("/api/admin/todayNews", {
         originalText: text,
         summaryTitle: summaryTitle,
         summaryText: summaryText,

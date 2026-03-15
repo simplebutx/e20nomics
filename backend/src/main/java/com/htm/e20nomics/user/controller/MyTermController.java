@@ -2,7 +2,7 @@ package com.htm.e20nomics.user.controller;
 
 import com.htm.e20nomics.auth.domain.CustomUserDetails;
 import com.htm.e20nomics.term.dto.MyTermResponse;
-import com.htm.e20nomics.term.dto.TermCreateRequest;
+import com.htm.e20nomics.term.dto.MyTermCreateRequest;
 import com.htm.e20nomics.user.dto.MyTermDetailResponse;
 import com.htm.e20nomics.user.dto.MyTermUpdateRequest;
 import com.htm.e20nomics.user.service.MyTermService;
@@ -22,7 +22,7 @@ public class MyTermController {
 
     // 단어 추가하기
     @PostMapping("/api/me/terms")
-    public ResponseEntity<Void> saveTerm(@RequestBody TermCreateRequest dto, @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<Void> saveTerm(@RequestBody MyTermCreateRequest dto, @AuthenticationPrincipal CustomUserDetails userDetails) {
         myTermsService.saveTerm(dto.getTerm(), dto.getDefinition(), userDetails.getUserId());
         return ResponseEntity.status(201).build();
     }

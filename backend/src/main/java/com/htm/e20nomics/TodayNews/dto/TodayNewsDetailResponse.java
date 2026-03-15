@@ -1,4 +1,4 @@
-package com.htm.e20nomics.summary.dto;
+package com.htm.e20nomics.TodayNews.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,10 +7,10 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class AnnouncementsResponse {
+public class TodayNewsDetailResponse {
 
-    private Long id;
     private String summaryTitle;
     private String summaryText;
+    private Boolean isPublished;
     private LocalDateTime createdAt;
 }

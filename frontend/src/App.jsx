@@ -17,6 +17,7 @@ import TodayNewsDetailPage from './features/pages/TodayNewsDetailPage';
 import MySummariesDetailPage from './features/components/MySummariesDetailPage';
 import MyTermEditPage from './features/components/MyTermEditPage';
 import MySummariesEditPage from './features/components/MySummariesEditPage';
+import AdminTodayNewsDetailPage from './features/components/AdminTodayNewsDetailPage';
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/admin" element={<AdminPage />} />
+      <Route path="/admin/todayNews/:id" element={<AdminTodayNewsDetailPage />} />
       <Route path="/adminSummarize" element={<AdminSummaryPage />} />
       <Route path="/terms" element={<MyTerms />} />
       <Route path="/terms/:id" element={<MyTermDetailPage />} />

@@ -1,11 +1,7 @@
 package com.htm.e20nomics.admin.service;
 
-import com.htm.e20nomics.admin.dto.AdminCreateTermRequest;
-import com.htm.e20nomics.admin.dto.AdminTermResponse;
 import com.htm.e20nomics.admin.dto.AdminUserListResponse;
-import com.htm.e20nomics.global.exception.UserNotFoundException;
-import com.htm.e20nomics.term.domain.Term;
-import com.htm.e20nomics.term.repository.TermRepository;
+import com.htm.e20nomics.term.repository.MyTermRepository;
 import com.htm.e20nomics.user.domain.User;
 import com.htm.e20nomics.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +15,7 @@ import java.util.List;
 public class AdminService {
 
     private final UserRepository userRepository;
-    private final TermRepository termRepository;
+    private final MyTermRepository myTermRepository;
 
     @Transactional(readOnly = true)
     public List<AdminUserListResponse> getUserList() {

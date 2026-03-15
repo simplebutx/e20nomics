@@ -31,15 +31,7 @@ public class SummaryController {
         return ResponseEntity.status(201).build();
     }
 
-    @GetMapping("/api/announcements")
-    public List<AnnouncementsResponse> getAnnouncements() {
-        return summaryService.getAnnouncements();
-    }
 
-    @GetMapping("/api/announcements/{id}")
-    public AnnouncementDetailResponse getAnnouncementDetail(@PathVariable Long id) {
-        return summaryService.getAnnouncementDetail(id);
-    }
 }
 
 

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Getter
-public class Term {
+public class MyTerm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +30,7 @@ public class Term {
     private LocalDateTime updatedAt;
 
 
-    public Term(String term, String definition, User author) {
+    public MyTerm(String term, String definition, User author) {
         this.term = term;
         this.definition = definition;
         this.author = author;

@@ -12,7 +12,7 @@ export default function TodayNewsPage() {
     async function fetchAnnouncements() {
         try { 
         setLoading(true);
-        const res = await api.get("/api/announcements");
+        const res = await api.get("/api/todayNews");
         const data = res.data;
         setAnnouncements(Array.isArray(data) ? data : []);
         } catch(err) {

@@ -1,12 +1,8 @@
 package com.htm.e20nomics.summary.service;
 
-import com.htm.e20nomics.global.exception.SummaryNotFoundException;
 import com.htm.e20nomics.global.exception.UserNotFoundException;
 import com.htm.e20nomics.summary.client.OpenAiChatClient;
-import com.htm.e20nomics.summary.domain.CreatedBy;
 import com.htm.e20nomics.summary.domain.Summary;
-import com.htm.e20nomics.summary.dto.AnnouncementDetailResponse;
-import com.htm.e20nomics.summary.dto.AnnouncementsResponse;
 import com.htm.e20nomics.summary.dto.SummaryCreateRequest;
 import com.htm.e20nomics.summary.dto.SummaryGenerateResponse;
 import com.htm.e20nomics.summary.repository.SummaryRepository;
@@ -19,7 +15,6 @@ import org.springframework.util.StringUtils;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -75,9 +70,6 @@ public class SummaryService {
             String summaryTitle = map.get("title");
             String summaryText = map.get("summary");
 
-            System.out.println("title = " + summaryTitle);
-            System.out.println("summary = " + summaryText);
-
             return new SummaryGenerateResponse(summaryTitle, summaryText, true);
 
         } catch (Exception e) {
@@ -110,7 +102,7 @@ public class SummaryService {
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new UserNotFoundException());
 
-        Summary summary = new Summary(dto.getOriginalText(), dto.getSummaryTitle(), dto.getSummaryText(), dto.getMemo(), user, CreatedBy.USER);
+        Summary summary = new Summary(dto.getOriginalText(), dto.getSummaryTitle(), dto.getSummaryText(), dto.getMemo(), user);
         summaryRepository.save(summary);
     }
 
@@ -121,21 +113,9 @@ public class SummaryService {
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new UserNotFoundException());
 
-        Summary summary = new Summary(dto.getOriginalText(), dto.getSummaryTitle(), dto.getSummaryText(), dto.getMemo(), user, CreatedBy.ADMIN);
+        Summary summary = new Summary(dto.getOriginalText(), dto.getSummaryTitle(), dto.getSummaryText(), dto.getMemo(), user);
         summaryRepository.save(summary);
     }
 
-    @Transactional(readOnly = true)
-    public List<AnnouncementsResponse> getAnnouncements() {
-        List<Summary> lists = summaryRepository.findAllByCreatedBy(CreatedBy.ADMIN);
-        return lists.stream().map((list)->new AnnouncementsResponse(list.getId(), list.getSummaryTitle(), list.getSummaryText(), list.getCreatedAt()))
-                .toList();
-    }
 
-    @Transactional(readOnly = true)
-    public AnnouncementDetailResponse getAnnouncementDetail(Long announcementId) {
-        Summary summary = summaryRepository.findById(announcementId)
-                .orElseThrow(()-> new SummaryNotFoundException("요약을 찾을 수 없습니다."));
-        return new AnnouncementDetailResponse(summary.getSummaryTitle(), summary.getSummaryText(), summary.getAuthor().getDisplayName(), summary.getCreatedAt());
-    }
 }

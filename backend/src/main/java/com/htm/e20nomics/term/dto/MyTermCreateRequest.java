@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class TermCreateRequest {
+public class MyTermCreateRequest {
     String term;
     String definition;
 

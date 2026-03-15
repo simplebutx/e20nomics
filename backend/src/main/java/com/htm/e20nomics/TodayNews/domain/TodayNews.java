@@ -1,10 +1,8 @@
-package com.htm.e20nomics.summary.domain;
+package com.htm.e20nomics.TodayNews.domain;
 
-import com.htm.e20nomics.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Getter
-public class Summary {
+public class TodayNews {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,29 +25,26 @@ public class Summary {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String summaryText;
 
-    @Column(columnDefinition = "TEXT")
-    private String memo;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User author;
+    private Boolean isPublished;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public Summary(String originalText, String summaryTitle, String summaryText, String memo, User author) {
+    private LocalDateTime publishedAt;
+
+    public TodayNews(String originalText, String summaryTitle, String summaryText) {
         this.originalText = originalText;
         this.summaryTitle = summaryTitle;
         this.summaryText = summaryText;
-        this.memo = memo;
-        this.author = author;
+        this.isPublished = false;
     }
 
-    public void update(String summaryTitle, String summaryText, String memo) {
+    public void update(String summaryTitle, String summaryText, Boolean isPublished) {
         this.summaryTitle = summaryTitle;
         this.summaryText = summaryText;
-        this.memo = memo;
+        this.isPublished = isPublished;
     }
 }

@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .formLogin(form -> form.disable())
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/auth/**", "/api/announcements").permitAll()
+                .requestMatchers("/api/auth/**", "/api/todayNews/**").permitAll()
                 .requestMatchers("/api/me/**", "/api/summaries/**", "/api/summaries").authenticated()
                 .requestMatchers( "/api/admin", "/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()

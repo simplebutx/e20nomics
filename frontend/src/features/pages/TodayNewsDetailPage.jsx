@@ -18,7 +18,7 @@ export default function SummaryDetailPage() {
     async function fetchDetails() {
         try {
             setLoading(true);
-            const res = await api.get(`/api/announcements/${id}`);
+            const res = await api.get(`/api/todayNews/${id}`);
             setSummaryText(res.data.summaryText);
             setSummaryTitle(res.data.summaryTitle);
             setCreatedAt(res.data.createdAt);
