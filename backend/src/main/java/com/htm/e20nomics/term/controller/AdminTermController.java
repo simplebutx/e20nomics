@@ -1,6 +1,8 @@
 package com.htm.e20nomics.term.controller;
 
 import com.htm.e20nomics.term.dto.AdminTermCreateRequest;
+import com.htm.e20nomics.term.dto.AdminTermGenerateRequest;
+import com.htm.e20nomics.term.dto.AdminTermGenerateResponse;
 import com.htm.e20nomics.term.dto.AdminTermResponse;
 import com.htm.e20nomics.term.service.AdminTermService;
 import jakarta.validation.Valid;
@@ -16,6 +18,11 @@ import java.util.List;
 public class AdminTermController {
 
     private final AdminTermService adminTermService;
+
+    @PostMapping("/generate")
+    public AdminTermGenerateResponse generateTerm(@RequestBody AdminTermGenerateRequest dto) {
+        return adminTermService.generateTerm(dto.getTerm());
+    }
 
     @PostMapping
     public ResponseEntity<Void> createAdminTerm(@Valid @RequestBody AdminTermCreateRequest request) {

@@ -9,7 +9,6 @@ export default function SignupPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [userName, setUserName] = useState("");
-    const [displayName, setDisplayName] = useState("");
     const [loading, setLoading] = useState(false);
     const nav = useNavigate();
   
@@ -19,7 +18,7 @@ export default function SignupPage() {
            toast.error("모든 항목을 입력해 주세요.");
             return;
         }
-        const form = {email, password, userName, displayName};
+        const form = {email, password, userName};
         try {
           setLoading(true);
           await api.post("/api/auth/signup", form);
@@ -60,16 +59,6 @@ export default function SignupPage() {
               <div className="form-group">
                 <label>이름</label>
                 <input type="text" placeholder="이름" value={userName} onChange={(e) => setUserName(e.target.value)}/>
-              </div>
-
-              <div className="form-group">
-                <label>닉네임</label>
-                <input
-                  type="text"
-                  placeholder="닉네임"
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                />
               </div>
             </div>
 

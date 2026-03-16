@@ -69,9 +69,9 @@ export default function AdminSummaryPage() {
       <div className="admin-summary-container">
         <header className="admin-summary-header">
           <p className="admin-summary-label">Admin Summary</p>
-          <h1>오늘의 뉴스 등록</h1>
+          <h1>오늘의 뉴스 요약</h1>
           <p className="admin-summary-desc">
-            경제 기사를 요약해 오늘의 뉴스 브리핑으로 등록합니다.
+            경제 기사를 요약해 오늘의 뉴스로 저장합니다.
           </p>
         </header>
 
@@ -82,30 +82,16 @@ export default function AdminSummaryPage() {
           </div>
 
           <textarea
-            className="admin-summary-textarea"
-            rows={14}
-            value={text}
-            onChange={(e) => setText(e.target.value)}
+            className="admin-summary-textarea" rows={14} value={text} onChange={(e) => setText(e.target.value)}
             placeholder="오늘의 뉴스로 등록할 경제 기사 본문을 붙여넣어 주세요."
           />
 
           <div className="admin-summary-input-actions">
-            <button
-              className="admin-primary-btn"
-              onClick={submit}
-              disabled={loading}
-              type="button"
-            >
+            <button className="admin-primary-btn" onClick={submit} disabled={loading} type="button">
               {loading ? "요약 중..." : "요약하기"}
             </button>
 
-            <button
-              className="admin-ghost-btn"
-              onClick={resetAll}
-              type="button"
-            >
-              초기화
-            </button>
+            <button className="admin-ghost-btn" onClick={resetAll} type="button">초기화</button>
           </div>
         </section>
 
@@ -125,28 +111,9 @@ export default function AdminSummaryPage() {
 
               {canSave && (
                 <div className="admin-summary-result-actions">
-                  <button
-                    className="admin-primary-btn"
-                    onClick={save}
-                    type="button"
-                  >
-                    오늘의 뉴스 저장
-                  </button>
-                  <button
-                    className="admin-outline-btn"
-                    onClick={retrySummary}
-                    type="button"
-                    disabled={loading}
-                  >
-                    다시 요약
-                  </button>
-                  <button
-                    className="admin-ghost-btn"
-                    onClick={resetAll}
-                    type="button"
-                  >
-                    새로 입력
-                  </button>
+                  <button className="admin-primary-btn" onClick={save} type="button">오늘의 뉴스 저장</button>
+                  <button className="admin-outline-btn" onClick={retrySummary} type="button" disabled={loading}>다시 요약</button>
+                  <button className="admin-ghost-btn" onClick={resetAll} type="button">새로 입력</button>
                 </div>
               )}
             </>

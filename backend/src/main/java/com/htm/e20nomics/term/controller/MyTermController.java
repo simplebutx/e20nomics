@@ -1,10 +1,7 @@
 package com.htm.e20nomics.term.controller;
 
 import com.htm.e20nomics.auth.domain.CustomUserDetails;
-import com.htm.e20nomics.term.dto.MyTermResponse;
-import com.htm.e20nomics.term.dto.MyTermCreateRequest;
-import com.htm.e20nomics.term.dto.MyTermDetailResponse;
-import com.htm.e20nomics.term.dto.MyTermUpdateRequest;
+import com.htm.e20nomics.term.dto.*;
 import com.htm.e20nomics.term.service.MyTermService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +16,12 @@ import java.util.List;
 public class MyTermController {
 
     public final MyTermService myTermsService;
+
+    // 단어 정의 ai 생성
+    @PostMapping("/api/me/terms/generate")
+    public MyTermGenerateResponse generateTerm(@RequestBody MyTermGenerateRequest dto) {
+        return myTermsService.generateTerm(dto.getTerm());
+    }
 
     // 단어 추가하기
     @PostMapping("/api/me/terms")
@@ -38,8 +41,6 @@ public class MyTermController {
     public MyTermDetailResponse getTermDetail(@PathVariable Long id) {
         return myTermsService.getTermDetail(id);
     }
-
-    // 공용 단어 수정하기
 
 
     // 개인 단어 수정

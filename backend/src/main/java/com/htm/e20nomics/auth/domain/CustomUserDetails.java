@@ -38,10 +38,6 @@ public class CustomUserDetails implements UserDetails{
         return user.getUserName();
     }
 
-    public String getDisplayName() {
-        return user.getDisplayName();
-    }
-
     public String getRole() {return user.getRole().name(); }
 
     @Override

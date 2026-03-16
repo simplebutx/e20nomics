@@ -1,59 +1,135 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/mypage/css/MyTerms.css";
 
 export default function MyTerms() {
+  const [terms, setTerms] = useState([]);
 
-    const [terms, setTerms] = useState([]);
-    const [term, setTerm] = useState("");
-    const [definition, setDefinition] = useState("");
-    const [loading, setLoading] = useState(true);
-    const nav = useNavigate();
+  const [activeTab, setActiveTab] = useState("ai"); // "ai" | "manual"
 
-    async function fetchMyTerms() {
-        try {
-            setLoading(true);
-            const res = await api.get("/api/me/terms");
-            const data = res.data;
-            setTerms(Array.isArray(data) ? data : []);    // 배열있는지 검증
-            setTerm("");
-            setDefinition("");
-        } catch (err) {
-            toast.error(err?.response?.data?.message || "불러오기 실패");
-        } finally {
-            setLoading(false);
-        }
+  const [term, setTerm] = useState("");
+  const [definition, setDefinition] = useState("");
+
+  const [aiTerm, setAiTerm] = useState("");
+  const [aiResult, setAiResult] = useState("");
+  const [aiCanSave, setAiCanSave] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiSaving, setAiSaving] = useState(false);
+
+  const [loading, setLoading] = useState(true);
+  const nav = useNavigate();
+
+  async function fetchMyTerms() {
+    try {
+      setLoading(true);
+      const res = await api.get("/api/me/terms");
+      const data = res.data;
+      setTerms(Array.isArray(data) ? data : []);
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "불러오기 실패");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function postMyTerm(e) {
+    e.preventDefault();
+
+    if (!term.trim() || !definition.trim()) {
+      toast.error("모든 항목을 입력해 주세요.");
+      return;
     }
 
-    async function postMyTerm(e) {
-        e.preventDefault();
-        if (!term.trim() || !definition.trim()) {
-            toast.error("모든 항목을 입력해 주세요.");
-            return;
-        }
-        const form = {term, definition};
-        try {
-            await api.post("/api/me/terms", form);
-            toast.success("단어를 등록했습니다.");
-                fetchMyTerms();
-        } catch(err) {
-            const message = err?.response?.data?.message || "단어 등록 실패";
-            toast.error(message);
-        }
+    try {
+      await api.post("/api/me/terms", {
+        term: term.trim(),
+        definition: definition.trim(),
+      });
+
+      toast.success("단어를 등록했습니다.");
+      setTerm("");
+      setDefinition("");
+      fetchMyTerms();
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "단어 등록 실패");
+    }
+  }
+
+  async function createAiTerm(e) {
+    e.preventDefault();
+
+    if (!aiTerm.trim()) {
+      toast.error("단어를 입력해 주세요.");
+      return;
     }
 
-    useEffect(()=> {
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        toast("로그인 후 이용 가능합니다.");
-        nav("/login");
+    try {
+      setAiLoading(true);
+      setAiResult("");
+      setAiCanSave(false);
+
+      const res = await api.post("/api/me/terms/generate", {
+        term: aiTerm.trim(),
+      });
+
+      const data = res.data;
+
+      setAiResult(data.definition || "");
+      setAiCanSave(!!data.canSave);
+
+      if (data.canSave) {
+        toast.success("AI 정의를 생성했습니다.");
+      } else {
+        toast.error(data.definition || "정의 생성 실패");
       }
-      else fetchMyTerms();
-    }, []);
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "AI 정의 생성 실패");
+    } finally {
+      setAiLoading(false);
+    }
+  }
 
-     return (
+  async function saveAiTerm() {
+    if (!aiTerm.trim() || !aiResult.trim() || !aiCanSave) {
+      toast.error("먼저 AI 정의를 생성해 주세요.");
+      return;
+    }
+
+    try {
+      setAiSaving(true);
+
+      await api.post("/api/me/terms", {
+        term: aiTerm.trim(),
+        definition: aiResult.trim(),
+      });
+
+      toast.success("AI 단어를 저장했습니다.");
+
+      setAiTerm("");
+      setAiResult("");
+      setAiCanSave(false);
+
+      fetchMyTerms();
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "AI 단어 저장 실패");
+    } finally {
+      setAiSaving(false);
+    }
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      toast("로그인 후 이용 가능합니다.");
+      nav("/login");
+    } else {
+      fetchMyTerms();
+    }
+  }, []);
+
+  return (
     <div className="my-terms-page">
       <div className="my-terms-container">
         <header className="my-terms-header">
@@ -67,11 +143,83 @@ export default function MyTerms() {
         <section className="term-form-card">
           <h2 className="term-form-title">새 단어 등록</h2>
 
-          <form className="term-form" onSubmit={postMyTerm}>
-            <input className="term-input" placeholder="단어" value={term} onChange={(e) => setTerm(e.target.value)}/>
-            <textarea className="term-textarea" placeholder="정의" value={definition} onChange={(e) => setDefinition(e.target.value)} rows={4}/>
-            <button className="term-submit-btn" type="submit">사전에 등록</button>
-          </form>
+          <div className="term-tab-row">
+            <button
+              type="button"
+              className={`term-tab-btn ${activeTab === "ai" ? "active" : ""}`}
+              onClick={() => setActiveTab("ai")}
+            >
+              AI로 등록
+            </button>
+            <button
+              type="button"
+              className={`term-tab-btn ${activeTab === "manual" ? "active" : ""}`}
+              onClick={() => setActiveTab("manual")}
+            >
+              직접 등록
+            </button>
+          </div>
+
+          {activeTab === "ai" && (
+            <form className="term-form" onSubmit={createAiTerm}>
+              <input
+                className="term-input"
+                placeholder="예: 금리"
+                value={aiTerm}
+                onChange={(e) => setAiTerm(e.target.value)}
+              />
+
+              <textarea
+                className="term-textarea"
+                placeholder="AI가 생성한 정의가 여기에 표시됩니다."
+                value={aiResult}
+                readOnly
+                rows={4}
+              />
+
+              <div className="term-btn-row">
+                <button
+                  className="term-submit-btn"
+                  type="submit"
+                  disabled={aiLoading}
+                >
+                  {aiLoading ? "생성 중..." : "AI 생성"}
+                </button>
+
+                <button
+                  className="term-submit-btn secondary"
+                  type="button"
+                  onClick={saveAiTerm}
+                  disabled={!aiCanSave || aiSaving}
+                >
+                  {aiSaving ? "저장 중..." : "저장"}
+                </button>
+              </div>
+            </form>
+          )}
+
+          {activeTab === "manual" && (
+            <form className="term-form" onSubmit={postMyTerm}>
+              <input
+                className="term-input"
+                placeholder="단어"
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
+              />
+
+              <textarea
+                className="term-textarea"
+                placeholder="정의"
+                value={definition}
+                onChange={(e) => setDefinition(e.target.value)}
+                rows={4}
+              />
+
+              <button className="term-submit-btn" type="submit">
+                사전에 등록
+              </button>
+            </form>
+          )}
         </section>
 
         <section className="term-list-section">
@@ -92,25 +240,25 @@ export default function MyTerms() {
             </div>
           ) : (
             <div className="term-simple-list">
-  {terms.map((t) => (
-    <div
-      className="term-simple-item"
-      key={t.id}
-      onClick={() => nav(`/terms/${t.id}`)}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          nav(`/terms/${t.id}`);
-        }
-      }}
-    >
-      <span className="term-simple-word">{t.term}</span>
-      <span className="term-simple-divider">|</span>
-      <span className="term-simple-definition">{t.definition}</span>
-    </div>
-  ))}
-</div>
+              {terms.map((t) => (
+                <div
+                  className="term-simple-item"
+                  key={t.id}
+                  onClick={() => nav(`/terms/${t.id}`)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      nav(`/terms/${t.id}`);
+                    }
+                  }}
+                >
+                  <span className="term-simple-word">{t.term}</span>
+                  <span className="term-simple-divider">|</span>
+                  <span className="term-simple-definition">{t.definition}</span>
+                </div>
+              ))}
+            </div>
           )}
         </section>
       </div>

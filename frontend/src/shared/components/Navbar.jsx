@@ -11,7 +11,7 @@ export default function Navbar() {
         {role === "ADMIN" ? (
           <>
             <Link to="/admin" className="nav-btn">관리자페이지</Link>
-            <Link to="/adminSummarize" className="nav-btn">뉴스 등록</Link>
+            <Link to="/adminSummarize" className="nav-btn">오늘의 뉴스 요약</Link>
             <Link to="/admin/terms" className="nav-btn">관리자 단어장</Link>
           </>
         ) : (

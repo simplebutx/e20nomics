@@ -13,7 +13,6 @@ public class AdminUserListResponse {
     private Long id;
     private String email;
     private String userName;
-    private String displayName;
     private Role role;
     private LocalDateTime createdAt;
 }

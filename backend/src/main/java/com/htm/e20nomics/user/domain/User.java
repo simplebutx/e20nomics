@@ -19,7 +19,6 @@ public class User {
     private String email;
     private String password;
     private String userName;
-    private String displayName;
     @Enumerated(EnumType.STRING)
     private Role role;
     private LocalDateTime createdAt;
@@ -27,11 +26,10 @@ public class User {
     private String summaryStyle;
     private String summaryLength;
 
-    public User(String email, String password, String userName, String displayName) {
+    public User(String email, String password, String userName) {
         this.email = email;
         this.password = password;
         this.userName = userName;
-        this.displayName = displayName;
         this.role = Role.USER;
         this.createdAt = LocalDateTime.now();
     }

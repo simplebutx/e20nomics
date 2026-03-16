@@ -21,7 +21,7 @@ public class AdminService {
     public List<AdminUserListResponse> getUserList() {
         List<User> userList = userRepository.findAll();
         return userList.stream().map(user -> new AdminUserListResponse
-                        (user.getId(), user.getEmail(), user.getUserName(), user.getDisplayName(),
+                        (user.getId(), user.getEmail(), user.getUserName(),
                                 user.getRole(), user.getCreatedAt()))
                 .toList();
     }

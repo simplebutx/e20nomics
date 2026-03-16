@@ -31,7 +31,7 @@ public class AuthService {
             throw new DuplicateEmailException();
         }
         String hashedPassword = passwordEncoder.encode(dto.getPassword());
-        User user = new User(dto.getEmail(), hashedPassword, dto.getUserName(), dto.getDisplayName());
+        User user = new User(dto.getEmail(), hashedPassword, dto.getUserName());
         userRepository.save(user);
     }
 

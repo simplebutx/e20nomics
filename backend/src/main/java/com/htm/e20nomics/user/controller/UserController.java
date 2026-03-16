@@ -13,6 +13,6 @@ public class UserController {
 
     @GetMapping("/api/me")
     public MyPageResponse myPage(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        return new MyPageResponse(userDetails.getUsername(), userDetails.getName(), userDetails.getDisplayName());
+        return new MyPageResponse(userDetails.getUsername(), userDetails.getName());
     }
 }

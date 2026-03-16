@@ -1,8 +1,8 @@
-import AdminUserList from "./AdminUserList";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import "@/features/admin/css/AdminPage.css";
-import AdminTodayNewsList from "./AdminTodayNewsList";
+import AdminTodayNewsList from "@/features/admin/components/AdminTodayNewsList";
+import AdminUserList from "@/features/admin/components/AdminUserList";
 
 export default function AdminPage() {
   const nav = useNavigate();

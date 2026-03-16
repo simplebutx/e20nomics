@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/admin/css/AdminTodayNewsDetailPage.css";
+import AdminTodayNewsDetailEditSection from "@/features/admin/components/AdminTodayNewsDetailEditSection";
+import AdminTodayNewsDetailTermSection from "@/features/admin/components/AdminTodayNewsDetailTermSection";
 
 export default function AdminTodayNewsDetailPage() {
   const { id } = useParams();
@@ -17,7 +19,6 @@ export default function AdminTodayNewsDetailPage() {
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  // 단어 관련 state
   const [allTerms, setAllTerms] = useState([]);
   const [linkedTerms, setLinkedTerms] = useState([]);
   const [selectedTermId, setSelectedTermId] = useState("");
@@ -41,7 +42,7 @@ export default function AdminTodayNewsDetailPage() {
     }
   }
 
-  async function fetchAllTerms() {   // 관리자 단어 불러오기
+  async function fetchAllTerms() {
     try {
       const res = await api.get("/api/admin/terms");
       setAllTerms(Array.isArray(res.data) ? res.data : []);
@@ -51,7 +52,7 @@ export default function AdminTodayNewsDetailPage() {
     }
   }
 
-  async function fetchLinkedTerms() {   // 현재뉴스와 연결왜있는 단어목록 조회
+  async function fetchLinkedTerms() {
     try {
       setTermLoading(true);
       const res = await api.get(`/api/admin/todayNews/${id}/terms`);
@@ -73,6 +74,7 @@ export default function AdminTodayNewsDetailPage() {
   }
 
   useEffect(() => {
+    if (!id) return;
     fetchPageData();
   }, [id]);
 
@@ -87,7 +89,7 @@ export default function AdminTodayNewsDetailPage() {
     try {
       setSaving(true);
 
-      await api.put(`/api/admin/todayNews/${id}`, {    // 현재뉴스와 단어 연결하기
+      await api.put(`/api/admin/todayNews/${id}`, {
         summaryTitle: summaryTitle.trim(),
         summaryText: summaryText.trim(),
         isPublished,
@@ -110,7 +112,7 @@ export default function AdminTodayNewsDetailPage() {
 
     try {
       setDeleting(true);
-      await api.delete(`/api/admin/todayNews/${id}`);   
+      await api.delete(`/api/admin/todayNews/${id}`);
       toast.success("삭제되었습니다.");
       navigate("/admin");
     } catch (err) {
@@ -124,7 +126,7 @@ export default function AdminTodayNewsDetailPage() {
     const nextValue = !isPublished;
 
     try {
-      await api.put(`/api/admin/todayNews/${id}`, {   
+      await api.put(`/api/admin/todayNews/${id}`, {
         summaryTitle: summaryTitle.trim(),
         summaryText: summaryText.trim(),
         isPublished: nextValue,
@@ -148,7 +150,7 @@ export default function AdminTodayNewsDetailPage() {
     try {
       setLinking(true);
 
-      await api.post(`/api/admin/todayNews/${id}/terms`, {   
+      await api.post(`/api/admin/todayNews/${id}/terms`, {
         termId: Number(selectedTermId),
       });
 
@@ -168,7 +170,7 @@ export default function AdminTodayNewsDetailPage() {
     try {
       setUnlinkingId(termId);
 
-      await api.delete(`/api/admin/todayNews/${id}/terms/${termId}`);   // 현재뉴스와 단어 연결 해제하기
+      await api.delete(`/api/admin/todayNews/${id}/terms/${termId}`);
 
       toast.success("단어 연결이 해제되었습니다.");
       await fetchLinkedTerms();
@@ -201,161 +203,33 @@ export default function AdminTodayNewsDetailPage() {
 
   return (
     <div className="admin-today-news-detail-page">
-      <div className="admin-today-news-detail-card">
-        <div className="admin-today-news-detail-top">
-          <h1 className="admin-today-news-detail-title">오늘의 뉴스 상세</h1>
-          <span
-            className={
-              isPublished
-                ? "admin-today-news-status published"
-                : "admin-today-news-status unpublished"
-            }
-          >
-            {isPublished ? "게시됨" : "미게시"}
-          </span>
-        </div>
+      <AdminTodayNewsDetailEditSection
+        summaryTitle={summaryTitle}
+        summaryText={summaryText}
+        isPublished={isPublished}
+        createdAt={createdAt}
+        saving={saving}
+        deleting={deleting}
+        setSummaryTitle={setSummaryTitle}
+        setSummaryText={setSummaryText}
+        onUpdate={handleUpdate}
+        onDelete={handleDelete}
+        onTogglePublished={handleTogglePublished}
+        onGoList={() => navigate("/admin/todayNews")}
+        formatDate={formatDate}
+      />
 
-        <p className="admin-today-news-detail-date">
-          등록일: {formatDate(createdAt)}
-        </p>
-
-        <div className="admin-today-news-detail-field">
-          <label className="admin-today-news-detail-label">제목</label>
-          <input
-            type="text"
-            value={summaryTitle}
-            onChange={(e) => setSummaryTitle(e.target.value)}
-            className="admin-today-news-detail-input"
-            placeholder="제목을 입력하세요"
-          />
-        </div>
-
-        <div className="admin-today-news-detail-field">
-          <label className="admin-today-news-detail-label">요약문</label>
-          <textarea
-            value={summaryText}
-            onChange={(e) => setSummaryText(e.target.value)}
-            className="admin-today-news-detail-textarea"
-            placeholder="요약문을 입력하세요"
-          />
-        </div>
-
-        <div className="admin-today-news-detail-buttons">
-          <button
-            type="button"
-            onClick={handleUpdate}
-            disabled={saving}
-            className="admin-today-news-detail-btn edit"
-          >
-            {saving ? "수정 중..." : "수정하기"}
-          </button>
-
-          <button
-            type="button"
-            onClick={handleDelete}
-            disabled={deleting}
-            className="admin-today-news-detail-btn delete"
-          >
-            {deleting ? "삭제 중..." : "삭제하기"}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => navigate("/admin/todayNews")}
-            className="admin-today-news-detail-btn list"
-          >
-            목록으로
-          </button>
-
-          <button
-            type="button"
-            onClick={handleTogglePublished}
-            className="admin-today-news-detail-btn publish"
-          >
-            {isPublished ? "게시 취소로 변경" : "공개 게시로 변경"}
-          </button>
-        </div>
-      </div>
-
-      {/* 단어 연결 UI */}
-      <div className="admin-today-news-term-card">
-        <div className="admin-today-news-term-top">
-          <div>
-            <h2 className="admin-today-news-term-title">연결된 관리자 단어</h2>
-            <p className="admin-today-news-term-subtitle">
-              오늘의 뉴스 상세에 보여줄 단어를 연결할 수 있습니다.
-            </p>
-          </div>
-
-          <Link to="/admin/terms" className="admin-today-news-term-manage-link">
-            단어장 관리
-          </Link>
-        </div>
-
-        <div className="admin-today-news-term-link-box">
-          <select
-            value={selectedTermId}
-            onChange={(e) => setSelectedTermId(e.target.value)}
-            className="admin-today-news-term-select"
-          >
-            <option value="">연결할 단어를 선택하세요</option>
-            {availableTerms.map((term) => (
-              <option key={term.id} value={term.id}>
-                {term.term}
-              </option>
-            ))}
-          </select>
-
-          <button
-            type="button"
-            onClick={handleLinkTerm}
-            disabled={linking || availableTerms.length === 0}
-            className="admin-today-news-term-link-btn"
-          >
-            {linking ? "연결 중..." : "단어 연결"}
-          </button>
-        </div>
-
-        {availableTerms.length === 0 && (
-          <p className="admin-today-news-term-guide">
-            연결 가능한 단어가 없습니다. 이미 모두 연결되었거나 관리자 단어장이 비어 있습니다.
-          </p>
-        )}
-
-        <div className="admin-today-news-term-list-wrap">
-          <h3 className="admin-today-news-term-list-title">
-            현재 연결된 단어 ({linkedTerms.length})
-          </h3>
-
-          {termLoading ? (
-            <p className="admin-today-news-term-empty">불러오는 중...</p>
-          ) : linkedTerms.length === 0 ? (
-            <p className="admin-today-news-term-empty">아직 연결된 단어가 없습니다.</p>
-          ) : (
-            <div className="admin-today-news-term-list">
-              {linkedTerms.map((term) => (
-                <div key={term.id} className="admin-today-news-term-item">
-                  <div className="admin-today-news-term-item-content">
-                    <p className="admin-today-news-term-word">{term.term}</p>
-                    <p className="admin-today-news-term-definition">
-                      {term.definition}
-                    </p>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => handleUnlinkTerm(term.id)}
-                    disabled={unlinkingId === term.id}
-                    className="admin-today-news-term-unlink-btn"
-                  >
-                    {unlinkingId === term.id ? "해제 중..." : "연결 해제"}
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
+      <AdminTodayNewsDetailTermSection
+        linkedTerms={linkedTerms}
+        availableTerms={availableTerms}
+        selectedTermId={selectedTermId}
+        setSelectedTermId={setSelectedTermId}
+        termLoading={termLoading}
+        linking={linking}
+        unlinkingId={unlinkingId}
+        onLinkTerm={handleLinkTerm}
+        onUnlinkTerm={handleUnlinkTerm}
+      />
     </div>
   );
 }
