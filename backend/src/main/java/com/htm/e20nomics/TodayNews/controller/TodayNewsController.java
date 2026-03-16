@@ -1,7 +1,7 @@
 package com.htm.e20nomics.TodayNews.controller;
 
-import com.htm.e20nomics.TodayNews.dto.PublicTodayNewsDetailResponse;
-import com.htm.e20nomics.TodayNews.dto.PublicTodayNewsResponse;
+import com.htm.e20nomics.TodayNews.dto.TodayNewsDetailResponse;
+import com.htm.e20nomics.TodayNews.dto.TodayNewsResponse;
 import com.htm.e20nomics.TodayNews.service.TodayNewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,13 +16,15 @@ public class TodayNewsController {
 
     private final TodayNewsService todayNewsService;
 
+    // 사용자가 오늘의 뉴스 불러오기
+
     @GetMapping("/api/todayNews")
-    public List<PublicTodayNewsResponse> getTodayNews() {
+    public List<TodayNewsResponse> getTodayNews() {
         return todayNewsService.getPublicTodayNews();
     }
 
     @GetMapping("/api/todayNews/{id}")
-    public PublicTodayNewsDetailResponse getTodayNewsDetail(@PathVariable Long id) {
+    public TodayNewsDetailResponse getTodayNewsDetail(@PathVariable Long id) {
         return todayNewsService.getPublicTodayNewsDetail(id);
     }
 }

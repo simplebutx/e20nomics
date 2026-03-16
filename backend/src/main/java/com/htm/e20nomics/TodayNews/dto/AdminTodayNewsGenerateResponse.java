@@ -1,16 +1,12 @@
 package com.htm.e20nomics.TodayNews.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @AllArgsConstructor
-public class TodayNewsResponse {
-    private Long id;
+public class AdminTodayNewsGenerateResponse {
     private String summaryTitle;
     private String summaryText;
-    private LocalDateTime createdAt;
+    private boolean canSave;
 }

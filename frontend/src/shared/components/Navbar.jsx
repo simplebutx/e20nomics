@@ -12,6 +12,7 @@ export default function Navbar() {
           <>
             <Link to="/admin" className="nav-btn">관리자페이지</Link>
             <Link to="/adminSummarize" className="nav-btn">뉴스 등록</Link>
+            <Link to="/admin/terms" className="nav-btn">관리자 단어장</Link>
           </>
         ) : (
           <>

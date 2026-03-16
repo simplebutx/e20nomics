@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
 public class TodayNewsDetailResponse {
-
     private String summaryTitle;
     private String summaryText;
-    private Boolean isPublished;
     private LocalDateTime createdAt;
+    private List<TodayNewsTermResponse> terms;
 }

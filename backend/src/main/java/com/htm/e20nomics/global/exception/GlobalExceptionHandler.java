@@ -49,4 +49,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(404, e.getMessage()));
     }
+
+    @ExceptionHandler(AdminTermNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleAdminTermNotFound(AdminTermNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(404, e.getMessage()));
+    }
+
+    @ExceptionHandler(DuplicateAdminTermException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateAdminTerm(DuplicateAdminTermException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(409, e.getMessage()));
+    }
 }

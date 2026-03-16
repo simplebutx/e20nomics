@@ -1,12 +1,16 @@
 package com.htm.e20nomics.summary.service;
 
+import com.htm.e20nomics.global.exception.SummaryNotFoundException;
 import com.htm.e20nomics.global.exception.UserNotFoundException;
-import com.htm.e20nomics.summary.client.OpenAiChatClient;
+import com.htm.e20nomics.global.client.OpenAiChatClient;
 import com.htm.e20nomics.summary.domain.Summary;
 import com.htm.e20nomics.summary.dto.SummaryCreateRequest;
 import com.htm.e20nomics.summary.dto.SummaryGenerateResponse;
 import com.htm.e20nomics.summary.repository.SummaryRepository;
 import com.htm.e20nomics.user.domain.User;
+import com.htm.e20nomics.summary.dto.SummariesResponse;
+import com.htm.e20nomics.summary.dto.SummaryDetailResponse;
+import com.htm.e20nomics.summary.dto.SummaryUpdateRequest;
 import com.htm.e20nomics.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +19,7 @@ import org.springframework.util.StringUtils;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -104,5 +109,45 @@ public class SummaryService {
 
         Summary summary = new Summary(dto.getOriginalText(), dto.getSummaryTitle(), dto.getSummaryText(), dto.getMemo(), user);
         summaryRepository.save(summary);
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<SummariesResponse> mySummaries(Long userId) {
+        return summaryRepository.findAllByAuthorId(userId).stream()
+                .map(summary -> new SummariesResponse(summary.getId(), summary.getSummaryTitle(), summary.getSummaryText(),
+                        summary.getCreatedAt(), summary.getUpdatedAt()))
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public SummaryDetailResponse getSummaryDetail(Long summaryId) {
+        Summary summary = summaryRepository.findById(summaryId)
+                .orElseThrow(()-> new SummaryNotFoundException("요약을 찾을 수 없습니다."));
+        return new SummaryDetailResponse(summary.getSummaryTitle(), summary.getSummaryText(), summary.getMemo(), summary.getCreatedAt());
+    }
+
+    @Transactional
+    public void updateSummary(Long summaryId, Long userId, SummaryUpdateRequest dto) {
+        Summary summary = summaryRepository.findById(summaryId)
+                .orElseThrow(() -> new SummaryNotFoundException("요약을 찾을 수 없습니다."));
+
+        if (!summary.getAuthor().getId().equals(userId)) {
+            throw new RuntimeException("본인의 요약만 수정할 수 있습니다.");
+        }
+
+        summary.update(dto.getSummaryTitle(), dto.getSummaryText(), dto.getMemo());
+    }
+
+    @Transactional
+    public void deleteSummary(Long summaryId, Long userId) {
+        Summary summary = summaryRepository.findById(summaryId)
+                .orElseThrow(() -> new SummaryNotFoundException("요약을 찾을 수 없습니다."));
+
+        if (!summary.getAuthor().getId().equals(userId)) {
+            throw new RuntimeException("본인의 요약만 삭제할 수 있습니다.");
+        }
+
+        summaryRepository.delete(summary);
     }
 }
