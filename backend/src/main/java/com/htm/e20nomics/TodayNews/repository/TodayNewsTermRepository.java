@@ -13,4 +13,6 @@ public interface TodayNewsTermRepository extends JpaRepository<TodayNewsTerm, Lo
     boolean existsByTodayNewsIdAndAdminTermId(Long todayNewsId, Long adminTermId);
 
     Optional<TodayNewsTerm> findByTodayNewsIdAndAdminTermId(Long todayNewsId, Long adminTermId);
+
+    void deleteByAdminTermId(Long adminTermId);
 }

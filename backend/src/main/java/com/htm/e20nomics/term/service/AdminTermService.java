@@ -1,5 +1,6 @@
 package com.htm.e20nomics.term.service;
 
+import com.htm.e20nomics.TodayNews.repository.TodayNewsTermRepository;
 import com.htm.e20nomics.global.client.OpenAiChatClient;
 import com.htm.e20nomics.global.exception.AdminTermNotFoundException;
 import com.htm.e20nomics.global.exception.DuplicateAdminTermException;
@@ -7,7 +8,6 @@ import com.htm.e20nomics.term.domain.AdminTerm;
 import com.htm.e20nomics.term.dto.AdminTermCreateRequest;
 import com.htm.e20nomics.term.dto.AdminTermGenerateResponse;
 import com.htm.e20nomics.term.dto.AdminTermResponse;
-import com.htm.e20nomics.term.dto.MyTermGenerateResponse;
 import com.htm.e20nomics.term.repository.AdminTermRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +23,7 @@ public class AdminTermService {
 
     private final OpenAiChatClient openAiChatClient;
     private final AdminTermRepository adminTermRepository;
+    private final TodayNewsTermRepository todayNewsTermRepository;
 
     public AdminTermGenerateResponse generateTerm(String text) {
         if (!StringUtils.hasText(text)) {
@@ -133,6 +134,7 @@ public class AdminTermService {
         AdminTerm adminTerm = adminTermRepository.findById(termId)
                 .orElseThrow(() -> new AdminTermNotFoundException("관리자 단어를 찾을 수 없습니다."));
 
+        todayNewsTermRepository.deleteByAdminTermId(termId);
         adminTermRepository.delete(adminTerm);
     }
 

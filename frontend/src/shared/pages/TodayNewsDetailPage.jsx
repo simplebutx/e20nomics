@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import api from "../../api";
+import api from "@/api";
 import toast from "react-hot-toast";
+import HighlightedSummaryText from "@/shared/components/HighlightedSummaryText";
+import TermDefinitionCard from "@/shared/components/TermDefinitionCard";
 import "@/shared/css/TodayNewsDetailPage.css";
+import "@/shared/css/button.css";
 
 export default function TodayNewsDetailPage() {
   const { id } = useParams();
@@ -48,10 +51,6 @@ export default function TodayNewsDetailPage() {
     fetchDetails();
     fetchMyTerms();
   }, [id]);
-
-  function escapeRegExp(text) {
-    return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  }
 
   const mergedTerms = useMemo(() => {
     const map = new Map();
@@ -99,57 +98,40 @@ export default function TodayNewsDetailPage() {
     );
   }, [summaryText, mergedTerms]);
 
-  const parts = useMemo(() => {
-    if (!summaryText) return [];
+  const isAlreadySaved =
+    selectedTerm &&
+    myTerms.some((item) => item.term === selectedTerm.term);
 
-    const words = matchedTerms
-      .map((item) => item.term)
-      .filter(Boolean)
-      .sort((a, b) => b.length - a.length)
-      .map((word) => escapeRegExp(word));
+  async function handleSaveMyTerm() {
+    if (!selectedTerm) return;
 
-    if (words.length === 0) {
-      return [summaryText];
+    try {
+      await api.post("/api/me/terms", {
+        term: selectedTerm.term,
+        definition: selectedTerm.definition,
+      });
+
+      toast.success("내 단어장에 저장했습니다.");
+      await fetchMyTerms();
+
+      setSelectedTerm((prev) =>
+        prev
+          ? {
+              ...prev,
+              source: "both",
+              myDefinition: prev.definition,
+            }
+          : prev
+      );
+    } catch (e) {
+      toast.error(e?.response?.data?.message || "단어 저장에 실패했습니다.");
     }
-
-    const regex = new RegExp(`(${words.join("|")})`, "g");
-    return summaryText.split(regex);
-  }, [summaryText, matchedTerms]);
+  }
 
   function formatDate(dateString) {
     if (!dateString) return "";
     return new Date(dateString).toLocaleString("ko-KR");
   }
-
-  const isAlreadySaved =
-  selectedTerm &&
-  myTerms.some((item) => item.term === selectedTerm.term);
-
-  async function handleSaveMyTerm() {
-  if (!selectedTerm) return;
-
-  try {
-    await api.post("/api/me/terms", {
-      term: selectedTerm.term,
-      definition: selectedTerm.definition,
-    });
-
-    toast.success("내 단어장에 저장했습니다.");
-    await fetchMyTerms();
-
-    setSelectedTerm((prev) =>
-      prev
-        ? {
-            ...prev,
-            source: "both",
-            myDefinition: prev.definition,
-          }
-        : prev
-    );
-  } catch (e) {
-    toast.error(e?.response?.data?.message || "단어 저장에 실패했습니다.");
-  }
-}
 
   if (loading) {
     return (
@@ -170,80 +152,24 @@ export default function TodayNewsDetailPage() {
           <p className="summary-detail-date">{formatDate(createdAt)}</p>
         </div>
 
-        <div className="summary-detail-divider"></div>
+        <div className="summary-detail-divider" />
 
         <div className="summary-detail-body">
           <h2 className="summary-detail-subtitle">요약 내용</h2>
 
-          <p className="summary-detail-text">
-            {parts.map((part, index) => {
-              const foundTerm = matchedTerms.find((item) => item.term === part);
-
-              if (foundTerm) {
-                return (
-                  <span
-                    key={index}
-                    className={`term-link ${foundTerm.source}`}
-                    onClick={() =>
-                      setSelectedTerm((prev) =>
-                        prev?.term === foundTerm.term ? null : foundTerm
-                      )
-                    }
-                  >
-                    {part}
-                  </span>
-                );
-              }
-
-              return <span key={index}>{part}</span>;
-            })}
-          </p>
+          <HighlightedSummaryText
+            summaryText={summaryText}
+            matchedTerms={matchedTerms}
+            selectedTerm={selectedTerm}
+            onSelectTerm={setSelectedTerm}
+          />
 
           {selectedTerm && (
-            <div className={`term-definition-card ${selectedTerm.source}`}>
-              <h3>{selectedTerm.term}</h3>
-
-              {selectedTerm.source === "linked" && (
-  <>
-    <p>{selectedTerm.definition}</p>
-    <small className="term-source-label">출처 · 오늘의 뉴스</small>
-
-    <div className="term-card-action">
-      <button
-        type="button"
-        className="term-save-button"
-        onClick={handleSaveMyTerm}
-        disabled={isAlreadySaved}
-      >
-        {isAlreadySaved ? "이미 저장됨" : "내 단어장에 저장"}
-      </button>
-    </div>
-  </>
-)}
-
-              {selectedTerm.source === "my" && (
-                <>
-                  <p>{selectedTerm.definition}</p>
-                  <small className="term-source-label">출처 - 내 단어장</small>
-                </>
-              )}
-
-              {selectedTerm.source === "both" && (
-                <>
-                  <p>
-                    <strong>오늘의 뉴스 단어 뜻:</strong>{" "}
-                    {selectedTerm.definition}
-                  </p>
-                  <p>
-                    <strong>내 단어장 뜻:</strong>{" "}
-                    {selectedTerm.myDefinition}
-                  </p>
-                  <small className="term-source-label">
-                    출처 - 오늘의 뉴스 + 내 단어장
-                  </small>
-                </>
-              )}
-            </div>
+            <TermDefinitionCard
+              selectedTerm={selectedTerm}
+              isAlreadySaved={isAlreadySaved}
+              onSaveMyTerm={handleSaveMyTerm}
+            />
           )}
         </div>
       </div>

@@ -85,27 +85,6 @@
   background: #ffffff;
 }
 
-.login-btn {
-  margin-top: 4px;
-  border: none;
-  border-radius: 14px;
-  padding: 14px 18px;
-  background: #1d4ed8;
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.login-btn:hover:not(:disabled) {
-  background: #1e40af;
-}
-
-.login-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
 
 .login-divider {
   position: relative;
@@ -131,23 +110,6 @@
   font-size: 13px;
   color: #94a3b8;
   font-weight: 700;
-}
-
-.google-login-btn {
-  width: 100%;
-  border: 1px solid #dbe2ea;
-  border-radius: 14px;
-  padding: 14px 18px;
-  background: #ffffff;
-  color: #334155;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.google-login-btn:hover {
-  background: #f8fafc;
 }
 
 .login-footer {

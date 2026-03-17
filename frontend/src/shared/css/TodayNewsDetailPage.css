@@ -89,18 +89,31 @@
 }
 
 .today-news-detail-page .term-link {
-  color: #1d4ed8;
-  text-decoration: none;
+  display: inline;
   cursor: pointer;
   font-weight: 700;
-  padding: 0;
-  border-radius: 0;
-  background: transparent;
+  border-radius: 4px;
+  padding: 0 2px;
+  transition: opacity 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
 
 .today-news-detail-page .term-link:hover {
-  color: #1e40af;
-  background: transparent;
+  opacity: 0.85;
+}
+
+.today-news-detail-page .term-link.linked {
+  color: #2563eb;
+  background: #dbeafe;
+}
+
+.today-news-detail-page .term-link.my {
+  color: #059669;
+  background: #d1fae5;
+}
+
+.today-news-detail-page .term-link.both {
+  color: #7c3aed;
+  background: #ede9fe;
 }
 
 .today-news-detail-page .term-definition-card {
@@ -111,106 +124,47 @@
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
 }
 
-/* linked = 파랑 */
 .today-news-detail-page .term-definition-card.linked {
   background: #eff6ff;
   border: 1px solid #bfdbfe;
 }
 
-.today-news-detail-page .term-definition-card.linked h3 {
-  color: #1e3a8a;
-}
-
-/* my = 초록 */
 .today-news-detail-page .term-definition-card.my {
   background: #ecfdf5;
   border: 1px solid #a7f3d0;
 }
 
-.today-news-detail-page .term-definition-card.my h3 {
-  color: #065f46;
-}
-
-/* both = 보라 */
 .today-news-detail-page .term-definition-card.both {
   background: #f5f3ff;
   border: 1px solid #d8b4fe;
-}
-
-.today-news-detail-page .term-definition-card.both h3 {
-  color: #5b21b6;
-}
-
-
-.today-news-detail-page .term-definition-card.linked h3 {
-  color: #1e3a8a;
 }
 
 .today-news-detail-page .term-definition-card h3 {
   margin: 0 0 10px;
   font-size: 20px;
   font-weight: 800;
+  color: #111827;
+}
+
+.today-news-detail-page .term-definition-card.linked h3 {
   color: #1e3a8a;
 }
 
+.today-news-detail-page .term-definition-card.my h3 {
+  color: #065f46;
+}
+
+.today-news-detail-page .term-definition-card.both h3 {
+  color: #5b21b6;
+}
+
 .today-news-detail-page .term-definition-card p {
-  margin: 0;
+  margin: 0 0 8px;
   font-size: 15px;
   line-height: 1.8;
   color: #334155;
   white-space: pre-line;
   word-break: keep-all;
-}
-
-.term-link {
-  background: #fff3a3;
-  border-radius: 4px;
-  padding: 0 2px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.term-definition-card {
-  margin-top: 20px;
-  padding: 16px;
-  border-radius: 12px;
-  background: #f8fafc;
-  border: 1px solid #e5e7eb;
-}
-
-.term-link {
-  cursor: pointer;
-  font-weight: 700;
-  transition: all 0.15s ease;
-}
-
-.term-link:hover {
-  opacity: 0.8;
-}
-
-.term-link.linked {
-  color: #2563eb;
-}
-
-.term-link.my {
-  color: #059669;
-}
-
-.term-link.both {
-  color: #7c3aed;
-}
-
-
-.term-definition-card h3 {
-  margin: 0 0 10px;
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.term-definition-card p {
-  margin: 0 0 8px;
-  line-height: 1.6;
-  color: #334155;
 }
 
 .today-news-detail-page .term-source-label {
@@ -229,32 +183,7 @@
 }
 
 .today-news-detail-page .term-save-button {
-  border: none;
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  background: #059669;
-  color: #ffffff;
-  box-shadow: 0 6px 18px rgba(5, 150, 105, 0.18);
-  transition: all 0.15s ease;
-}
-
-.today-news-detail-page .term-save-button:hover:not(:disabled) {
-  background: #047857;
-  transform: translateY(-1px);
-}
-
-.today-news-detail-page .term-save-button:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.today-news-detail-page .term-save-button:disabled {
-  cursor: not-allowed;
-  background: #cbd5e1;
-  color: #ffffff;
-  box-shadow: none;
+  min-width: 140px;
 }
 
 @media (max-width: 768px) {

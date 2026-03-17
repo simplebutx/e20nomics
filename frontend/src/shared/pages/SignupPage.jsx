@@ -1,38 +1,41 @@
 import { useState } from "react";
-import api from "../../api"
+import api from "../../api";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
 import "@/shared/css/SignupPage.css";
+import "@/shared/css/button.css";
 
 export default function SignupPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const nav = useNavigate();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [userName, setUserName] = useState("");
-    const [loading, setLoading] = useState(false);
-    const nav = useNavigate();
-  
-    async function signup(e) {
-        e.preventDefault();
-        if (!email.trim() || !password.trim() || !userName.trim() || !displayName.trim()) {
-           toast.error("모든 항목을 입력해 주세요.");
-            return;
-        }
-        const form = {email, password, userName};
-        try {
-          setLoading(true);
-          await api.post("/api/auth/signup", form);
-          toast.success("회원가입을 성공하였습니다.");
-          nav("/login");
-        } catch (err) {
-          const message = err?.response?.data?.message || "회원가입 실패";
-          toast.error(message);
-        } finally {
-            setLoading(false);
-        }
+  async function signup(e) {
+    e.preventDefault();
+
+    if (!email.trim() || !password.trim() || !userName.trim()) {
+      toast.error("모든 항목을 입력해 주세요.");
+      return;
     }
 
-     return (
+    const form = { email, password, userName };
+
+    try {
+      setLoading(true);
+      await api.post("/api/auth/signup", form);
+      toast.success("회원가입을 성공하였습니다.");
+      nav("/login");
+    } catch (err) {
+      const message = err?.response?.data?.message || "회원가입 실패";
+      toast.error(message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
     <div className="signup-page">
       <div className="signup-container">
         <div className="signup-card">
@@ -47,25 +50,49 @@ export default function SignupPage() {
           <form className="signup-form" onSubmit={signup}>
             <div className="form-group">
               <label>이메일</label>
-              <input type="email" placeholder="example@email.com" value={email} onChange={(e) => setEmail(e.target.value)}/>
+              <input
+                type="email"
+                placeholder="example@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
 
             <div className="form-group">
               <label>비밀번호</label>
-              <input type="password" placeholder="비밀번호를 입력하세요" value={password} onChange={(e) => setPassword(e.target.value)}/>
+              <input
+                type="password"
+                placeholder="비밀번호를 입력하세요"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
 
             <div className="form-row">
               <div className="form-group">
                 <label>이름</label>
-                <input type="text" placeholder="이름" value={userName} onChange={(e) => setUserName(e.target.value)}/>
+                <input
+                  type="text"
+                  placeholder="이름"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
               </div>
             </div>
 
-            <button className="signup-btn" type="submit" disabled={loading}>
+            <button
+              className="btn btn-primary signup-submit-btn"
+              type="submit"
+              disabled={loading}
+            >
               {loading ? "가입 중..." : "회원가입"}
             </button>
           </form>
+
+          <div className="signup-footer">
+            <span>이미 계정이 있나요?</span>
+            <Link to="/login">로그인</Link>
+          </div>
         </div>
       </div>
     </div>

@@ -44,8 +44,17 @@
   transform: translateY(-1px);
 }
 
-.nav-btn:active {
-  transform: translateY(0);
+.nav-btn.active {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(79, 70, 229, 0.18);
+}
+
+.nav-btn.active:hover {
+  background: linear-gradient(135deg, #4338ca, #6d28d9);
+  color: #ffffff;
+  border-color: transparent;
 }
 
 @media (max-width: 768px) {

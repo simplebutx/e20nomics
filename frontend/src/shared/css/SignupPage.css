@@ -91,27 +91,6 @@
   background: #ffffff;
 }
 
-.signup-btn {
-  margin-top: 4px;
-  border: none;
-  border-radius: 14px;
-  padding: 14px 18px;
-  background: #1d4ed8;
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.signup-btn:hover:not(:disabled) {
-  background: #1e40af;
-}
-
-.signup-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
 
 .signup-footer {
   margin-top: 18px;
