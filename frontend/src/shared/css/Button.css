@@ -31,9 +31,7 @@
   outline: none;
 }
 
-/* =========================
-   PRIMARY
-========================= */
+
 .btn-primary {
   background: linear-gradient(135deg, #4f46e5, #7c3aed);
   color: #fff;
@@ -65,9 +63,7 @@
   transform: none;
 }
 
-/* =========================
-   SECONDARY
-========================= */
+
 .btn-secondary {
   background: #f3f4f6;
   color: #1f2937;
@@ -102,9 +98,7 @@
   transform: none;
 }
 
-/* =========================
-   DANGER
-========================= */
+
 .btn-danger {
   background: linear-gradient(135deg, #ef4444, #f97316);
   color: #fff;
@@ -136,9 +130,7 @@
   transform: none;
 }
 
-/* =========================
-   OUTLINE
-========================= */
+
 .btn-outline {
   background: #ffffff;
   color: #4f46e5;
