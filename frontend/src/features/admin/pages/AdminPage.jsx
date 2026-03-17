@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import "@/features/admin/css/AdminPage.css";
-import "@/shared/css/button.css";
+import "@/shared/css/Button.css";
 import AdminTodayNewsList from "@/features/admin/components/AdminTodayNewsList";
 import AdminUserList from "@/features/admin/components/AdminUserList";
 

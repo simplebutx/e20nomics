@@ -2,7 +2,7 @@ import { useState } from "react";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/mypage/css/SummaryPage.css";
-import "@/shared/css/button.css";
+import "@/shared/css/Button.css";
 
 export default function SummaryPage() {
   const [text, setText] = useState("");

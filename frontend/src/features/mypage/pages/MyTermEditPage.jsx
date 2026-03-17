@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/mypage/css/MyTermEditPage.css";
-import "@/shared/css/button.css";
+import "@/shared/css/Button.css";
 
 export default function MyTermEditPage() {
   const { id } = useParams();

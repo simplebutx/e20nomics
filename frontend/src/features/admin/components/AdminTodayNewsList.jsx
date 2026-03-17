@@ -3,7 +3,7 @@ import api from "@/api";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import "@/features/admin/css/AdminTodayNewsList.css";
-import "@/shared/css/button.css";
+import "@/shared/css/Button.css";
 
 export default function AdminTodayNewsList() {
   const [announcements, setAnnouncements] = useState([]);

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/mypage/css/MyPage.css";
-import "@/shared/css/button.css";
+import "@/shared/css/Button.css";
 
 export default function MyPage() {
   const [user, setUser] = useState(null);

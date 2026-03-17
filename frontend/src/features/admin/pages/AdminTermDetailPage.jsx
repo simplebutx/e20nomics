@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/admin/css/AdminTermPage.css";
-import "@/shared/css/button.css";
+import "@/shared/css/Button.css";
 
 export default function AdminTermDetailPage() {
   const { id } = useParams();

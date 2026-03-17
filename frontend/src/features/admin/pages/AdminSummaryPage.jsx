@@ -2,7 +2,7 @@ import { useState } from "react";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/admin/css/AdminSummaryPage.css";
-import "@/shared/css/button.css";
+import "@/shared/css/Button.css";
 
 export default function AdminSummaryPage() {
   const [text, setText] = useState("");

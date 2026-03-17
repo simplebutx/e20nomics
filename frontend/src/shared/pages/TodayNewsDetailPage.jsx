@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import HighlightedSummaryText from "@/shared/components/HighlightedSummaryText";
 import TermDefinitionCard from "@/shared/components/TermDefinitionCard";
 import "@/shared/css/TodayNewsDetailPage.css";
-import "@/shared/css/button.css";
+import "@/shared/css/Button.css";
 
 export default function TodayNewsDetailPage() {
   const { id } = useParams();

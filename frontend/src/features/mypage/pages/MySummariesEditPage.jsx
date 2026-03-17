@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/mypage/css/MySummariesEditPage.css";
-import "@/shared/css/button.css";
+import "@/shared/css/Button.css";
 
 export default function MySummariesEditPage() {
   const { id } = useParams();

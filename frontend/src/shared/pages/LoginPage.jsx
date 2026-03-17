@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../../api";
 import toast from "react-hot-toast";
 import "@/shared/css/LoginPage.css";
-import "@/shared/css/button.css";
+import "@/shared/css/Button.css";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");

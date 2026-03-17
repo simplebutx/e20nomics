@@ -3,7 +3,7 @@ import api from "../../api";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
 import "@/shared/css/SignupPage.css";
-import "@/shared/css/button.css";
+import "@/shared/css/Button.css";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
