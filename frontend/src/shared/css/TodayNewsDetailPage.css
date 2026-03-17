@@ -104,12 +104,46 @@
 }
 
 .today-news-detail-page .term-definition-card {
+  position: relative;
   margin-top: 24px;
   padding: 18px 20px;
   border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+/* linked = 파랑 */
+.today-news-detail-page .term-definition-card.linked {
   background: #eff6ff;
   border: 1px solid #bfdbfe;
-  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08);
+}
+
+.today-news-detail-page .term-definition-card.linked h3 {
+  color: #1e3a8a;
+}
+
+/* my = 초록 */
+.today-news-detail-page .term-definition-card.my {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+}
+
+.today-news-detail-page .term-definition-card.my h3 {
+  color: #065f46;
+}
+
+/* both = 보라 */
+.today-news-detail-page .term-definition-card.both {
+  background: #f5f3ff;
+  border: 1px solid #d8b4fe;
+}
+
+.today-news-detail-page .term-definition-card.both h3 {
+  color: #5b21b6;
+}
+
+
+.today-news-detail-page .term-definition-card.linked h3 {
+  color: #1e3a8a;
 }
 
 .today-news-detail-page .term-definition-card h3 {
@@ -166,13 +200,6 @@
   color: #7c3aed;
 }
 
-.term-definition-card {
-  margin-top: 20px;
-  padding: 16px 18px;
-  border-radius: 14px;
-  background: #f8fafc;
-  border: 1px solid #e5e7eb;
-}
 
 .term-definition-card h3 {
   margin: 0 0 10px;
@@ -186,11 +213,48 @@
   color: #334155;
 }
 
-.term-source-label {
-  display: inline-block;
-  margin-top: 6px;
+.today-news-detail-page .term-source-label {
+  position: absolute;
+  top: 16px;
+  right: 18px;
   color: #64748b;
-  font-size: 13px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.today-news-detail-page .term-card-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.today-news-detail-page .term-save-button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #059669;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(5, 150, 105, 0.18);
+  transition: all 0.15s ease;
+}
+
+.today-news-detail-page .term-save-button:hover:not(:disabled) {
+  background: #047857;
+  transform: translateY(-1px);
+}
+
+.today-news-detail-page .term-save-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.today-news-detail-page .term-save-button:disabled {
+  cursor: not-allowed;
+  background: #cbd5e1;
+  color: #ffffff;
+  box-shadow: none;
 }
 
 @media (max-width: 768px) {

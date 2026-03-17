@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/mypage/css/MySummariesDetailPage.css";
+import "@/shared/css/button.css";
 
 export default function MySummariesDetailPage() {
   const { id } = useParams();
@@ -117,16 +118,18 @@ export default function MySummariesDetailPage() {
 
           <div className="summary-detail-actions">
             <button
-              className="summary-detail-button edit"
+              className="btn btn-outline"
               onClick={() => navigate(`/summaries/${id}/edit`)}
+              type="button"
             >
               수정
             </button>
 
             <button
-              className="summary-detail-button delete"
+              className="btn btn-danger"
               onClick={handleDelete}
               disabled={deleting}
+              type="button"
             >
               {deleting ? "삭제 중..." : "삭제"}
             </button>

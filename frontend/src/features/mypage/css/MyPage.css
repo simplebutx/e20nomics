@@ -174,35 +174,6 @@
   flex-wrap: wrap;
 }
 
-.logout-btn,
-.withdraw-btn {
-  border: none;
-  border-radius: 14px;
-  padding: 12px 18px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.logout-btn {
-  background: #eff6ff;
-  color: #1d4ed8;
-}
-
-.logout-btn:hover {
-  background: #dbeafe;
-}
-
-.withdraw-btn {
-  background: #fef2f2;
-  color: #dc2626;
-}
-
-.withdraw-btn:hover {
-  background: #fee2e2;
-}
-
 .mypage-loading {
   min-height: 100vh;
   display: flex;

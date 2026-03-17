@@ -88,42 +88,8 @@
   display: flex;
   gap: 12px;
   margin-top: 24px;
+  flex-wrap: wrap;
 }
-
-.my-term-detail-edit-btn,
-.my-term-detail-delete-btn {
-  border: none;
-  border-radius: 14px;
-  padding: 12px 18px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.my-term-detail-edit-btn {
-  background: #3157d5;
-  color: white;
-}
-
-.my-term-detail-edit-btn:hover {
-  background: #2547b8;
-}
-
-.my-term-detail-delete-btn {
-  background: #ef4444;
-  color: white;
-}
-
-.my-term-detail-delete-btn:hover {
-  background: #dc2626;
-}
-
-.my-term-detail-delete-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
 
 @media (max-width: 640px) {
   .my-term-detail-page {
@@ -146,44 +112,12 @@
   .my-term-detail-definition {
     font-size: 15px;
   }
-}
 
-.my-term-detail-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 24px;
-}
+  .my-term-detail-actions {
+    flex-direction: column;
+  }
 
-.my-term-detail-edit-btn,
-.my-term-detail-delete-btn {
-  border: none;
-  border-radius: 14px;
-  padding: 12px 18px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.my-term-detail-edit-btn {
-  background: #3157d5;
-  color: white;
-}
-
-.my-term-detail-edit-btn:hover {
-  background: #2547b8;
-}
-
-.my-term-detail-delete-btn {
-  background: #ef4444;
-  color: white;
-}
-
-.my-term-detail-delete-btn:hover {
-  background: #dc2626;
-}
-
-.my-term-detail-delete-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
+  .my-term-detail-actions .btn {
+    width: 100%;
+  }
 }

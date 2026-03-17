@@ -105,40 +105,6 @@
   color: #64748b;
 }
 
-.my-summary-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.outline-btn,
-.danger-btn {
-  border: none;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.outline-btn {
-  background: #eff6ff;
-  color: #1d4ed8;
-}
-
-.outline-btn:hover {
-  background: #dbeafe;
-}
-
-.danger-btn {
-  background: #fef2f2;
-  color: #dc2626;
-}
-
-.danger-btn:hover {
-  background: #fee2e2;
-}
-
 .my-summaries-state-card {
   text-align: center;
   color: #475569;
@@ -166,15 +132,6 @@
 
   .my-summary-text {
     font-size: 14px;
-  }
-
-  .my-summary-actions {
-    width: 100%;
-  }
-
-  .outline-btn,
-  .danger-btn {
-    flex: 1;
   }
 }
 

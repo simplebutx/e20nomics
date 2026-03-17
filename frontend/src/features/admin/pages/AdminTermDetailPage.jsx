@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/admin/css/AdminTermPage.css";
+import "@/shared/css/button.css";
 
 export default function AdminTermDetailPage() {
   const { id } = useParams();
@@ -113,26 +114,51 @@ export default function AdminTermDetailPage() {
 
           <div className="admin-term-detail-field">
             <label className="admin-term-detail-label">단어</label>
-            <input type="text" value={term} onChange={(e) => setTerm(e.target.value)}
-              className="admin-term-detail-input" placeholder="단어를 입력하세요"/>
+            <input
+              type="text"
+              value={term}
+              onChange={(e) => setTerm(e.target.value)}
+              className="admin-term-detail-input"
+              placeholder="단어를 입력하세요"
+            />
           </div>
 
           <div className="admin-term-detail-field">
             <label className="admin-term-detail-label">정의</label>
-            <textarea value={definition} onChange={(e) => setDefinition(e.target.value)}
-              className="admin-term-detail-textarea" placeholder="정의를 입력하세요"/>
+            <textarea
+              value={definition}
+              onChange={(e) => setDefinition(e.target.value)}
+              className="admin-term-detail-textarea"
+              placeholder="정의를 입력하세요"
+            />
           </div>
 
           <div className="admin-term-detail-actions">
-            <button type="button" onClick={handleUpdate} disabled={saving} className="admin-term-detail-btn edit">
+            <button
+              type="button"
+              onClick={handleUpdate}
+              disabled={saving}
+              className="btn btn-primary"
+            >
               {saving ? "수정 중..." : "수정하기"}
             </button>
 
-            <button type="button" onClick={handleDelete} disabled={deleting} className="admin-term-detail-btn delete">
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={deleting}
+              className="btn btn-danger"
+            >
               {deleting ? "삭제 중..." : "삭제하기"}
             </button>
 
-            <button type="button" onClick={() => navigate("/admin/terms")} className="admin-term-detail-btn list">목록으로</button>
+            <button
+              type="button"
+              onClick={() => navigate("/admin/terms")}
+              className="btn btn-secondary"
+            >
+              목록으로
+            </button>
           </div>
         </div>
       </div>

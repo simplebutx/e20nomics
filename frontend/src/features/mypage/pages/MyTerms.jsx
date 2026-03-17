@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/mypage/css/MyTerms.css";
+import "@/shared/css/button.css";
 
 export default function MyTerms() {
   const [terms, setTerms] = useState([]);
@@ -129,6 +130,10 @@ export default function MyTerms() {
     }
   }, []);
 
+  function getTabButtonClass(tab) {
+    return activeTab === tab ? "btn btn-primary" : "btn btn-outline";
+  }
+
   return (
     <div className="my-terms-page">
       <div className="my-terms-container">
@@ -146,14 +151,14 @@ export default function MyTerms() {
           <div className="term-tab-row">
             <button
               type="button"
-              className={`term-tab-btn ${activeTab === "ai" ? "active" : ""}`}
+              className={getTabButtonClass("ai")}
               onClick={() => setActiveTab("ai")}
             >
               AI로 등록
             </button>
             <button
               type="button"
-              className={`term-tab-btn ${activeTab === "manual" ? "active" : ""}`}
+              className={getTabButtonClass("manual")}
               onClick={() => setActiveTab("manual")}
             >
               직접 등록
@@ -179,7 +184,7 @@ export default function MyTerms() {
 
               <div className="term-btn-row">
                 <button
-                  className="term-submit-btn"
+                  className="btn btn-primary"
                   type="submit"
                   disabled={aiLoading}
                 >
@@ -187,7 +192,7 @@ export default function MyTerms() {
                 </button>
 
                 <button
-                  className="term-submit-btn secondary"
+                  className="btn btn-secondary"
                   type="button"
                   onClick={saveAiTerm}
                   disabled={!aiCanSave || aiSaving}
@@ -215,7 +220,7 @@ export default function MyTerms() {
                 rows={4}
               />
 
-              <button className="term-submit-btn" type="submit">
+              <button className="btn btn-primary" type="submit">
                 사전에 등록
               </button>
             </form>

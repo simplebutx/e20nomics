@@ -2,6 +2,7 @@ import { useState } from "react";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/admin/css/AdminSummaryPage.css";
+import "@/shared/css/button.css";
 
 export default function AdminSummaryPage() {
   const [text, setText] = useState("");
@@ -82,16 +83,30 @@ export default function AdminSummaryPage() {
           </div>
 
           <textarea
-            className="admin-summary-textarea" rows={14} value={text} onChange={(e) => setText(e.target.value)}
+            className="admin-summary-textarea"
+            rows={14}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
             placeholder="오늘의 뉴스로 등록할 경제 기사 본문을 붙여넣어 주세요."
           />
 
           <div className="admin-summary-input-actions">
-            <button className="admin-primary-btn" onClick={submit} disabled={loading} type="button">
+            <button
+              className="btn btn-primary"
+              onClick={submit}
+              disabled={loading}
+              type="button"
+            >
               {loading ? "요약 중..." : "요약하기"}
             </button>
 
-            <button className="admin-ghost-btn" onClick={resetAll} type="button">초기화</button>
+            <button
+              className="btn btn-secondary"
+              onClick={resetAll}
+              type="button"
+            >
+              초기화
+            </button>
           </div>
         </section>
 
@@ -111,9 +126,30 @@ export default function AdminSummaryPage() {
 
               {canSave && (
                 <div className="admin-summary-result-actions">
-                  <button className="admin-primary-btn" onClick={save} type="button">오늘의 뉴스 저장</button>
-                  <button className="admin-outline-btn" onClick={retrySummary} type="button" disabled={loading}>다시 요약</button>
-                  <button className="admin-ghost-btn" onClick={resetAll} type="button">새로 입력</button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={save}
+                    type="button"
+                  >
+                    오늘의 뉴스 저장
+                  </button>
+
+                  <button
+                    className="btn btn-outline"
+                    onClick={retrySummary}
+                    type="button"
+                    disabled={loading}
+                  >
+                    다시 요약
+                  </button>
+
+                  <button
+                    className="btn btn-secondary"
+                    onClick={resetAll}
+                    type="button"
+                  >
+                    새로 입력
+                  </button>
                 </div>
               )}
             </>

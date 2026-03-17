@@ -134,38 +134,6 @@
   margin-top: 8px;
 }
 
-.summary-detail-button {
-  border: none;
-  border-radius: 10px;
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.summary-detail-button.edit {
-  background: #e0e7ff;
-  color: #4338ca;
-}
-
-.summary-detail-button.edit:hover {
-  background: #c7d2fe;
-}
-
-.summary-detail-button.delete {
-  background: #fee2e2;
-  color: #dc2626;
-}
-
-.summary-detail-button.delete:hover {
-  background: #fecaca;
-}
-
-.summary-detail-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
 
 .summary-detail-memo-section {
   margin-top: 32px;
@@ -218,5 +186,13 @@
   .my-summary-detail-page .term-definition-card p {
     font-size: 14px;
     line-height: 1.7;
+  }
+
+    .summary-detail-actions {
+    flex-direction: column;
+  }
+
+  .summary-detail-actions .btn {
+    width: 100%;
   }
 }

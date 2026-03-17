@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import "@/features/admin/css/AdminPage.css";
+import "@/shared/css/button.css";
 import AdminTodayNewsList from "@/features/admin/components/AdminTodayNewsList";
 import AdminUserList from "@/features/admin/components/AdminUserList";
 
@@ -27,7 +28,11 @@ export default function AdminPage() {
           </div>
 
           <div className="admin-header-actions">
-            <button onClick={logout} className="admin-logout-btn" type="button">
+            <button
+              onClick={logout}
+              className="btn btn-secondary"
+              type="button"
+            >
               로그아웃
             </button>
           </div>
@@ -43,7 +48,7 @@ export default function AdminPage() {
           </div>
         </section>
 
-                <section className="admin-section">
+        <section className="admin-section">
           <div className="admin-section-top">
             <h2>회원 관리</h2>
             <p>가입한 회원 목록과 계정 정보를 확인합니다.</p>

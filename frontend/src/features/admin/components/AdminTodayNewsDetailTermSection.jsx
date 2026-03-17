@@ -1,7 +1,15 @@
 import { Link } from "react-router-dom";
 
-export default function AdminTodayNewsDetailTermSection({linkedTerms,availableTerms,selectedTermId,setSelectedTermId,
-    termLoading,linking,unlinkingId,onLinkTerm,onUnlinkTerm,
+export default function AdminTodayNewsDetailTermSection({
+  linkedTerms,
+  availableTerms,
+  selectedTermId,
+  setSelectedTermId,
+  termLoading,
+  linking,
+  unlinkingId,
+  onLinkTerm,
+  onUnlinkTerm,
 }) {
   return (
     <div className="admin-today-news-term-card">
@@ -13,7 +21,7 @@ export default function AdminTodayNewsDetailTermSection({linkedTerms,availableTe
           </p>
         </div>
 
-        <Link to="/admin/terms" className="admin-today-news-term-manage-link">
+        <Link to="/admin/terms" className="btn btn-outline">
           단어장 관리
         </Link>
       </div>
@@ -36,7 +44,7 @@ export default function AdminTodayNewsDetailTermSection({linkedTerms,availableTe
           type="button"
           onClick={onLinkTerm}
           disabled={linking || availableTerms.length === 0}
-          className="admin-today-news-term-link-btn"
+          className="btn btn-primary"
         >
           {linking ? "연결 중..." : "단어 연결"}
         </button>
@@ -75,7 +83,7 @@ export default function AdminTodayNewsDetailTermSection({linkedTerms,availableTe
                   type="button"
                   onClick={() => onUnlinkTerm(term.id)}
                   disabled={unlinkingId === term.id}
-                  className="admin-today-news-term-unlink-btn"
+                  className="btn btn-danger"
                 >
                   {unlinkingId === term.id ? "해제 중..." : "연결 해제"}
                 </button>

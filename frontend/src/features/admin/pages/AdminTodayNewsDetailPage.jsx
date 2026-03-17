@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/admin/css/AdminTodayNewsDetailPage.css";
+import "@/shared/css/button.css";
 import AdminTodayNewsDetailEditSection from "@/features/admin/components/AdminTodayNewsDetailEditSection";
 import AdminTodayNewsDetailTermSection from "@/features/admin/components/AdminTodayNewsDetailTermSection";
 

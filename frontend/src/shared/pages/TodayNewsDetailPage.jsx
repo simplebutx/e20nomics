@@ -11,8 +11,8 @@ export default function TodayNewsDetailPage() {
   const [summaryText, setSummaryText] = useState("");
   const [createdAt, setCreatedAt] = useState("");
 
-  const [linkedTerms, setLinkedTerms] = useState([]); // 관리자 연결 단어
-  const [myTerms, setMyTerms] = useState([]);         // 내 사전 단어
+  const [linkedTerms, setLinkedTerms] = useState([]);
+  const [myTerms, setMyTerms] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [selectedTerm, setSelectedTerm] = useState(null);
@@ -53,7 +53,6 @@ export default function TodayNewsDetailPage() {
     return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   }
 
-  // 관리자 연결 단어 + 내 단어장 합치기
   const mergedTerms = useMemo(() => {
     const map = new Map();
 
@@ -117,6 +116,41 @@ export default function TodayNewsDetailPage() {
     return summaryText.split(regex);
   }, [summaryText, matchedTerms]);
 
+  function formatDate(dateString) {
+    if (!dateString) return "";
+    return new Date(dateString).toLocaleString("ko-KR");
+  }
+
+  const isAlreadySaved =
+  selectedTerm &&
+  myTerms.some((item) => item.term === selectedTerm.term);
+
+  async function handleSaveMyTerm() {
+  if (!selectedTerm) return;
+
+  try {
+    await api.post("/api/me/terms", {
+      term: selectedTerm.term,
+      definition: selectedTerm.definition,
+    });
+
+    toast.success("내 단어장에 저장했습니다.");
+    await fetchMyTerms();
+
+    setSelectedTerm((prev) =>
+      prev
+        ? {
+            ...prev,
+            source: "both",
+            myDefinition: prev.definition,
+          }
+        : prev
+    );
+  } catch (e) {
+    toast.error(e?.response?.data?.message || "단어 저장에 실패했습니다.");
+  }
+}
+
   if (loading) {
     return (
       <div className="today-news-detail-page">
@@ -133,17 +167,7 @@ export default function TodayNewsDetailPage() {
         <div className="summary-detail-header">
           <span className="summary-detail-badge">오늘의 뉴스</span>
           <h1 className="summary-detail-title">{summaryTitle}</h1>
-          <p className="summary-detail-date">
-            {createdAt
-              ? new Date(createdAt).toLocaleDateString("ko-KR", {
-                  year: "numeric",
-                  month: "2-digit",
-                  day: "2-digit",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })
-              : ""}
-          </p>
+          <p className="summary-detail-date">{formatDate(createdAt)}</p>
         </div>
 
         <div className="summary-detail-divider"></div>
@@ -176,22 +200,31 @@ export default function TodayNewsDetailPage() {
           </p>
 
           {selectedTerm && (
-            <div className="term-definition-card">
+            <div className={`term-definition-card ${selectedTerm.source}`}>
               <h3>{selectedTerm.term}</h3>
 
               {selectedTerm.source === "linked" && (
-                <>
-                  <p>{selectedTerm.definition}</p>
-                  <small className="term-source-label">
-                    오늘의 뉴스 연결 단어
-                  </small>
-                </>
-              )}
+  <>
+    <p>{selectedTerm.definition}</p>
+    <small className="term-source-label">출처 · 오늘의 뉴스</small>
+
+    <div className="term-card-action">
+      <button
+        type="button"
+        className="term-save-button"
+        onClick={handleSaveMyTerm}
+        disabled={isAlreadySaved}
+      >
+        {isAlreadySaved ? "이미 저장됨" : "내 단어장에 저장"}
+      </button>
+    </div>
+  </>
+)}
 
               {selectedTerm.source === "my" && (
                 <>
                   <p>{selectedTerm.definition}</p>
-                  <small className="term-source-label">내 단어장</small>
+                  <small className="term-source-label">출처 - 내 단어장</small>
                 </>
               )}
 
@@ -206,7 +239,7 @@ export default function TodayNewsDetailPage() {
                     {selectedTerm.myDefinition}
                   </p>
                   <small className="term-source-label">
-                    오늘의 뉴스 + 내 단어장
+                    출처 - 오늘의 뉴스 + 내 단어장
                   </small>
                 </>
               )}

@@ -109,6 +109,10 @@ export default function AdminTermCreate({ onCreated }) {
     }
   }
 
+  function getTabButtonClass(tab) {
+    return activeTab === tab ? "btn btn-primary" : "btn btn-outline";
+  }
+
   return (
     <div className="admin-term-create-card">
       <h2 className="admin-term-create-title">관리자 단어 등록</h2>
@@ -116,14 +120,15 @@ export default function AdminTermCreate({ onCreated }) {
       <div className="admin-term-tab-row">
         <button
           type="button"
-          className={`admin-term-tab-btn ${activeTab === "ai" ? "active" : ""}`}
+          className={getTabButtonClass("ai")}
           onClick={() => setActiveTab("ai")}
         >
           AI로 등록
         </button>
+
         <button
           type="button"
-          className={`admin-term-tab-btn ${activeTab === "manual" ? "active" : ""}`}
+          className={getTabButtonClass("manual")}
           onClick={() => setActiveTab("manual")}
         >
           직접 등록
@@ -157,7 +162,7 @@ export default function AdminTermCreate({ onCreated }) {
             <button
               type="submit"
               disabled={aiLoading}
-              className="admin-term-create-btn"
+              className="btn btn-primary"
             >
               {aiLoading ? "생성 중..." : "AI 생성"}
             </button>
@@ -165,7 +170,7 @@ export default function AdminTermCreate({ onCreated }) {
             <button
               type="button"
               disabled={!aiCanSave || aiSaving}
-              className="admin-term-create-btn secondary"
+              className="btn btn-secondary"
               onClick={handleAiSave}
             >
               {aiSaving ? "저장 중..." : "바로 저장"}
@@ -201,7 +206,7 @@ export default function AdminTermCreate({ onCreated }) {
             <button
               type="submit"
               disabled={saving}
-              className="admin-term-create-btn"
+              className="btn btn-primary"
             >
               {saving ? "등록 중..." : "단어 등록"}
             </button>

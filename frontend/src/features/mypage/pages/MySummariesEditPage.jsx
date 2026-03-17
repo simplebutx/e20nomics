@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/mypage/css/MySummariesEditPage.css";
+import "@/shared/css/button.css";
 
 export default function MySummariesEditPage() {
   const { id } = useParams();
@@ -145,7 +146,7 @@ export default function MySummariesEditPage() {
           <div className="summary-edit-actions">
             <button
               type="submit"
-              className="summary-edit-button save"
+              className="btn btn-primary"
               disabled={saving}
             >
               {saving ? "저장 중..." : "저장"}
@@ -153,7 +154,7 @@ export default function MySummariesEditPage() {
 
             <button
               type="button"
-              className="summary-edit-button cancel"
+              className="btn btn-secondary"
               onClick={handleCancel}
               disabled={saving}
             >

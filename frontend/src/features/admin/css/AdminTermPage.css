@@ -112,37 +112,6 @@
   flex-wrap: wrap;
 }
 
-.admin-term-create-btn,
-.admin-term-detail-btn {
-  height: 46px;
-  padding: 0 18px;
-  border: none;
-  border-radius: 14px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.admin-term-create-btn {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  color: #fff;
-}
-
-.admin-term-detail-btn.edit {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  color: white;
-}
-
-.admin-term-detail-btn.delete {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-  color: white;
-}
-
-.admin-term-detail-btn.list {
-  background: #e5e7eb;
-  color: #111827;
-}
-
 .admin-term-list-top {
   display: flex;
   justify-content: space-between;
@@ -238,41 +207,7 @@
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
-}
-
-.admin-term-tab-btn {
-  border: 1px solid #cbd5e1;
-  background: #f8fafc;
-  color: #334155;
-  padding: 10px 18px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.admin-term-tab-btn:hover {
-  background: #eef2ff;
-  border-color: #a5b4fc;
-}
-
-.admin-term-tab-btn.active {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  color: #fff;
-  border-color: transparent;
-}
-
-.admin-term-create-btn.secondary {
-  background: #eef2ff;
-  color: #3730a3;
-  border: 1px solid #c7d2fe;
-}
-
-.admin-term-create-btn:disabled,
-.admin-term-create-btn.secondary:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  flex-wrap: wrap;
 }
 
 @media (max-width: 768px) {
@@ -296,8 +231,9 @@
     flex-direction: column;
   }
 
-  .admin-term-create-btn,
-  .admin-term-detail-btn {
+  .admin-term-create-actions .btn,
+  .admin-term-detail-actions .btn,
+  .admin-term-tab-row .btn {
     width: 100%;
   }
 }

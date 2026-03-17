@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/mypage/css/MyPage.css";
+import "@/shared/css/button.css";
 
 export default function MyPage() {
-  
   const [user, setUser] = useState(null);
   const nav = useNavigate();
 
@@ -25,8 +25,9 @@ export default function MyPage() {
     if (!token) {
       toast("로그인 후 이용 가능합니다.");
       nav("/login");
+    } else {
+      fetchMyPage();
     }
-    else fetchMyPage();
   }, []);
 
   function logout() {
@@ -132,10 +133,10 @@ export default function MyPage() {
           <h2 className="mypage-section-title">계정 관리</h2>
 
           <div className="account-actions">
-            <button className="logout-btn" onClick={logout} type="button">
+            <button className="btn btn-secondary" onClick={logout} type="button">
               로그아웃
             </button>
-            <button className="withdraw-btn" onClick={withdraw} type="button">
+            <button className="btn btn-danger" onClick={withdraw} type="button">
               회원탈퇴
             </button>
           </div>

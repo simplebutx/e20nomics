@@ -1,5 +1,17 @@
-export default function AdminTodayNewsDetailEditSection({summaryTitle,summaryText,isPublished,createdAt,saving,deleting,
-  setSummaryTitle,setSummaryText,onUpdate,onDelete,onTogglePublished,onGoList,formatDate,
+export default function AdminTodayNewsDetailEditSection({
+  summaryTitle,
+  summaryText,
+  isPublished,
+  createdAt,
+  saving,
+  deleting,
+  setSummaryTitle,
+  setSummaryText,
+  onUpdate,
+  onDelete,
+  onTogglePublished,
+  onGoList,
+  formatDate,
 }) {
   return (
     <div className="admin-today-news-detail-card">
@@ -46,7 +58,7 @@ export default function AdminTodayNewsDetailEditSection({summaryTitle,summaryTex
           type="button"
           onClick={onUpdate}
           disabled={saving}
-          className="admin-today-news-detail-btn edit"
+          className="btn btn-primary"
         >
           {saving ? "수정 중..." : "수정하기"}
         </button>
@@ -55,7 +67,7 @@ export default function AdminTodayNewsDetailEditSection({summaryTitle,summaryTex
           type="button"
           onClick={onDelete}
           disabled={deleting}
-          className="admin-today-news-detail-btn delete"
+          className="btn btn-danger"
         >
           {deleting ? "삭제 중..." : "삭제하기"}
         </button>
@@ -63,7 +75,7 @@ export default function AdminTodayNewsDetailEditSection({summaryTitle,summaryTex
         <button
           type="button"
           onClick={onGoList}
-          className="admin-today-news-detail-btn list"
+          className="btn btn-secondary"
         >
           목록으로
         </button>
@@ -71,7 +83,7 @@ export default function AdminTodayNewsDetailEditSection({summaryTitle,summaryTex
         <button
           type="button"
           onClick={onTogglePublished}
-          className="admin-today-news-detail-btn publish"
+          className="btn btn-outline"
         >
           {isPublished ? "게시 취소로 변경" : "공개 게시로 변경"}
         </button>

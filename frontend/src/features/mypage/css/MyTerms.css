@@ -89,22 +89,6 @@
   min-height: 110px;
 }
 
-.term-submit-btn {
-  align-self: flex-start;
-  border: none;
-  border-radius: 14px;
-  padding: 12px 18px;
-  background: #1d4ed8;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.term-submit-btn:hover {
-  background: #1e40af;
-}
 
 .term-list-section {
   margin-top: 8px;
@@ -199,28 +183,12 @@
   margin-bottom: 20px;
 }
 
-.term-tab-btn {
-  border: 1px solid #cbd5e1;
-  background: #f8fafc;
-  color: #334155;
-  padding: 10px 18px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
+.term-btn-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.term-tab-btn:hover {
-  background: #eef2ff;
-  border-color: #a5b4fc;
-}
-
-.term-tab-btn.active {
-  background: #2f5bea;
-  color: white;
-  border-color: #2f5bea;
-}
 
 @media (max-width: 768px) {
   .my-terms-page {
@@ -237,7 +205,17 @@
     border-radius: 16px;
   }
 
-  .term-submit-btn {
+   .term-tab-row {
+    flex-direction: column;
+  }
+
+  .term-tab-row .btn,
+  .term-btn-row .btn,
+  .term-form > .btn {
+    width: 100%;
+  }
+
+    .term-btn-row .btn {
     width: 100%;
   }
 

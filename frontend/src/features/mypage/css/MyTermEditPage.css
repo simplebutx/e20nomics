@@ -85,39 +85,6 @@
   margin-top: 16px;
 }
 
-.my-terms-submit-btn,
-.my-terms-cancel-btn {
-  border: none;
-  border-radius: 14px;
-  padding: 14px 20px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.my-terms-submit-btn {
-  background: #3157d5;
-  color: #ffffff;
-}
-
-.my-terms-submit-btn:hover {
-  background: #2647b8;
-}
-
-.my-terms-submit-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.my-terms-cancel-btn {
-  background: #e5e7eb;
-  color: #111827;
-}
-
-.my-terms-cancel-btn:hover {
-  background: #d1d5db;
-}
-
 .my-terms-loading {
   min-height: 100vh;
   display: flex;
@@ -125,4 +92,14 @@
   align-items: center;
   font-size: 16px;
   color: #64748b;
+}
+
+@media (max-width: 640px) {
+  .my-terms-form-actions {
+    flex-direction: column;
+  }
+
+  .my-terms-form-actions .btn {
+    width: 100%;
+  }
 }

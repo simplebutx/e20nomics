@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/mypage/css/MyTermEditPage.css";
+import "@/shared/css/button.css";
 
 export default function MyTermEditPage() {
   const { id } = useParams();
@@ -46,8 +47,6 @@ export default function MyTermEditPage() {
 
       toast.success("단어를 수정했습니다.");
       nav("/terms");
-      // 상세페이지로 보내고 싶으면 아래로 바꾸면 됨
-      // nav(`/my-terms/${id}`);
     } catch (err) {
       toast.error(err?.response?.data?.message || "단어 수정 실패");
     } finally {
@@ -91,13 +90,17 @@ export default function MyTermEditPage() {
           />
 
           <div className="my-terms-form-actions">
-            <button type="submit" className="my-terms-submit-btn" disabled={loading}>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={loading}
+            >
               {loading ? "수정 중..." : "수정하기"}
             </button>
 
             <button
               type="button"
-              className="my-terms-cancel-btn"
+              className="btn btn-secondary"
               onClick={() => nav(-1)}
               disabled={loading}
             >

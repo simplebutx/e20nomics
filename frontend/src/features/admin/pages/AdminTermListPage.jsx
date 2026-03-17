@@ -4,6 +4,7 @@ import api from "@/api";
 import toast from "react-hot-toast";
 import AdminTermCreate from "@/features/admin/components/AdminTermCreate";
 import "@/features/admin/css/AdminTermPage.css";
+import "@/shared/css/button.css";
 
 export default function AdminTermListPage() {
   const [terms, setTerms] = useState([]);

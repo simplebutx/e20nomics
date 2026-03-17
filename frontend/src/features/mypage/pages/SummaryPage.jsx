@@ -1,13 +1,14 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import api from "@/api";
 import toast from "react-hot-toast";
 import "@/features/mypage/css/SummaryPage.css";
+import "@/shared/css/button.css";
 
 export default function SummaryPage() {
   const [text, setText] = useState("");
   const [summaryTitle, setSummaryTitle] = useState("");
   const [summaryText, setSummaryText] = useState("");
-  
+
   const [loading, setLoading] = useState(false);
   const [canSave, setCanSave] = useState(false);
 
@@ -91,11 +92,21 @@ export default function SummaryPage() {
           />
 
           <div className="summary-input-actions">
-            <button className="primary-btn" onClick={submit} disabled={loading} type="button">
+            <button
+              className="btn btn-primary"
+              onClick={submit}
+              disabled={loading}
+              type="button"
+            >
               {loading ? "요약 중..." : "요약하기"}
             </button>
 
-            <button className="ghost-btn" onClick={resetAll} type="button" disabled={loading && !text}>
+            <button
+              className="btn btn-secondary"
+              onClick={resetAll}
+              type="button"
+              disabled={loading && !text}
+            >
               초기화
             </button>
           </div>
@@ -117,9 +128,24 @@ export default function SummaryPage() {
 
               {canSave && (
                 <div className="summary-result-actions">
-                  <button className="primary-btn" onClick={save} type="button">저장</button>
-                  <button className="outline-btn" onClick={retrySummary} type="button" disabled={loading}>다시 요약</button>
-                  <button className="ghost-btn" onClick={resetAll} type="button">새로 입력</button>
+                  <button className="btn btn-primary" onClick={save} type="button">
+                    저장
+                  </button>
+                  <button
+                    className="btn btn-outline"
+                    onClick={retrySummary}
+                    type="button"
+                    disabled={loading}
+                  >
+                    다시 요약
+                  </button>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={resetAll}
+                    type="button"
+                  >
+                    새로 입력
+                  </button>
                 </div>
               )}
             </>

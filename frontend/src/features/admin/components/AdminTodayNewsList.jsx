@@ -3,6 +3,7 @@ import api from "@/api";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import "@/features/admin/css/AdminTodayNewsList.css";
+import "@/shared/css/button.css";
 
 export default function AdminTodayNewsList() {
   const [announcements, setAnnouncements] = useState([]);
@@ -48,6 +49,10 @@ export default function AdminTodayNewsList() {
     });
   }
 
+  function getFilterButtonClass(type) {
+    return filter === type ? "btn btn-primary" : "btn btn-outline";
+  }
+
   return (
     <div className="admin-news-list-page">
       <div className="admin-news-list-container">
@@ -63,21 +68,23 @@ export default function AdminTodayNewsList() {
         <div className="admin-news-list-filters">
           <button
             type="button"
-            className={`admin-news-filter-btn ${filter === "all" ? "active" : ""}`}
+            className={getFilterButtonClass("all")}
             onClick={() => setFilter("all")}
           >
             전체
           </button>
+
           <button
             type="button"
-            className={`admin-news-filter-btn ${filter === "published" ? "active" : ""}`}
+            className={getFilterButtonClass("published")}
             onClick={() => setFilter("published")}
           >
             공개 게시물
           </button>
+
           <button
             type="button"
-            className={`admin-news-filter-btn ${filter === "unpublished" ? "active" : ""}`}
+            className={getFilterButtonClass("unpublished")}
             onClick={() => setFilter("unpublished")}
           >
             비공개 게시물
