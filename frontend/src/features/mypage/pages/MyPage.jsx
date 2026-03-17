@@ -64,39 +64,41 @@ export default function MyPage() {
   return (
     <div className="mypage-page">
       <div className="mypage-container">
-        <header className="mypage-header">
-          <p className="mypage-label">My Account</p>
-          <h1>마이페이지</h1>
-          <p className="mypage-desc">
-            내 정보와 저장한 콘텐츠를 한 곳에서 관리해보세요.
-          </p>
-        </header>
+        <section className="mypage-top-section">
+          <header className="mypage-header">
+            <p className="mypage-label">My Account</p>
+            <h1>마이페이지</h1>
+            <p className="mypage-desc">
+              내 정보와 저장한 콘텐츠를 한 곳에서 관리해보세요.
+            </p>
+          </header>
 
-        <section className="profile-card">
-          <div className="profile-top">
-            <div>
-              <p className="profile-subtitle">내 정보</p>
-              <h2 className="profile-name">{user.displayName || user.userName}</h2>
-            </div>
-            <span className="profile-badge">회원</span>
-          </div>
-
-          <div className="profile-info-list">
-            <div className="profile-info-item">
-              <span className="profile-info-label">이메일</span>
-              <p>{user.email}</p>
+          <section className="profile-card">
+            <div className="profile-top">
+              <div>
+                <p className="profile-subtitle">내 정보</p>
+                <h2 className="profile-name">{user.displayName || user.userName}</h2>
+              </div>
+              <span className="profile-badge">회원</span>
             </div>
 
-            <div className="profile-info-item">
-              <span className="profile-info-label">이름</span>
-              <p>{user.userName}</p>
-            </div>
+            <div className="profile-info-list">
+              <div className="profile-info-row">
+                <span className="profile-info-label">이메일</span>
+                <p>{user.email}</p>
+              </div>
 
-            <div className="profile-info-item">
-              <span className="profile-info-label">별명</span>
-              <p>{user.displayName}</p>
+              <div className="profile-info-row">
+                <span className="profile-info-label">이름</span>
+                <p>{user.userName}</p>
+              </div>
+
+              <div className="profile-info-row">
+                <span className="profile-info-label">권한</span>
+                <p>회원</p>
+              </div>
             </div>
-          </div>
+          </section>
         </section>
 
         <section className="mypage-menu-section">
