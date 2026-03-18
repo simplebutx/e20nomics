@@ -22,6 +22,7 @@ import MySummaries from '@/features/mypage/pages/MySummaries';
 import MySummariesDetailPage from '@/features/mypage/pages/MySummariesDetailPage';
 import MyTermEditPage from '@/features/mypage/pages/MyTermEditPage';
 import MySummariesEditPage from '@/features/mypage/pages/MySummariesEditPage';
+import MyPreferencePage from './features/mypage/pages/MyPreferencePage';
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
       <Route path="/summaries" element={<MySummaries />} />
       <Route path="/summaries/:id" element={<MySummariesDetailPage />} />
       <Route path="/summaries/:id/edit" element={<MySummariesEditPage />} />
+      <Route path="/me/preferences" element={<MyPreferencePage />} />
       </Routes>
     </>
   )

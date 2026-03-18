@@ -22,9 +22,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
     private LocalDateTime createdAt;
-    private String summaryLevel;
-    private String summaryStyle;
-    private String summaryLength;
 
     public User(String email, String password, String userName) {
         this.email = email;

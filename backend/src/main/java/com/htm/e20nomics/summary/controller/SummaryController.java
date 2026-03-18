@@ -22,8 +22,8 @@ public class SummaryController {
     private final SummaryService summaryService;
 
     @PostMapping("/api/summaries/generate")
-    public SummaryGenerateResponse summarize(@Valid @RequestBody SummaryGenerateRequest request) {
-        return summaryService.summarize(request.getText());
+    public SummaryGenerateResponse summarize(@Valid @RequestBody SummaryGenerateRequest request, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return summaryService.summarize(request.getText(), userDetails.getUserId());
     }
     // controller -> service -> OpenAiChatClient(OpenAI API와 통신) -> service -> controller
 

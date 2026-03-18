@@ -19,8 +19,8 @@ public class MyTermController {
 
     // 단어 정의 ai 생성
     @PostMapping("/api/me/terms/generate")
-    public MyTermGenerateResponse generateTerm(@RequestBody MyTermGenerateRequest dto) {
-        return myTermsService.generateTerm(dto.getTerm());
+    public MyTermGenerateResponse generateTerm(@RequestBody MyTermGenerateRequest dto, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return myTermsService.generateTerm(dto.getTerm(), userDetails.getUserId());
     }
 
     // 단어 추가하기

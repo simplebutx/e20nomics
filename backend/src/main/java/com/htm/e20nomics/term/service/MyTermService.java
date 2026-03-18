@@ -11,6 +11,10 @@ import com.htm.e20nomics.term.repository.MyTermRepository;
 import com.htm.e20nomics.user.domain.User;
 import com.htm.e20nomics.term.dto.MyTermDetailResponse;
 import com.htm.e20nomics.term.dto.MyTermUpdateRequest;
+import com.htm.e20nomics.user.domain.UserPreference;
+import com.htm.e20nomics.user.enums.TermDifficulty;
+import com.htm.e20nomics.user.enums.TermLength;
+import com.htm.e20nomics.user.repository.UserPreferenceRepository;
 import com.htm.e20nomics.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,8 +30,9 @@ public class MyTermService {
     private final OpenAiChatClient openAiChatClient;
     private final MyTermRepository myTermRepository;
     private final UserRepository userRepository;
+    private final UserPreferenceRepository userPreferenceRepository;
 
-    public MyTermGenerateResponse generateTerm(String text) {
+    public MyTermGenerateResponse generateTerm(String text, Long userId) {
         if (!StringUtils.hasText(text)) {
             return new MyTermGenerateResponse("", "단어를 입력하세요.", false);
         }
@@ -38,15 +43,43 @@ public class MyTermService {
             return new MyTermGenerateResponse(term, "경제와 관련된 용어가 아닙니다.", false);
         }
 
-        String prompt = """
-            너는 경제 용어를 쉽게 설명하는 도우미다.
-            사용자가 입력한 용어를 초보자도 이해할 수 있게 한국어로 간단하고 정확하게 정의해라.
-            설명은 2~3문장 이내로 작성하고, 너무 어려운 전문용어는 피하라.
-            입력한 용어 자체를 그대로 반복하기보다 의미를 자연스럽게 설명하라.
-            불필요한 인사말, 제목, 번호, 목록 없이 정의 내용만 출력하라.
+        UserPreference userPreference = userPreferenceRepository.findByUserId(userId);
+        if (userPreference == null) {
+            return new MyTermGenerateResponse("", "사용자 선호도 설정을 찾을 수 없습니다.", false);
+        }
+        TermLength termLength = userPreference.getTermLength();
+        TermDifficulty termDifficulty = userPreference.getTermDifficulty();
+        boolean includeExample = userPreference.isIncludeExample();
+        boolean includeRelatedConcept = userPreference.isIncludeRelatedConcept();
+        String examplePrompt = includeExample ? "예시를 포함" : "예시는 제외";
+        String relatedPrompt = includeRelatedConcept ? "유사하거나 헷갈리기 쉬운 개념도 함께 설명" : "유사 개념은 제외";
 
-            용어: %s
-            """.formatted(term);
+        String prompt = """
+        너는 경제 용어를 설명하는 도우미다.
+        사용자가 입력한 용어를 한국어로 정확하고 이해하기 쉽게 설명하라.
+
+        사용자 설정:
+        - 설명 길이: %s
+        - 설명 난이도: %s
+        - 예시 포함: %s
+        - 유사 개념 포함: %s
+
+        규칙:
+        - 입력한 용어의 의미를 자연스럽게 설명하라.
+        - 불필요한 인사말, 제목, 번호, 목록은 쓰지 마라.
+        - 설정된 길이와 난이도를 반영하라.
+        - 없는 내용을 추측하지 마라.
+        - 설명 내용만 출력하라.
+
+        용어:
+        %s
+        """.formatted(
+                termLength.getPromptValue(),
+                termDifficulty.getPromptValue(),
+                examplePrompt,
+                relatedPrompt,
+                term
+        );
 
         try {
             String result = openAiChatClient.summarizeWithChatCompletions(prompt);

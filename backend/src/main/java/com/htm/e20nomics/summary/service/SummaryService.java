@@ -11,6 +11,12 @@ import com.htm.e20nomics.user.domain.User;
 import com.htm.e20nomics.summary.dto.SummariesResponse;
 import com.htm.e20nomics.summary.dto.SummaryDetailResponse;
 import com.htm.e20nomics.summary.dto.SummaryUpdateRequest;
+import com.htm.e20nomics.user.domain.UserPreference;
+import com.htm.e20nomics.user.enums.SummaryDifficulty;
+import com.htm.e20nomics.user.enums.SummaryExplainStyle;
+import com.htm.e20nomics.user.enums.SummaryFormat;
+import com.htm.e20nomics.user.enums.SummaryLength;
+import com.htm.e20nomics.user.repository.UserPreferenceRepository;
 import com.htm.e20nomics.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,9 +35,10 @@ public class SummaryService {
     private final OpenAiChatClient openAiChatClient;
     private final SummaryRepository summaryRepository;
     private final UserRepository userRepository;
+    private final UserPreferenceRepository userPreferenceRepository;
 
-    @Transactional
-    public SummaryGenerateResponse summarize(String text) {
+    public SummaryGenerateResponse summarize(String text, Long userId) {
+
         if (!StringUtils.hasText(text)) {    // null, 공백, 길이를 모두 한번에 체크
             return new SummaryGenerateResponse("", "요약할 텍스트가 비어있습니다.", false);
         }
@@ -39,26 +46,44 @@ public class SummaryService {
             return new SummaryGenerateResponse("", "경제 뉴스가 아니므로 요약할 수 없습니다.", false);
         }
 
+        UserPreference userPreference = userPreferenceRepository.findByUserId(userId);
+        if (userPreference == null) {
+            return new SummaryGenerateResponse("", "사용자 선호도 설정을 찾을 수 없습니다.", false);
+        }
+        SummaryLength summaryLength = userPreference.getSummaryLength();
+        SummaryDifficulty summaryDifficulty = userPreference.getSummaryDifficulty();
+        SummaryFormat summaryFormat = userPreference.getSummaryFormat();
+        SummaryExplainStyle summaryExplainStyle = userPreference.getSummaryExplainStyle();
         // + 유저가 저장한 preference를 조회해서 prompt에 스타일 반영
 
         String prompt = """
-                다음 텍스트를 바탕으로 제목과 요약을 생성해줘.
-                
-                규칙:
-                - 추측하지 말고 주어진 내용만 사용
-                - 제목은 짧고 자연스럽게
-                - 요약은 한국어 3줄
-                - 반드시 아래 JSON 형식으로만 반환
-                - 다른 설명은 절대 하지 말 것
-                
-                {
-                  "title": "...",
-                  "summary": "..."
-                }
-                
-                텍스트:
-                %s
-                """.formatted(text);
+        주어진 텍스트만 사용해 제목과 요약을 생성하라.
+        없는 내용을 추측하거나 추가하지 마라.
+
+        사용자 설정:
+        - 길이: %s
+        - 난이도: %s
+        - 형식: %s
+        - 설명 방식: %s
+
+        위 설정을 반영해 제목과 요약을 작성하라.
+        제목은 짧고 자연스럽게 작성하라.
+        출력은 반드시 아래 JSON만 반환하라.
+
+        {
+          "title": "...",
+          "summary": "..."
+        }
+
+        텍스트:
+        %s
+        """.formatted(
+                summaryLength.getPromptValue(),
+                summaryDifficulty.getPromptValue(),
+                summaryFormat.getPromptValue(),
+                summaryExplainStyle.getPromptValue(),
+                text
+        );
 
         String result = openAiChatClient.summarizeWithChatCompletions(prompt);
 
@@ -83,7 +108,7 @@ public class SummaryService {
         }
     }
 
-    @Transactional
+
     // 경제뉴스 여부 검사
     private boolean isEconomicNews(String text) {
         String prompt = """
@@ -100,6 +125,9 @@ public class SummaryService {
         String result = openAiChatClient.summarizeWithChatCompletions(prompt);
         return "YES".equalsIgnoreCase(result.trim());   // yes가 들어있으면 true, no면 false 반환
     }
+
+
+
 
     @Transactional  // 개인 뉴스 저장
     public void saveSummary(SummaryCreateRequest dto, Long userId) {

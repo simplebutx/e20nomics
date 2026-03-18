@@ -1,0 +1,102 @@
+.preference-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef4ff 100%);
+  padding: 48px 20px;
+  box-sizing: border-box;
+}
+
+.preference-form {
+  max-width: 920px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 28px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+  padding: 36px 32px;
+  box-sizing: border-box;
+}
+
+.preference-title {
+  margin: 0 0 28px;
+  font-size: 32px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+.preference-section + .preference-section {
+  margin-top: 36px;
+}
+
+.preference-section {
+  padding: 24px;
+  border: 1px solid #eef2f7;
+  border-radius: 22px;
+  background: #fcfdff;
+}
+
+.section-title {
+  margin: 0 0 24px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+.option-group + .option-group {
+  margin-top: 24px;
+}
+
+.option-label {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.option-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.preference-form input[type="radio"],
+.preference-form input[type="checkbox"] {
+  display: none;
+}
+
+.submit-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 28px;
+}
+
+.submit-row .btn {
+  min-width: 110px;
+}
+
+@media (max-width: 768px) {
+  .preference-page {
+    padding: 24px 14px;
+  }
+
+  .preference-form {
+    padding: 24px 18px;
+    border-radius: 22px;
+  }
+
+  .preference-title {
+    font-size: 26px;
+  }
+
+  .preference-section {
+    padding: 18px;
+  }
+
+  .submit-row {
+    justify-content: stretch;
+  }
+
+  .submit-row .btn {
+    width: 100%;
+  }
+}
