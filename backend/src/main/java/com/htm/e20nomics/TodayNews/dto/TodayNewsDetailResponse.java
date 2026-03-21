@@ -1,4 +1,4 @@
-package com.htm.e20nomics.TodayNews.dto;
+package com.htm.e20nomics.todaynews.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,9 +1,9 @@
-package com.htm.e20nomics.TodayNews.controller;
+package com.htm.e20nomics.todaynews.controller;
 
-import com.htm.e20nomics.TodayNews.dto.TodayNewsTermRequest;
-import com.htm.e20nomics.TodayNews.service.AdminTodayNewsService;
-import com.htm.e20nomics.TodayNews.service.AdminTodayNewsTermService;
-import com.htm.e20nomics.TodayNews.service.TodayNewsService;
+import com.htm.e20nomics.todaynews.dto.TodayNewsTermRequest;
+import com.htm.e20nomics.todaynews.service.AdminTodayNewsService;
+import com.htm.e20nomics.todaynews.service.AdminTodayNewsTermService;
+import com.htm.e20nomics.todaynews.service.TodayNewsService;
 import com.htm.e20nomics.term.dto.AdminTermResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

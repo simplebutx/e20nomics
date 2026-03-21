@@ -15,7 +15,7 @@ public class UserPreference {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
     @Enumerated(EnumType.STRING)
@@ -44,6 +44,26 @@ public class UserPreference {
                           SummaryFormat summaryFormat, SummaryExplainStyle summaryExplainStyle, TermLength termLength, TermDifficulty termDifficulty,
                           boolean includeExample, boolean includeRelatedConcept) {
         this.user = user;
+        this.summaryLength = summaryLength;
+        this.summaryDifficulty = summaryDifficulty;
+        this.summaryFormat = summaryFormat;
+        this.summaryExplainStyle = summaryExplainStyle;
+        this.termLength = termLength;
+        this.termDifficulty = termDifficulty;
+        this.includeExample = includeExample;
+        this.includeRelatedConcept = includeRelatedConcept;
+    }
+
+    public void update(
+            SummaryLength summaryLength,
+            SummaryDifficulty summaryDifficulty,
+            SummaryFormat summaryFormat,
+            SummaryExplainStyle summaryExplainStyle,
+            TermLength termLength,
+            TermDifficulty termDifficulty,
+            boolean includeExample,
+            boolean includeRelatedConcept
+    ) {
         this.summaryLength = summaryLength;
         this.summaryDifficulty = summaryDifficulty;
         this.summaryFormat = summaryFormat;

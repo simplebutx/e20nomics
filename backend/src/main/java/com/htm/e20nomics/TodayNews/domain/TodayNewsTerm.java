@@ -1,4 +1,4 @@
-package com.htm.e20nomics.TodayNews.domain;
+package com.htm.e20nomics.todaynews.domain;
 
 import com.htm.e20nomics.term.domain.AdminTerm;
 import jakarta.persistence.*;

@@ -1,8 +1,8 @@
-package com.htm.e20nomics.TodayNews.service;
+package com.htm.e20nomics.todaynews.service;
 
-import com.htm.e20nomics.TodayNews.domain.TodayNews;
-import com.htm.e20nomics.TodayNews.dto.*;
-import com.htm.e20nomics.TodayNews.repository.TodayNewsRepository;
+import com.htm.e20nomics.todaynews.domain.TodayNews;
+import com.htm.e20nomics.todaynews.dto.*;
+import com.htm.e20nomics.todaynews.repository.TodayNewsRepository;
 import com.htm.e20nomics.global.exception.TodayNewsNotFoundException;
 import com.htm.e20nomics.global.client.OpenAiChatClient;
 import lombok.RequiredArgsConstructor;

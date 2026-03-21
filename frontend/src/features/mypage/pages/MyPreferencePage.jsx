@@ -61,8 +61,8 @@ export default function MyPreferencePage() {
     e.preventDefault();
 
     try {
-      await api.post("/api/me/preferences", form);
-      toast.success("수정되었습니다.");
+      await api.put("/api/me/preferences", form);
+      toast.success("나의 선호도 설정이 업데이트 되었습니다.");
     } catch (err) {
       toast.error(err?.response?.data?.message || "수정에 실패했습니다.");
     }

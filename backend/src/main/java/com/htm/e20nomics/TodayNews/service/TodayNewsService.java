@@ -1,10 +1,10 @@
-package com.htm.e20nomics.TodayNews.service;
+package com.htm.e20nomics.todaynews.service;
 
-import com.htm.e20nomics.TodayNews.domain.TodayNews;
-import com.htm.e20nomics.TodayNews.domain.TodayNewsTerm;
-import com.htm.e20nomics.TodayNews.dto.*;
-import com.htm.e20nomics.TodayNews.repository.TodayNewsRepository;
-import com.htm.e20nomics.TodayNews.repository.TodayNewsTermRepository;
+import com.htm.e20nomics.todaynews.domain.TodayNews;
+import com.htm.e20nomics.todaynews.domain.TodayNewsTerm;
+import com.htm.e20nomics.todaynews.dto.*;
+import com.htm.e20nomics.todaynews.repository.TodayNewsRepository;
+import com.htm.e20nomics.todaynews.repository.TodayNewsTermRepository;
 import com.htm.e20nomics.global.exception.SummaryNotFoundException;
 import com.htm.e20nomics.global.exception.TodayNewsNotFoundException;
 import lombok.RequiredArgsConstructor;

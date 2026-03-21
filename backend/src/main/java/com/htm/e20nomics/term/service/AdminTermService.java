@@ -1,6 +1,6 @@
 package com.htm.e20nomics.term.service;
 
-import com.htm.e20nomics.TodayNews.repository.TodayNewsTermRepository;
+import com.htm.e20nomics.todaynews.repository.TodayNewsTermRepository;
 import com.htm.e20nomics.global.client.OpenAiChatClient;
 import com.htm.e20nomics.global.exception.AdminTermNotFoundException;
 import com.htm.e20nomics.global.exception.DuplicateAdminTermException;

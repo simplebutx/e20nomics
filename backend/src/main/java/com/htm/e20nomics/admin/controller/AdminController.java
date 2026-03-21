@@ -1,6 +1,6 @@
 package com.htm.e20nomics.admin.controller;
 
-import com.htm.e20nomics.TodayNews.dto.*;
+import com.htm.e20nomics.todaynews.dto.*;
 import com.htm.e20nomics.admin.dto.AdminUserListResponse;
 import com.htm.e20nomics.admin.service.AdminService;
 import lombok.RequiredArgsConstructor;

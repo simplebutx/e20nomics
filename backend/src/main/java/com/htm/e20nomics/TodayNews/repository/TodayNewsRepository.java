@@ -1,6 +1,6 @@
-package com.htm.e20nomics.TodayNews.repository;
+package com.htm.e20nomics.todaynews.repository;
 
-import com.htm.e20nomics.TodayNews.domain.TodayNews;
+import com.htm.e20nomics.todaynews.domain.TodayNews;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

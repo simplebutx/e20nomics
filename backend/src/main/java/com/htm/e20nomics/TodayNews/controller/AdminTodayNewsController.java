@@ -1,8 +1,8 @@
-package com.htm.e20nomics.TodayNews.controller;
+package com.htm.e20nomics.todaynews.controller;
 
 
-import com.htm.e20nomics.TodayNews.dto.*;
-import com.htm.e20nomics.TodayNews.service.AdminTodayNewsService;
+import com.htm.e20nomics.todaynews.dto.*;
+import com.htm.e20nomics.todaynews.service.AdminTodayNewsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

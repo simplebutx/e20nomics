@@ -1,8 +1,8 @@
-package com.htm.e20nomics.TodayNews.controller;
+package com.htm.e20nomics.todaynews.controller;
 
-import com.htm.e20nomics.TodayNews.dto.TodayNewsDetailResponse;
-import com.htm.e20nomics.TodayNews.dto.TodayNewsResponse;
-import com.htm.e20nomics.TodayNews.service.TodayNewsService;
+import com.htm.e20nomics.todaynews.dto.TodayNewsDetailResponse;
+import com.htm.e20nomics.todaynews.dto.TodayNewsResponse;
+import com.htm.e20nomics.todaynews.service.TodayNewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

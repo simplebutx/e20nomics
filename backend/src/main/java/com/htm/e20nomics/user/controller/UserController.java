@@ -21,9 +21,9 @@ public class UserController {
         return new MyPageResponse(userDetails.getUsername(), userDetails.getName());
     }
 
-    @PostMapping("/api/me/preferences")
+    @PutMapping("/api/me/preferences")
     public ResponseEntity<Void> savePreference(@Valid @RequestBody MyPreferenceCreateRequest dto, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        userService.savePreference(dto, userDetails.getUserId());
+        userService.saveOrUpdate(dto, userDetails.getUserId());
         return ResponseEntity.status(201).build();
     }
 }

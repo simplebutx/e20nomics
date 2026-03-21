@@ -1,13 +1,13 @@
-package com.htm.e20nomics.TodayNews.service;
+package com.htm.e20nomics.todaynews.service;
 
 
-import com.htm.e20nomics.TodayNews.domain.TodayNews;
-import com.htm.e20nomics.TodayNews.repository.TodayNewsRepository;
+import com.htm.e20nomics.todaynews.domain.TodayNews;
+import com.htm.e20nomics.todaynews.repository.TodayNewsRepository;
 import com.htm.e20nomics.term.domain.AdminTerm;
-import com.htm.e20nomics.TodayNews.domain.TodayNewsTerm;
+import com.htm.e20nomics.todaynews.domain.TodayNewsTerm;
 import com.htm.e20nomics.term.dto.AdminTermResponse;
 import com.htm.e20nomics.term.repository.AdminTermRepository;
-import com.htm.e20nomics.TodayNews.repository.TodayNewsTermRepository;
+import com.htm.e20nomics.todaynews.repository.TodayNewsTermRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

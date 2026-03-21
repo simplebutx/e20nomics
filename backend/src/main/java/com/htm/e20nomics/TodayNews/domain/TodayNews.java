@@ -1,4 +1,4 @@
-package com.htm.e20nomics.TodayNews.domain;
+package com.htm.e20nomics.todaynews.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
