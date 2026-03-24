@@ -36,12 +36,12 @@ function App() {
         <Route path="/health" element={<Health />} />
         <Route path="/summarize" element={<SummaryPage />} />
         <Route path="/today" element={<TodayNewsPage />} />
+        <Route path="/today/:id" element={<TodayNewsDetailPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/today/:id" element={<TodayNewsDetailPage />} />
           <Route path="/terms" element={<MyTerms />} />
           <Route path="/terms/:id" element={<MyTermDetailPage />} />
           <Route path="/terms/:id/edit" element={<MyTermEditPage />} />

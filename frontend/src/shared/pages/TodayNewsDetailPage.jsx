@@ -27,6 +27,8 @@ export default function TodayNewsDetailPage() {
     ? `${baseImageUrl.replace(/\/$/, "")}/${imageKey}`
     : "";
 
+  const token = localStorage.getItem("accessToken");
+
   async function fetchDetails() {
     try {
       setLoading(true);
@@ -54,11 +56,14 @@ export default function TodayNewsDetailPage() {
     }
   }
 
-  useEffect(() => {
-    if (!id) return;
-    fetchDetails();
+ useEffect(() => {
+  if (!id) return;
+  fetchDetails();
+
+  if (token) {
     fetchMyTerms();
-  }, [id]);
+  }
+}, [id, token]);
 
   const mergedTerms = useMemo(() => {
     const map = new Map();
@@ -112,6 +117,10 @@ export default function TodayNewsDetailPage() {
 
   async function handleSaveMyTerm() {
     if (!selectedTerm) return;
+    if (!token) {
+    toast.error("로그인 후 저장할 수 있습니다.");
+    return;
+  }
 
     try {
       await api.post("/api/me/terms", {

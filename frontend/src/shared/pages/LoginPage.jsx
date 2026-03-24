@@ -59,7 +59,7 @@ export default function LoginPage() {
             <p className="login-label">Welcome Back</p>
             <h1>로그인</h1>
             <p className="login-desc">
-              저장한 기사와 단어장을 이어서 확인해보세요.
+               임시 ID: aa / PW: aa
             </p>
           </div>
 
