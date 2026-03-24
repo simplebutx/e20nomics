@@ -68,6 +68,7 @@ export default function MyPage() {
             <p className="mypage-label">My Account</p>
             <h1>마이페이지</h1>
             <p className="mypage-desc">
+              AI 기반 뉴스 플렛폼 서비스 <br />
               내 정보와 저장한 콘텐츠를 한 곳에서 관리해보세요.
             </p>
           </header>

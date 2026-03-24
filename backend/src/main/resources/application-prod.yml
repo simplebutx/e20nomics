@@ -30,4 +30,4 @@ jwt:
 aws:
   region: ap-northeast-2
   s3:
-    bucket: nth827
+    bucket: ${AWS_S3_BUCKET}
