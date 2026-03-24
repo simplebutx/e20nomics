@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
 import "@/features/mypage/css/MySummariesEditPage.css";
 import "@/shared/css/Button.css";
 
@@ -28,7 +29,7 @@ export default function MySummariesEditPage() {
       setMemo(data.memo || "");
       setCreatedAt(data.createdAt || "");
     } catch (e) {
-      toast.error(e?.response?.data?.message || "요약을 불러오지 못했습니다.");
+      handleApiError(e, "페이지 불러오기 실패");
     } finally {
       setLoading(false);
     }

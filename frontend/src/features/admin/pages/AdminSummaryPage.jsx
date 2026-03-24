@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "@/api";
 import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
 import "@/features/admin/css/AdminSummaryPage.css";
 import "@/shared/css/Button.css";
 
@@ -26,7 +27,7 @@ export default function AdminSummaryPage() {
       setSummaryText(res.data.summaryText);
       setCanSave(res.data.canSave);
     } catch (e) {
-      toast.error(e?.response?.data?.message || "요약에 실패했습니다.");
+      handleApiError(e, "생성 실패");
       setCanSave(false);
     } finally {
       setLoading(false);
@@ -45,9 +46,9 @@ export default function AdminSummaryPage() {
         summaryTitle: summaryTitle,
         summaryText: summaryText,
       });
-      toast.success("오늘의 뉴스가 등록되었습니다.");
-    } catch (err) {
-      toast.error(err?.response?.data?.message || "저장 실패");
+      toast.success("오늘의 뉴스가 저장되었습니다.");
+    } catch (e) {
+      handleApiError(e, "저장 실패");
     }
   }
 

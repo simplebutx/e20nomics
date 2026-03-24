@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
 import "@/features/mypage/css/MyTerms.css";
 import "@/shared/css/Button.css";
 
@@ -28,8 +29,8 @@ export default function MyTerms() {
       const res = await api.get("/api/me/terms");
       const data = res.data;
       setTerms(Array.isArray(data) ? data : []);
-    } catch (err) {
-      toast.error(err?.response?.data?.message || "불러오기 실패");
+    } catch (e) {
+      handleApiError(e, "페이지 불러오기 실패");
     } finally {
       setLoading(false);
     }
@@ -54,7 +55,7 @@ export default function MyTerms() {
       setDefinition("");
       fetchMyTerms();
     } catch (err) {
-      toast.error(err?.response?.data?.message || "단어 등록 실패");
+      handleApiError(e, "단어 등록 실패");
     }
   }
 
@@ -83,10 +84,10 @@ export default function MyTerms() {
       if (data.canSave) {
         toast.success("AI 정의를 생성했습니다.");
       } else {
-        toast.error(data.definition || "정의 생성 실패");
+        handleApiError(e, "정의 생성 실패");
       }
     } catch (err) {
-      toast.error(err?.response?.data?.message || "AI 정의 생성 실패");
+      handleApiError(e, "정의 생성 실패");
     } finally {
       setAiLoading(false);
     }
@@ -114,20 +115,14 @@ export default function MyTerms() {
 
       fetchMyTerms();
     } catch (err) {
-      toast.error(err?.response?.data?.message || "AI 단어 저장 실패");
+      handleApiError(e, "저장 실패");
     } finally {
       setAiSaving(false);
     }
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (!token) {
-      toast("로그인 후 이용 가능합니다.");
-      nav("/login");
-    } else {
       fetchMyTerms();
-    }
   }, []);
 
   function getTabButtonClass(tab) {

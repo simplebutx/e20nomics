@@ -1,7 +1,9 @@
 import { useState } from "react";
 import api from "@/api";
-import "@/features/mypage/css/MyPreferencePage.css";
 import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
+import "@/features/mypage/css/MyPreferencePage.css";
+
 
 const summaryDifficultyOptions = [
   { label: "경린이", value: "EASY" },
@@ -63,8 +65,8 @@ export default function MyPreferencePage() {
     try {
       await api.put("/api/me/preferences", form);
       toast.success("나의 선호도 설정이 업데이트 되었습니다.");
-    } catch (err) {
-      toast.error(err?.response?.data?.message || "수정에 실패했습니다.");
+    } catch (e) {
+      handleApiError(e, "수정 실패");
     }
   }
 

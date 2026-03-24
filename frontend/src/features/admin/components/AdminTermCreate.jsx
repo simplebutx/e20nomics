@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "@/api";
 import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
 
 export default function AdminTermCreate({ onCreated }) {
   const [activeTab, setActiveTab] = useState("ai"); // "ai" | "manual"
@@ -38,7 +39,7 @@ export default function AdminTermCreate({ onCreated }) {
 
       if (onCreated) onCreated();
     } catch (err) {
-      toast.error(err?.response?.data?.message || "단어 등록에 실패했습니다.");
+      handleApiError(e, "등록 실패");
     } finally {
       setSaving(false);
     }
@@ -70,10 +71,10 @@ export default function AdminTermCreate({ onCreated }) {
       if (data.canSave) {
         toast.success("AI 정의를 생성했습니다.");
       } else {
-        toast.error(data.definition || "AI 정의 생성에 실패했습니다.");
+        handleApiError(e, "정의 생성 실패");
       }
     } catch (err) {
-      toast.error(err?.response?.data?.message || "AI 정의 생성에 실패했습니다.");
+      handleApiError(e, "정의 생성 실패");
     } finally {
       setAiLoading(false);
     }
@@ -103,7 +104,7 @@ export default function AdminTermCreate({ onCreated }) {
 
       if (onCreated) onCreated();
     } catch (err) {
-      toast.error(err?.response?.data?.message || "AI 단어 등록에 실패했습니다.");
+      handleApiError(e, "등록 실패");
     } finally {
       setAiSaving(false);
     }

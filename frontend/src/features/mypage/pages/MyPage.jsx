@@ -2,32 +2,31 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
 import "@/features/mypage/css/MyPage.css";
 import "@/shared/css/Button.css";
 
+
 export default function MyPage() {
+
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const nav = useNavigate();
 
   async function fetchMyPage() {
     try {
+      setLoading(true);
       const res = await api.get("/api/me");
       setUser(res.data);
-    } catch {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("role");
-      nav("/login");
+    } catch(e) {
+      handleApiError(e, "페이지 불러오기 실패");
+    } finally {
+      setLoading(false);
     }
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (!token) {
-      toast("로그인 후 이용 가능합니다.");
-      nav("/login");
-    } else {
       fetchMyPage();
-    }
   }, []);
 
   function logout() {
@@ -53,12 +52,12 @@ export default function MyPage() {
     toast("회원탈퇴 기능은 아직 준비 중입니다.");
   }
 
-  if (!user) {
-    return (
-      <div className="mypage-loading">
-        <p>로딩 중...</p>
-      </div>
-    );
+  if (loading) {
+  return (
+    <div className="mypage-loading">
+      <p>로딩 중...</p>
+    </div>
+  );
   }
 
   return (
@@ -91,11 +90,6 @@ export default function MyPage() {
               <div className="profile-info-row">
                 <span className="profile-info-label">이름</span>
                 <p>{user.userName}</p>
-              </div>
-
-              <div className="profile-info-row">
-                <span className="profile-info-label">권한</span>
-                <p>회원</p>
               </div>
             </div>
           </section>

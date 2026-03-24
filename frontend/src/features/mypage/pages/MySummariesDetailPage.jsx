@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
 import "@/features/mypage/css/MySummariesDetailPage.css";
 import "@/shared/css/Button.css";
 
@@ -28,7 +29,7 @@ export default function MySummariesDetailPage() {
       setMemo(res.data.memo || "");
       setCreatedAt(res.data.createdAt || "");
     } catch (e) {
-      toast.error(e?.response?.data?.message || "조회에 실패했습니다.");
+      handleApiError(e, "페이지 불러오기 실패");
     } finally {
       setLoading(false);
     }
@@ -56,7 +57,7 @@ export default function MySummariesDetailPage() {
       toast.success("삭제되었습니다.");
       navigate("/summaries");
     } catch (e) {
-      toast.error(e?.response?.data?.message || "삭제에 실패했습니다.");
+      handleApiError(e, "삭제 실패");
     } finally {
       setDeleting(false);
     }

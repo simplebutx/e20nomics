@@ -51,4 +51,20 @@ public class AdminTodayNewsController {
         adminTodayNewsService.deleteTodayNews(id);
         return ResponseEntity.noContent().build();
     }
+
+    // 이미지 생성
+    @PostMapping("/api/admin/todayNews/generateImage")
+    public AdminImageGenerateResponse generateImage(@RequestBody AdminImageGenerateRequest dto) {
+        return adminTodayNewsService.generateImage(dto.getPrompt());
+    }
+
+    // db에 이미지 url 저장
+    @PutMapping("/api/admin/todayNews/{id}/image")
+    public ResponseEntity<Void> postImageUrl(@PathVariable Long id, @RequestBody AdminTodayNewsImageUpdateRequest dto) {
+        System.out.println("id = " + id);
+        System.out.println("imageKey = " + dto.getImageKey());
+        adminTodayNewsService.updateImage(id, dto.getImageKey());
+
+        return ResponseEntity.ok().build();
+    }
 }

@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import handleApiError from "@/shared/utils/handleApiError";
 import "@/features/admin/css/AdminTodayNewsList.css";
 import "@/shared/css/Button.css";
 
@@ -16,8 +17,8 @@ export default function AdminTodayNewsList() {
       const res = await api.get("/api/admin/todayNews");
       const data = res.data;
       setAnnouncements(Array.isArray(data) ? data : []);
-    } catch (err) {
-      toast.error(err?.response?.data?.message || "불러오기 실패");
+    } catch (e) {
+      handleApiError(e, "조회 실패")
     } finally {
       setLoading(false);
     }

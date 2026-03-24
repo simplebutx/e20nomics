@@ -13,4 +13,5 @@ public class AdminTodayNewsDetailResponse {
     private String summaryText;
     private Boolean isPublished;
     private LocalDateTime createdAt;
+    private String imageKey;
 }

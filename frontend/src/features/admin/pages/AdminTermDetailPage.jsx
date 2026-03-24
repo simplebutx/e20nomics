@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
 import "@/features/admin/css/AdminTermPage.css";
 import "@/shared/css/Button.css";
 
@@ -27,8 +28,8 @@ export default function AdminTermDetailPage() {
       setDefinition(res.data.definition || "");
       setCreatedAt(res.data.createdAt || "");
       setUpdatedAt(res.data.updatedAt || "");
-    } catch (err) {
-      toast.error(err?.response?.data?.message || "단어 상세 조회에 실패했습니다.");
+    } catch (e) {
+      handleApiError(e, "조회 실패");
       navigate("/admin/terms");
     } finally {
       setLoading(false);
@@ -58,7 +59,7 @@ export default function AdminTermDetailPage() {
       toast.success("단어가 수정되었습니다.");
       await fetchTermDetail();
     } catch (err) {
-      toast.error(err?.response?.data?.message || "단어 수정에 실패했습니다.");
+      handleApiError(e, "수정 실패");
     } finally {
       setSaving(false);
     }
@@ -76,7 +77,7 @@ export default function AdminTermDetailPage() {
       toast.success("단어가 삭제되었습니다.");
       navigate("/admin/terms");
     } catch (err) {
-      toast.error(err?.response?.data?.message || "단어 삭제에 실패했습니다.");
+      handleApiError(e, "삭제 실패");
     } finally {
       setDeleting(false);
     }

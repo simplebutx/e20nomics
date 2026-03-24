@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "@/api";
 import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
 import "@/features/admin/css/AdminUserList.css";
 
 export default function AdminUserList() {
@@ -12,7 +13,7 @@ export default function AdminUserList() {
       const data = res.data;
       setUsers(Array.isArray(data) ? data : []);
     } catch (err) {
-      toast.error(err?.response?.data?.message || "불러오기 실패");
+      handleApiError(e, "조회 실패")
     }
   }
 

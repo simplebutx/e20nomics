@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
 import AdminTermCreate from "@/features/admin/components/AdminTermCreate";
+import handleApiError from "@/shared/utils/handleApiError";
 import "@/features/admin/css/AdminTermPage.css";
 import "@/shared/css/Button.css";
 
@@ -16,7 +17,7 @@ export default function AdminTermListPage() {
       const res = await api.get("/api/admin/terms");
       setTerms(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
-      toast.error(err?.response?.data?.message || "단어 목록 조회에 실패했습니다.");
+      handleApiError(e, "조회 실패");
       setTerms([]);
     } finally {
       setLoading(false);

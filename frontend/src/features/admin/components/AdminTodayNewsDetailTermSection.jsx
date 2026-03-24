@@ -1,16 +1,96 @@
 import { Link } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import api from "@/api";
+import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
 
-export default function AdminTodayNewsDetailTermSection({
-  linkedTerms,
-  availableTerms,
-  selectedTermId,
-  setSelectedTermId,
-  termLoading,
-  linking,
-  unlinkingId,
-  onLinkTerm,
-  onUnlinkTerm,
-}) {
+export default function AdminTodayNewsDetailTermSection({ id }) {
+  const [allTerms, setAllTerms] = useState([]);
+  const [linkedTerms, setLinkedTerms] = useState([]);
+  const [selectedTermId, setSelectedTermId] = useState("");
+  const [termLoading, setTermLoading] = useState(true);
+  const [linking, setLinking] = useState(false);
+  const [unlinkingId, setUnlinkingId] = useState(null);
+
+  async function fetchAllTerms() {
+    try {
+      const res = await api.get("/api/admin/terms");
+      setAllTerms(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      handleApiError(e, "조회 실패");
+      setAllTerms([]);
+    }
+  }
+
+  async function fetchLinkedTerms() {
+    try {
+      setTermLoading(true);
+      const res = await api.get(`/api/admin/todayNews/${id}/terms`);
+      setLinkedTerms(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      handleApiError(e, "조회 실패");
+      setLinkedTerms([]);
+    } finally {
+      setTermLoading(false);
+    }
+  }
+
+  async function fetchTermSectionData() {
+    await Promise.all([fetchAllTerms(), fetchLinkedTerms()]);
+  }
+
+  useEffect(() => {
+    if (!id) return;
+    fetchTermSectionData();
+  }, [id]);
+
+  async function handleLinkTerm() {
+    if (!selectedTermId) {
+      toast.error("연결할 단어를 선택해 주세요.");
+      return;
+    }
+
+    if (linking) return;
+
+    try {
+      setLinking(true);
+
+      await api.post(`/api/admin/todayNews/${id}/terms`, {
+        termId: Number(selectedTermId),
+      });
+
+      toast.success("단어가 연결되었습니다.");
+      setSelectedTermId("");
+      await fetchLinkedTerms();
+    } catch (err) {
+      handleApiError(e, "연결 실패");
+    } finally {
+      setLinking(false);
+    }
+  }
+
+  async function handleUnlinkTerm(termId) {
+    if (unlinkingId) return;
+
+    try {
+      setUnlinkingId(termId);
+
+      await api.delete(`/api/admin/todayNews/${id}/terms/${termId}`);
+
+      toast.success("단어 연결이 해제되었습니다.");
+      await fetchLinkedTerms();
+    } catch (err) {
+      handleApiError(e, "해제 실패");
+    } finally {
+      setUnlinkingId(null);
+    }
+  }
+
+  const availableTerms = useMemo(() => {
+    const linkedIds = new Set(linkedTerms.map((term) => term.id));
+    return allTerms.filter((term) => !linkedIds.has(term.id));
+  }, [allTerms, linkedTerms]);
+
   return (
     <div className="admin-today-news-term-card">
       <div className="admin-today-news-term-top">
@@ -42,7 +122,7 @@ export default function AdminTodayNewsDetailTermSection({
 
         <button
           type="button"
-          onClick={onLinkTerm}
+          onClick={handleLinkTerm}
           disabled={linking || availableTerms.length === 0}
           className="btn btn-primary"
         >
@@ -81,7 +161,7 @@ export default function AdminTodayNewsDetailTermSection({
 
                 <button
                   type="button"
-                  onClick={() => onUnlinkTerm(term.id)}
+                  onClick={() => handleUnlinkTerm(term.id)}
                   disabled={unlinkingId === term.id}
                   className="btn btn-danger"
                 >

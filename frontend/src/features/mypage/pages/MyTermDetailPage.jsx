@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
 import "@/features/mypage/css/MyTermDetailPage.css";
 import "@/shared/css/Button.css";
 
@@ -22,8 +23,8 @@ export default function MyTermDetailPage() {
       setTerm(res.data.term);
       setDefinition(res.data.definition);
       setCreatedAt(res.data.createdAt);
-    } catch (err) {
-      toast.error(err?.response?.data?.message || "단어 상세 조회 실패");
+    } catch (e) {
+      handleApiError(e, "페이지 불러오기 실패");
     } finally {
       setLoading(false);
     }
@@ -38,8 +39,8 @@ export default function MyTermDetailPage() {
       await api.delete(`/api/me/terms/${id}`);
       toast.success("단어를 삭제했습니다.");
       nav("/terms");
-    } catch (err) {
-      toast.error(err?.response?.data?.message || "단어 삭제 실패");
+    } catch (e) {
+      handleApiError(e, "삭제 실패");
     } finally {
       setDeleting(false);
     }

@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import api from "@/api";
-import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
 import "@/features/mypage/css/MySummaries.css";
 
 export default function MySummaries() {
 
     const [summaries, setSummaries] = useState([]);
     const [loading, setLoading] = useState(true);
-    const nav = useNavigate();
 
     async function fetchMySummaries() {
         try {
@@ -17,19 +16,14 @@ export default function MySummaries() {
             const data = res.data;
             setSummaries(Array.isArray(data) ? data : []);    // 배열있는지 검증
         } catch (err) {
-            toast.error(err?.response?.data?.message || "불러오기 실패");
+            handleApiError(e, "페이지 불러오기 실패");
         } finally {
             setLoading(false);
         }
     }
 
     useEffect(()=> {
-          const token = localStorage.getItem("accessToken");
-          if (!token) {
-            toast("로그인 후 이용 가능합니다.");
-            nav("/login");
-          }
-          else fetchMySummaries();
+       fetchMySummaries();
     }, []);
 
     return (

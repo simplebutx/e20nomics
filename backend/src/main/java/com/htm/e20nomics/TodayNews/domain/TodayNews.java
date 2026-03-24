@@ -35,6 +35,9 @@ public class TodayNews {
 
     private LocalDateTime publishedAt;
 
+    @Column(name = "image_key")
+    private String imageKey;
+
     public TodayNews(String originalText, String summaryTitle, String summaryText) {
         this.originalText = originalText;
         this.summaryTitle = summaryTitle;
@@ -46,5 +49,9 @@ public class TodayNews {
         this.summaryTitle = summaryTitle;
         this.summaryText = summaryText;
         this.isPublished = isPublished;
+    }
+
+    public void updateImageKey(String imageKey) {
+        this.imageKey = imageKey;
     }
 }

@@ -1,18 +1,131 @@
+import { useEffect, useState } from "react";
+import api from "@/api";
+import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
+
 export default function AdminTodayNewsDetailEditSection({
-  summaryTitle,
-  summaryText,
-  isPublished,
-  createdAt,
-  saving,
-  deleting,
-  setSummaryTitle,
-  setSummaryText,
-  onUpdate,
-  onDelete,
-  onTogglePublished,
+  id,
   onGoList,
-  formatDate,
+  onDeleted,
 }) {
+  const [summaryTitle, setSummaryTitle] = useState("");
+  const [summaryText, setSummaryText] = useState("");
+  const [imageKey, setImageKey] = useState("");
+  const [isPublished, setIsPublished] = useState(false);
+  const [createdAt, setCreatedAt] = useState("");
+
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  const baseImageUrl = import.meta.env.VITE_IMAGE_BASE_URL || "";
+  const imageUrl = imageKey
+  ? `${baseImageUrl.replace(/\/$/, "")}/${imageKey}`
+  : "";
+
+  async function fetchTodayNewsDetail() {
+    try {
+      setLoading(true);
+      const res = await api.get(`/api/admin/todayNews/${id}`);
+
+      setSummaryTitle(res.data.summaryTitle || "");
+      setSummaryText(res.data.summaryText || "");
+      setIsPublished(!!res.data.isPublished);
+      setCreatedAt(res.data.createdAt || "");
+      setImageKey(res.data.imageKey || "");
+    } catch (err) {
+      handleApiError(e, "조회 실패");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    if (!id) return;
+    fetchTodayNewsDetail();
+  }, [id]);
+
+  async function handleUpdate() {
+    if (saving) return;
+
+    if (!summaryTitle.trim() || !summaryText.trim()) {
+      toast.error("제목과 요약문을 입력해 주세요.");
+      return;
+    }
+
+    try {
+      setSaving(true);
+
+      await api.put(`/api/admin/todayNews/${id}`, {
+        summaryTitle: summaryTitle.trim(),
+        summaryText: summaryText.trim(),
+        isPublished,
+      });
+
+      toast.success("수정이 완료되었습니다.");
+      await fetchTodayNewsDetail();
+    } catch (err) {
+      handleApiError(e, "수정 실패");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleDelete() {
+    if (deleting) return;
+
+    const ok = window.confirm("정말 삭제하시겠습니까?");
+    if (!ok) return;
+
+    try {
+      setDeleting(true);
+      await api.delete(`/api/admin/todayNews/${id}`);
+      toast.success("삭제되었습니다.");
+      onDeleted?.();
+    } catch (err) {
+      handleApiError(e, "삭제 실패");
+    } finally {
+      setDeleting(false);
+    }
+  }
+
+  async function handleTogglePublished() {
+    const nextValue = !isPublished;
+
+    if (!summaryTitle.trim() || !summaryText.trim()) {
+      toast.error("제목과 요약문을 먼저 입력해 주세요.");
+      return;
+    }
+
+    try {
+      await api.put(`/api/admin/todayNews/${id}`, {
+        summaryTitle: summaryTitle.trim(),
+        summaryText: summaryText.trim(),
+        isPublished: nextValue,
+      });
+
+      setIsPublished(nextValue);
+      toast.success(
+        nextValue ? "공개 게시되었습니다." : "게시가 취소되었습니다."
+      );
+    } catch (err) {
+      handleApiError(e, "변경 실패");
+    }
+  }
+
+  function formatDate(dateString) {
+    if (!dateString) return "";
+    return new Date(dateString).toLocaleString("ko-KR");
+  }
+
+  if (loading) {
+    return (
+      <div className="admin-today-news-detail-card">
+        <p className="admin-today-news-detail-loading">불러오는 중...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="admin-today-news-detail-card">
       <div className="admin-today-news-detail-top">
@@ -31,6 +144,16 @@ export default function AdminTodayNewsDetailEditSection({
       <p className="admin-today-news-detail-date">
         등록일: {formatDate(createdAt)}
       </p>
+
+      {imageUrl && (
+        <div className="admin-today-news-detail-image-wrap">
+          <img
+            src={imageUrl}
+            alt={summaryTitle || "오늘의 뉴스 대표 이미지"}
+            className="admin-today-news-detail-image"
+          />
+        </div>
+      )}
 
       <div className="admin-today-news-detail-field">
         <label className="admin-today-news-detail-label">제목</label>
@@ -56,7 +179,7 @@ export default function AdminTodayNewsDetailEditSection({
       <div className="admin-today-news-detail-buttons">
         <button
           type="button"
-          onClick={onUpdate}
+          onClick={handleUpdate}
           disabled={saving}
           className="btn btn-primary"
         >
@@ -65,7 +188,7 @@ export default function AdminTodayNewsDetailEditSection({
 
         <button
           type="button"
-          onClick={onDelete}
+          onClick={handleDelete}
           disabled={deleting}
           className="btn btn-danger"
         >
@@ -82,7 +205,7 @@ export default function AdminTodayNewsDetailEditSection({
 
         <button
           type="button"
-          onClick={onTogglePublished}
+          onClick={handleTogglePublished}
           className="btn btn-outline"
         >
           {isPublished ? "게시 취소로 변경" : "공개 게시로 변경"}

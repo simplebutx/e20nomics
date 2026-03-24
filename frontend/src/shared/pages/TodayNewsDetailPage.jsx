@@ -8,17 +8,24 @@ import "@/shared/css/TodayNewsDetailPage.css";
 import "@/shared/css/Button.css";
 
 export default function TodayNewsDetailPage() {
+  
   const { id } = useParams();
 
   const [summaryTitle, setSummaryTitle] = useState("");
   const [summaryText, setSummaryText] = useState("");
   const [createdAt, setCreatedAt] = useState("");
+  const [imageKey, setImageKey] = useState("");
 
   const [linkedTerms, setLinkedTerms] = useState([]);
   const [myTerms, setMyTerms] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [selectedTerm, setSelectedTerm] = useState(null);
+
+  const baseImageUrl = import.meta.env.VITE_IMAGE_BASE_URL || "";
+  const imageUrl = imageKey
+  ? `${baseImageUrl.replace(/\/$/, "")}/${imageKey}`
+  : "";
 
   async function fetchDetails() {
     try {
@@ -29,6 +36,7 @@ export default function TodayNewsDetailPage() {
       setSummaryTitle(res.data.summaryTitle || "");
       setSummaryText(res.data.summaryText || "");
       setCreatedAt(res.data.createdAt || "");
+      setImageKey(res.data.imageKey || "")
       setLinkedTerms(Array.isArray(res.data.terms) ? res.data.terms : []);
     } catch (e) {
       toast.error(e?.response?.data?.message || "상세 페이지 불러오기 실패.");
@@ -150,6 +158,15 @@ export default function TodayNewsDetailPage() {
           <span className="summary-detail-badge">오늘의 뉴스</span>
           <h1 className="summary-detail-title">{summaryTitle}</h1>
           <p className="summary-detail-date">{formatDate(createdAt)}</p>
+          {imageUrl && (
+        <div className="admin-today-news-detail-image-wrap">
+          <img
+            src={imageUrl}
+            alt={summaryTitle || "오늘의 뉴스 대표 이미지"}
+            className="admin-today-news-detail-image"
+          />
+        </div>
+      )}
         </div>
 
         <div className="summary-detail-divider" />

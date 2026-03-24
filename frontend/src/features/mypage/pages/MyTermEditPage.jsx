@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
 import "@/features/mypage/css/MyTermEditPage.css";
 import "@/shared/css/Button.css";
 
@@ -20,8 +21,8 @@ export default function MyTermEditPage() {
       const res = await api.get(`/api/me/terms/${id}`);
       setTerm(res.data.term || "");
       setDefinition(res.data.definition || "");
-    } catch (err) {
-      toast.error(err?.response?.data?.message || "단어 정보를 불러오지 못했습니다.");
+    } catch (e) {
+      handleApiError(e, "페이지 불러오기 실패")
     } finally {
       setFetching(false);
     }
@@ -47,8 +48,8 @@ export default function MyTermEditPage() {
 
       toast.success("단어를 수정했습니다.");
       nav("/terms");
-    } catch (err) {
-      toast.error(err?.response?.data?.message || "단어 수정 실패");
+    } catch (e) {
+      handleApiError(e, "삭제 실패");
     } finally {
       setLoading(false);
     }

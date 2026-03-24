@@ -1,5 +1,6 @@
 package com.htm.e20nomics.todaynews.service;
 
+import com.htm.e20nomics.global.client.OpenAiImageClient;
 import com.htm.e20nomics.todaynews.domain.TodayNews;
 import com.htm.e20nomics.todaynews.dto.*;
 import com.htm.e20nomics.todaynews.repository.TodayNewsRepository;
@@ -20,6 +21,7 @@ import java.util.Map;
 public class AdminTodayNewsService {
 
     private final OpenAiChatClient openAiChatClient;
+    private final OpenAiImageClient openAiImageClient;
     private final TodayNewsRepository todayNewsRepository;
 
     // 관리자: 오늘의 뉴스 생성하기
@@ -113,7 +115,7 @@ public class AdminTodayNewsService {
         TodayNews todayNews = todayNewsRepository.findById(id)
                 .orElseThrow(() -> new TodayNewsNotFoundException("오늘의 뉴스를 찾을 수 없습니다."));
 
-        return new AdminTodayNewsDetailResponse(todayNews.getSummaryTitle(), todayNews.getSummaryText(), todayNews.getIsPublished(), todayNews.getCreatedAt());
+        return new AdminTodayNewsDetailResponse(todayNews.getSummaryTitle(), todayNews.getSummaryText(), todayNews.getIsPublished(), todayNews.getCreatedAt(), todayNews.getImageKey());
     }
 
     // 관리자: 오늘의 뉴스 수정
@@ -134,4 +136,31 @@ public class AdminTodayNewsService {
         todayNewsRepository.delete(todayNews);
     }
 
+    // ai 이미지 생성
+    public AdminImageGenerateResponse generateImage(String text) {
+        if (!StringUtils.hasText(text)) {
+            throw new IllegalArgumentException("이미지 생성 프롬프트를 입력해주세요.");
+            }
+            String prompt = """
+            경제 뉴스 대표 이미지용 장면을 생성하라.
+            아래 내용을 바탕으로 핵심 주제를 시각적으로 표현하라.
+            텍스트, 글자, 로고, 워터마크는 넣지 마라.
+            깔끔하고 사실적인 뉴스 썸네일 스타일로 만들어라.
+            크기는 600px * 600px
+            내용:
+            %s
+            """.formatted(text);
+
+        String imageBase64 = openAiImageClient.generateImage(prompt);
+        return new AdminImageGenerateResponse(imageBase64);
+    }
+
+    // 이미지 url db에 저장
+    @Transactional
+    public void updateImage(Long id, String imageKey) {
+        TodayNews todayNews = todayNewsRepository.findById(id)
+                .orElseThrow(() -> new TodayNewsNotFoundException("요약을 찾을 수 없습니다."));
+
+        todayNews.updateImageKey(imageKey);
+    }
 }

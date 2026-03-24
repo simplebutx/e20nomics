@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "@/api";
 import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
 import "@/features/mypage/css/SummaryPage.css";
 import "@/shared/css/Button.css";
 
@@ -27,7 +28,7 @@ export default function SummaryPage() {
       setSummaryText(res.data.summaryText);
       setCanSave(res.data.canSave);
     } catch (e) {
-      toast.error(e?.response?.data?.message || "요약에 실패했습니다.");
+      handleApiError(e, "요약 실패");
       setCanSave(false);
     } finally {
       setLoading(false);
@@ -48,7 +49,7 @@ export default function SummaryPage() {
       });
       toast.success("저장 완료");
     } catch (err) {
-      toast.error(err?.response?.data?.message || "저장 실패");
+      handleApiError(e, "저장 실패");
     }
   }
 

@@ -46,6 +46,6 @@ public class TodayNewsService {
                 link.getAdminTerm().getId(), link.getAdminTerm().getTerm(), link.getAdminTerm().getDefinition())).toList();
 
 
-        return new TodayNewsDetailResponse(todayNews.getSummaryTitle(), todayNews.getSummaryText(), todayNews.getCreatedAt(), terms);
+        return new TodayNewsDetailResponse(todayNews.getSummaryTitle(), todayNews.getSummaryText(), todayNews.getCreatedAt(), todayNews.getImageKey(), terms);
     }
 }

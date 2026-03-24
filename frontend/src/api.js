@@ -22,19 +22,29 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+
+
+let isRedirecting = false;
+
 // 응답 인터셉터
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error?.response?.status;
 
-    console.log("status =", status);
-    console.log("data =", error?.response?.data);
-    console.error(error);
+    if(status === 401) {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("role");
+
+      if(!isRedirecting) {
+        isRedirecting = true;
+        toast.error("로그인이 만료되었습니다.");
+        window.location.href = "/login";
+      }
+    }
 
     if(status === 500) {   // 500 공통 처리
         toast.error("서버 오류가 발생했습니다.");
-        console.log("서버에러")
     }
 
      return Promise.reject(error);    // 나머지 에러는 그대로 던져서 각 화면에서 커스텀 처리
@@ -42,3 +52,6 @@ api.interceptors.response.use(
 );
 
 export default api;
+
+//토큰 없음 → ProtectedRoute에서 먼저 막기
+//토큰 있음 but 만료됨 → API 호출 후 401, 인터셉터가 처리

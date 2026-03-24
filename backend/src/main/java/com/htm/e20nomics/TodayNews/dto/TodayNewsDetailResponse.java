@@ -12,5 +12,6 @@ public class TodayNewsDetailResponse {
     private String summaryTitle;
     private String summaryText;
     private LocalDateTime createdAt;
+    private String imageKey;
     private List<TodayNewsTermResponse> terms;
 }
