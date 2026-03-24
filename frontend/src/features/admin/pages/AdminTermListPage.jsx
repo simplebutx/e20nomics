@@ -16,7 +16,7 @@ export default function AdminTermListPage() {
       setLoading(true);
       const res = await api.get("/api/admin/terms");
       setTerms(Array.isArray(res.data) ? res.data : []);
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "조회 실패");
       setTerms([]);
     } finally {

@@ -1,15 +1,30 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 
-export default function ProtectedRoute() {
+export default function ProtectedRoute({ requireRole }) {
   const token = localStorage.getItem("accessToken");
+  const role = localStorage.getItem("role");
+  const location = useLocation();
 
-  // í† í°ì´ ì—†ìœ¼ë©´ ë¡œê·¸ì¸ í˜ì´ì§€ë¡œ
+  useEffect(() => {
+    if (!token) {
+      toast.error("·Î±×ÀÎ ÈÄ ÀÌ¿ë °¡´ÉÇÕ´Ï´Ù.");
+      return;
+    }
+
+    if (requireRole && role !== requireRole) {
+      toast.error("Á¢±Ù ±ÇÇÑÀÌ ¾ø½À´Ï´Ù.");
+    }
+  }, [token, role, requireRole]);
+
   if (!token) {
-    toast("ë¡œê·¸ì¸ í›„ ì´ìš© ê°€ëŠ¥í•©ë‹ˆë‹¤.")
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
-  // í† í° ìˆìœ¼ë©´ ìì‹ ë¼ìš°íŠ¸ ë Œë”
+  if (requireRole && role !== requireRole) {
+    return <Navigate to="/today" replace />;
+  }
+
   return <Outlet />;
 }

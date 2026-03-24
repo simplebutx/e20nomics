@@ -1,7 +1,8 @@
-import { useState } from "react";
+﻿import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import api from "../../api";
 import toast from "react-hot-toast";
-import { useNavigate, Link } from "react-router-dom";
+import handleApiError from "@/shared/utils/handleApiError";
 import "@/shared/css/SignupPage.css";
 import "@/shared/css/Button.css";
 
@@ -25,11 +26,10 @@ export default function SignupPage() {
     try {
       setLoading(true);
       await api.post("/api/auth/signup", form);
-      toast.success("회원가입을 성공하였습니다.");
+      toast.success("회원가입에 성공했습니다.");
       nav("/login");
-    } catch (err) {
-      const message = err?.response?.data?.message || "회원가입 실패";
-      toast.error(message);
+    } catch (e) {
+      handleApiError(e, "회원가입 실패");
     } finally {
       setLoading(false);
     }

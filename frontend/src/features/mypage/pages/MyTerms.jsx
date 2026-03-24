@@ -54,7 +54,7 @@ export default function MyTerms() {
       setTerm("");
       setDefinition("");
       fetchMyTerms();
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "단어 등록 실패");
     }
   }
@@ -86,7 +86,7 @@ export default function MyTerms() {
       } else {
         handleApiError(e, "정의 생성 실패");
       }
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "정의 생성 실패");
     } finally {
       setAiLoading(false);
@@ -114,7 +114,7 @@ export default function MyTerms() {
       setAiCanSave(false);
 
       fetchMyTerms();
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "저장 실패");
     } finally {
       setAiSaving(false);

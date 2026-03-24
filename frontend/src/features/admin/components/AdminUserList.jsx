@@ -12,7 +12,7 @@ export default function AdminUserList() {
       const res = await api.get("/api/admin/users");
       const data = res.data;
       setUsers(Array.isArray(data) ? data : []);
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "조회 실패")
     }
   }

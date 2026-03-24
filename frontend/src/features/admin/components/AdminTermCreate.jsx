@@ -38,7 +38,7 @@ export default function AdminTermCreate({ onCreated }) {
       setDefinition("");
 
       if (onCreated) onCreated();
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "등록 실패");
     } finally {
       setSaving(false);
@@ -73,7 +73,7 @@ export default function AdminTermCreate({ onCreated }) {
       } else {
         handleApiError(e, "정의 생성 실패");
       }
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "정의 생성 실패");
     } finally {
       setAiLoading(false);
@@ -103,7 +103,7 @@ export default function AdminTermCreate({ onCreated }) {
       setAiCanSave(false);
 
       if (onCreated) onCreated();
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "등록 실패");
     } finally {
       setAiSaving(false);

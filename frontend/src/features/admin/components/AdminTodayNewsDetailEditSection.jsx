@@ -33,7 +33,7 @@ export default function AdminTodayNewsDetailEditSection({
       setIsPublished(!!res.data.isPublished);
       setCreatedAt(res.data.createdAt || "");
       setImageKey(res.data.imageKey || "");
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "조회 실패");
     } finally {
       setLoading(false);
@@ -64,7 +64,7 @@ export default function AdminTodayNewsDetailEditSection({
 
       toast.success("수정이 완료되었습니다.");
       await fetchTodayNewsDetail();
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "수정 실패");
     } finally {
       setSaving(false);
@@ -82,7 +82,7 @@ export default function AdminTodayNewsDetailEditSection({
       await api.delete(`/api/admin/todayNews/${id}`);
       toast.success("삭제되었습니다.");
       onDeleted?.();
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "삭제 실패");
     } finally {
       setDeleting(false);
@@ -108,7 +108,7 @@ export default function AdminTodayNewsDetailEditSection({
       toast.success(
         nextValue ? "공개 게시되었습니다." : "게시가 취소되었습니다."
       );
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "변경 실패");
     }
   }

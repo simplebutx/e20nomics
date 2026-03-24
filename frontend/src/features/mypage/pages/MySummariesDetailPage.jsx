@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
@@ -41,7 +41,7 @@ export default function MySummariesDetailPage() {
       const data = res.data;
       setMyTerms(Array.isArray(data) ? data : []);
     } catch (e) {
-      toast.error(e?.response?.data?.message || "단어장 불러오기 실패");
+      handleApiError(e, "단어장 불러오기 실패");
     }
   }
 

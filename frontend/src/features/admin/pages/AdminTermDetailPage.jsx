@@ -58,7 +58,7 @@ export default function AdminTermDetailPage() {
 
       toast.success("단어가 수정되었습니다.");
       await fetchTermDetail();
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "수정 실패");
     } finally {
       setSaving(false);
@@ -76,7 +76,7 @@ export default function AdminTermDetailPage() {
       await api.delete(`/api/admin/terms/${id}`);
       toast.success("단어가 삭제되었습니다.");
       navigate("/admin/terms");
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "삭제 실패");
     } finally {
       setDeleting(false);

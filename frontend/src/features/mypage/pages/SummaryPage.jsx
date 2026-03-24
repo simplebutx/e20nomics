@@ -48,7 +48,7 @@ export default function SummaryPage() {
         summaryText: summaryText,
       });
       toast.success("저장 완료");
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "저장 실패");
     }
   }

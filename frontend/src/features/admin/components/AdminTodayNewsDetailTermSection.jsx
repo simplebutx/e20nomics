@@ -16,7 +16,7 @@ export default function AdminTodayNewsDetailTermSection({ id }) {
     try {
       const res = await api.get("/api/admin/terms");
       setAllTerms(Array.isArray(res.data) ? res.data : []);
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "조회 실패");
       setAllTerms([]);
     }
@@ -27,7 +27,7 @@ export default function AdminTodayNewsDetailTermSection({ id }) {
       setTermLoading(true);
       const res = await api.get(`/api/admin/todayNews/${id}/terms`);
       setLinkedTerms(Array.isArray(res.data) ? res.data : []);
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "조회 실패");
       setLinkedTerms([]);
     } finally {
@@ -62,7 +62,7 @@ export default function AdminTodayNewsDetailTermSection({ id }) {
       toast.success("단어가 연결되었습니다.");
       setSelectedTermId("");
       await fetchLinkedTerms();
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "연결 실패");
     } finally {
       setLinking(false);
@@ -79,7 +79,7 @@ export default function AdminTodayNewsDetailTermSection({ id }) {
 
       toast.success("단어 연결이 해제되었습니다.");
       await fetchLinkedTerms();
-    } catch (err) {
+    } catch (e) {
       handleApiError(e, "해제 실패");
     } finally {
       setUnlinkingId(null);

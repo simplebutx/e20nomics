@@ -15,7 +15,7 @@ export default function MySummaries() {
             const res = await api.get("/api/me/summaries");
             const data = res.data;
             setSummaries(Array.isArray(data) ? data : []);    // 배열있는지 검증
-        } catch (err) {
+        } catch (e) {
             handleApiError(e, "페이지 불러오기 실패");
         } finally {
             setLoading(false);

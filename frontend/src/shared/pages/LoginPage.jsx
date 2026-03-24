@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+﻿import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import api from "../../api";
 import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
 import "@/shared/css/LoginPage.css";
 import "@/shared/css/Button.css";
 
@@ -10,6 +11,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const nav = useNavigate();
+  const location = useLocation();
 
   async function login(e) {
     e.preventDefault();
@@ -28,16 +30,18 @@ export default function LoginPage() {
       localStorage.setItem("accessToken", res.data.accessToken);
       localStorage.setItem("role", res.data.role);
 
-      toast.success("로그인을 성공하였습니다.");
+      toast.success("로그인에 성공했습니다.");
 
-      if (res.data.role === "ADMIN") {
-        nav("/admin");
-      } else {
-        nav("/mypage");
+      const redirectTo = location.state?.from?.pathname;
+
+      if (redirectTo) {
+        nav(redirectTo, { replace: true });
+        return;
       }
-    } catch (err) {
-      const message = err?.response?.data?.message || "로그인 실패";
-      toast.error(message);
+
+      nav(res.data.role === "ADMIN" ? "/admin" : "/mypage", { replace: true });
+    } catch (e) {
+      handleApiError(e, "로그인 실패");
     } finally {
       setLoading(false);
     }

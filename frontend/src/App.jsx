@@ -26,41 +26,38 @@ import MyTermEditPage from '@/features/mypage/pages/MyTermEditPage';
 import MySummariesEditPage from '@/features/mypage/pages/MySummariesEditPage';
 import MyPreferencePage from './features/mypage/pages/MyPreferencePage';
 
-
 function App() {
-
-
   return (
     <>
-    <Toaster position="top-center" containerStyle={{top:80,}}/>
-     <Navbar />
-      <Routes> 
-      {/* 공개 페이지 */}
-      <Route path="/" element={<TodayNewsPage />} />
-      <Route path="/health" element={<Health />} />
-      <Route path="/summarize" element={<SummaryPage />} />
-      <Route path="/today" element={<TodayNewsPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
+      <Toaster position="top-center" containerStyle={{ top: 80 }} />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<TodayNewsPage />} />
+        <Route path="/health" element={<Health />} />
+        <Route path="/summarize" element={<SummaryPage />} />
+        <Route path="/today" element={<TodayNewsPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
 
-      <Route element={<ProtectedRoute />}>
-      {/* 보호 페이지 */}
-      <Route path="/mypage" element={<MyPage />} />
-      <Route path="/today/:id" element={<TodayNewsDetailPage />} />
-      <Route path="/admin" element={<AdminPage />} />
-      <Route path="/admin/todayNews/:id" element={<AdminTodayNewsDetailPage />} />
-      <Route path="/adminSummarize" element={<AdminSummaryPage />} />
-      <Route path="/admin/terms" element={<AdminTermListPage />} />
-      <Route path="/admin/terms/:id" element={<AdminTermDetailPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/today/:id" element={<TodayNewsDetailPage />} />
+          <Route path="/terms" element={<MyTerms />} />
+          <Route path="/terms/:id" element={<MyTermDetailPage />} />
+          <Route path="/terms/:id/edit" element={<MyTermEditPage />} />
+          <Route path="/summaries" element={<MySummaries />} />
+          <Route path="/summaries/:id" element={<MySummariesDetailPage />} />
+          <Route path="/summaries/:id/edit" element={<MySummariesEditPage />} />
+          <Route path="/me/preferences" element={<MyPreferencePage />} />
+        </Route>
 
-      <Route path="/terms" element={<MyTerms />} />
-      <Route path="/terms/:id" element={<MyTermDetailPage />} />
-      <Route path="/terms/:id/edit" element={<MyTermEditPage />} />
-      <Route path="/summaries" element={<MySummaries />} />
-      <Route path="/summaries/:id" element={<MySummariesDetailPage />} />
-      <Route path="/summaries/:id/edit" element={<MySummariesEditPage />} />
-      <Route path="/me/preferences" element={<MyPreferencePage />} />
-      </Route>
+        <Route element={<ProtectedRoute requireRole="ADMIN" />}>
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/todayNews/:id" element={<AdminTodayNewsDetailPage />} />
+          <Route path="/adminSummarize" element={<AdminSummaryPage />} />
+          <Route path="/admin/terms" element={<AdminTermListPage />} />
+          <Route path="/admin/terms/:id" element={<AdminTermDetailPage />} />
+        </Route>
       </Routes>
     </>
   )

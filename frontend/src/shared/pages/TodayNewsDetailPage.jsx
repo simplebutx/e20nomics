@@ -1,14 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
+import handleApiError from "@/shared/utils/handleApiError";
 import HighlightedSummaryText from "@/shared/components/HighlightedSummaryText";
 import TermDefinitionCard from "@/shared/components/TermDefinitionCard";
 import "@/shared/css/TodayNewsDetailPage.css";
 import "@/shared/css/Button.css";
 
 export default function TodayNewsDetailPage() {
-  
   const { id } = useParams();
 
   const [summaryTitle, setSummaryTitle] = useState("");
@@ -24,8 +24,8 @@ export default function TodayNewsDetailPage() {
 
   const baseImageUrl = import.meta.env.VITE_IMAGE_BASE_URL || "";
   const imageUrl = imageKey
-  ? `${baseImageUrl.replace(/\/$/, "")}/${imageKey}`
-  : "";
+    ? `${baseImageUrl.replace(/\/$/, "")}/${imageKey}`
+    : "";
 
   async function fetchDetails() {
     try {
@@ -36,10 +36,10 @@ export default function TodayNewsDetailPage() {
       setSummaryTitle(res.data.summaryTitle || "");
       setSummaryText(res.data.summaryText || "");
       setCreatedAt(res.data.createdAt || "");
-      setImageKey(res.data.imageKey || "")
+      setImageKey(res.data.imageKey || "");
       setLinkedTerms(Array.isArray(res.data.terms) ? res.data.terms : []);
     } catch (e) {
-      toast.error(e?.response?.data?.message || "상세 페이지 불러오기 실패.");
+      handleApiError(e, "조회 실패");
     } finally {
       setLoading(false);
     }
@@ -50,7 +50,7 @@ export default function TodayNewsDetailPage() {
       const res = await api.get("/api/me/terms");
       setMyTerms(Array.isArray(res.data) ? res.data : []);
     } catch (e) {
-      toast.error(e?.response?.data?.message || "내 단어장 불러오기 실패.");
+      handleApiError(e, "조회 실패");
     }
   }
 
@@ -132,7 +132,7 @@ export default function TodayNewsDetailPage() {
           : prev
       );
     } catch (e) {
-      toast.error(e?.response?.data?.message || "단어 저장에 실패했습니다.");
+      handleApiError(e, "저장 실패");
     }
   }
 
@@ -159,14 +159,14 @@ export default function TodayNewsDetailPage() {
           <h1 className="summary-detail-title">{summaryTitle}</h1>
           <p className="summary-detail-date">{formatDate(createdAt)}</p>
           {imageUrl && (
-        <div className="admin-today-news-detail-image-wrap">
-          <img
-            src={imageUrl}
-            alt={summaryTitle || "오늘의 뉴스 대표 이미지"}
-            className="admin-today-news-detail-image"
-          />
-        </div>
-      )}
+            <div className="admin-today-news-detail-image-wrap">
+              <img
+                src={imageUrl}
+                alt={summaryTitle || "오늘의 뉴스 대표 이미지"}
+                className="admin-today-news-detail-image"
+              />
+            </div>
+          )}
         </div>
 
         <div className="summary-detail-divider" />

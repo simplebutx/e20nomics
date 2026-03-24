@@ -1,33 +1,31 @@
-import { useEffect, useState } from "react";
-import api from "../../api"
-import toast from "react-hot-toast";
-import "@/shared/css/TodayNewsPage.css";
+﻿import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import api from "../../api";
+import handleApiError from "@/shared/utils/handleApiError";
+import "@/shared/css/TodayNewsPage.css";
 
 export default function TodayNewsPage() {
+  const [announcements, setAnnouncements] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    const [announcements, setAnnouncements] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    async function fetchAnnouncements() {
-        try { 
-        setLoading(true);
-        const res = await api.get("/api/todayNews");
-        const data = res.data;
-        setAnnouncements(Array.isArray(data) ? data : []);
-        } catch(err) {
-            toast.error(err?.response?.data?.message || "불러오기 실패");
-        } finally {
-            setLoading(false);
-        }
+  async function fetchAnnouncements() {
+    try {
+      setLoading(true);
+      const res = await api.get("/api/todayNews");
+      const data = res.data;
+      setAnnouncements(Array.isArray(data) ? data : []);
+    } catch (e) {
+      handleApiError(e, "조회 실패");
+    } finally {
+      setLoading(false);
     }
+  }
 
-    useEffect(()=> {
-        fetchAnnouncements();
-    }, [])
+  useEffect(() => {
+    fetchAnnouncements();
+  }, []);
 
-
-    return (
+  return (
     <div className="today-news-page">
       <div className="today-news-container">
         <header className="today-news-header">
@@ -51,24 +49,32 @@ export default function TodayNewsPage() {
             {announcements.map((a, index) => (
               <article className="news-card" key={a.id}>
                 <Link to={`/today/${a.id}`}>
-                <div className="news-card-top">
-                  <span className="news-badge">주요 뉴스</span>
-                  <span className="news-order">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
+                  <div className="news-card-top">
+                    <span className="news-badge">주요 뉴스</span>
+                    <span className="news-order">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                  </div>
 
-                <h2 className="news-title">{a.summaryTitle || `오늘의 경제 뉴스 ${index + 1}`}</h2>
+                  <h2 className="news-title">
+                    {a.summaryTitle || `오늘의 경제 뉴스 ${index + 1}`}
+                  </h2>
 
-                <p className="news-summary">{a.summaryText}</p>
+                  <p className="news-summary">{a.summaryText}</p>
 
-                <div className="news-card-bottom">
-                  <span className="news-meta">
-                    {a.createdAt
-                      ? new Date(a.createdAt).toLocaleString
-                      ("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit",minute: "2-digit",}): "오늘 업데이트"}
-                  </span>
-                </div>
+                  <div className="news-card-bottom">
+                    <span className="news-meta">
+                      {a.createdAt
+                        ? new Date(a.createdAt).toLocaleString("ko-KR", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })
+                        : "오늘 업데이트"}
+                    </span>
+                  </div>
                 </Link>
               </article>
             ))}

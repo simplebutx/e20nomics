@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "@/api";
 import toast from "react-hot-toast";
@@ -67,7 +67,7 @@ export default function MySummariesEditPage() {
       toast.success("수정되었습니다.");
       navigate(`/summaries/${id}`);
     } catch (e) {
-      toast.error(e?.response?.data?.message || "수정에 실패했습니다.");
+      handleApiError(e, "수정 실패");
     } finally {
       setSaving(false);
     }
