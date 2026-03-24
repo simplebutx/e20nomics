@@ -59,7 +59,7 @@ export default function LoginPage() {
             <p className="login-label">Welcome Back</p>
             <h1>로그인</h1>
             <p className="login-desc">
-               임시 유저 ID: aa / PW: aa
+               임시 유저 ID: aa / PW: aa <br />
                관리자 ID: admin / PW: 123
             </p>
           </div>
