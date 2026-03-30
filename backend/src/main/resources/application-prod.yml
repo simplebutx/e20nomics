@@ -15,6 +15,16 @@ spring:
       hibernate:
         format_sql: true
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
 openai:
   api-key: ${OPENAI_API_KEY}
   model: gpt-4o-mini
@@ -22,6 +32,7 @@ openai:
 app:
   briefing:
     max-length: 3000
+  frontend-url: ${FRONTEND_URL:http://localhost:5173}
 
 jwt:
   secret: ${JWT_SECRET}
@@ -31,3 +42,4 @@ aws:
   region: ap-northeast-2
   s3:
     bucket: ${AWS_S3_BUCKET}
+
