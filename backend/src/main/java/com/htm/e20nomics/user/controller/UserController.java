@@ -18,7 +18,7 @@ public class UserController {
 
     @GetMapping("/api/me")
     public MyPageResponse myPage(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        return new MyPageResponse(userDetails.getUsername(), userDetails.getName());
+        return new MyPageResponse(userDetails.getUsername(), userDetails.getId());
     }
 
     @PutMapping("/api/me/preferences")

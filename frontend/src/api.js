@@ -31,8 +31,10 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error?.response?.status;
+    const requestUrl = error?.config?.url ?? "";
+    const isLoginRequest = requestUrl.includes("/api/auth/login");
 
-    if(status === 401) {
+    if(status === 401 && !isLoginRequest) {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("role");
 

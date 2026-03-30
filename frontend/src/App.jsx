@@ -9,6 +9,7 @@ import TodayNewsPage from '@/shared/pages/TodayNewsPage';
 import LoginPage from '@/shared/pages/LoginPage';
 import SignupPage from '@/shared/pages/SignupPage';
 import TodayNewsDetailPage from '@/shared/pages/TodayNewsDetailPage';
+import OAuthSuccessPage from './shared/routes/OAuthSuccessPage';
 
 import AdminPage from '@/features/admin/pages/AdminPage';
 import AdminSummaryPage from '@/features/admin/pages/AdminSummaryPage';
@@ -39,6 +40,7 @@ function App() {
         <Route path="/today/:id" element={<TodayNewsDetailPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/oauth-success" element={<OAuthSuccessPage />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/mypage" element={<MyPage />} />

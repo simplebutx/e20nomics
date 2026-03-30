@@ -48,7 +48,19 @@ export default function LoginPage() {
   }
 
   function googleLogin() {
-    toast("구글 로그인은 아직 준비 중입니다.");
+    try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+      if(!backendUrl) {
+        toast.error("구글로그인불가");
+        return;
+      }
+      
+      const url = `${backendUrl.replace(/\/$/, "")}/oauth2/authorization/google`;
+      window.location.assign(url);
+    } catch(e) {
+      handleApiError(e, "구글 로그인 실패");
+    }
   }
 
   return (

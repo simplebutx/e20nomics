@@ -1,9 +1,12 @@
 package com.htm.e20nomics.global.config;
 
+import com.htm.e20nomics.auth.handler.OAuth2SuccessHandler;
 import com.htm.e20nomics.auth.jwt.JwtAuthenticationFilter;
 import com.htm.e20nomics.auth.jwt.JwtTokenProvider;
+import com.htm.e20nomics.auth.service.CustomOAuth2UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -26,15 +29,25 @@ public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final UserDetailsService userDetailsService;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+
+    @Value("${app.frontend-url}")
+    private String frontendUrl;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
+                .oauth2Login(oauth -> oauth
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService))
+                        .successHandler(oAuth2SuccessHandler))
                 .formLogin(form -> form.disable())
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/oauth2/**", "/login/oauth2/**").permitAll()
                 .requestMatchers("/api/auth/**", "/api/todayNews", "/api/todayNews/{id}", "/api/health").permitAll()
                 .requestMatchers("/api/me/**", "/api/summaries/**", "/api/summaries").authenticated()
                 .requestMatchers( "/api/admin", "/api/admin/**").hasRole("ADMIN")

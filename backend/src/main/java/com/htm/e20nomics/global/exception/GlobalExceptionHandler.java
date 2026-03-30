@@ -1,5 +1,6 @@
 package com.htm.e20nomics.global.exception;
 
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -25,6 +26,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleDuplication(DuplicateEmailException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(new ErrorResponse(409, e.getMessage()));
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentials(BadCredentialsException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse(401, "아이디 또는 비밀번호가 올바르지 않습니다."));
     }
 
     @ExceptionHandler(UserNotFoundException.class)
