@@ -1,27 +1,27 @@
 package com.htm.e20nomics.todaynews.service;
 
-import com.htm.e20nomics.global.client.OpenAiImageClient;
-import com.htm.e20nomics.todaynews.domain.TodayNews;
-import com.htm.e20nomics.todaynews.dto.*;
-import com.htm.e20nomics.todaynews.repository.TodayNewsRepository;
 import com.htm.e20nomics.global.exception.TodayNewsNotFoundException;
-import com.htm.e20nomics.global.client.OpenAiChatClient;
+import com.htm.e20nomics.todaynews.ai.TodayNewsAiClient;
+import com.htm.e20nomics.todaynews.domain.TodayNews;
+import com.htm.e20nomics.todaynews.dto.AdminImageGenerateResponse;
+import com.htm.e20nomics.todaynews.dto.AdminTodayNewsCreateRequest;
+import com.htm.e20nomics.todaynews.dto.AdminTodayNewsDetailResponse;
+import com.htm.e20nomics.todaynews.dto.AdminTodayNewsGenerateResponse;
+import com.htm.e20nomics.todaynews.dto.AdminTodayNewsResponse;
+import com.htm.e20nomics.todaynews.dto.AdminTodayNewsUpdateRequest;
+import com.htm.e20nomics.todaynews.repository.TodayNewsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import tools.jackson.core.type.TypeReference;
-import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class AdminTodayNewsService {
 
-    private final OpenAiChatClient openAiChatClient;
-    private final OpenAiImageClient openAiImageClient;
+    private final TodayNewsAiClient todayNewsAiClient;
     private final TodayNewsRepository todayNewsRepository;
 
     // 관리자: 오늘의 뉴스 생성하기
@@ -30,68 +30,12 @@ public class AdminTodayNewsService {
         if (!StringUtils.hasText(text)) {    // null, 공백, 길이를 모두 한번에 체크
             return new AdminTodayNewsGenerateResponse("", "요약할 텍스트가 비어있습니다.", false);
         }
-        if (!isEconomicNews(text)) {
-            return new AdminTodayNewsGenerateResponse("", "경제 뉴스가 아니므로 요약할 수 없습니다.", false);
-        }
-
-        String prompt = """
-                다음 텍스트를 바탕으로 제목과 요약을 생성해줘.
-                
-                규칙:
-                - 추측하지 말고 주어진 내용만 사용
-                - 제목은 짧고 자연스럽게
-                - 요약은 한국어 3줄
-                - 반드시 아래 JSON 형식으로만 반환
-                - 다른 설명은 절대 하지 말 것
-                
-                {
-                  "title": "...",
-                  "summary": "..."
-                }
-                
-                텍스트:
-                %s
-                """.formatted(text);
-
-        String result = openAiChatClient.summarizeWithChatCompletions(prompt);
 
         try {
-            result = result.trim()
-                    .replace("```json", "")
-                    .replace("```", "")
-                    .trim();
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, String> map = objectMapper.readValue(result, new TypeReference<Map<String, String>>() {
-            });
-
-            String summaryTitle = map.get("title");
-            String summaryText = map.get("summary");
-
-            return new AdminTodayNewsGenerateResponse(summaryTitle, summaryText, true);
-
+            return todayNewsAiClient.generateSummary(text);
         } catch (Exception e) {
-            e.printStackTrace();
             return new AdminTodayNewsGenerateResponse("", "제목/요약에 실패했습니다.", false);
         }
-    }
-
-    @Transactional
-    // 경제뉴스 여부 검사
-    private boolean isEconomicNews(String text) {
-        String prompt = """
-                다음 텍스트가 경제 뉴스인지 판별해줘.
-                경제 뉴스이면 YES
-                아니면 NO
-                애매하면 NO
-                다른 말 하지 말고 YES 또는 NO만 답해.
-                
-                텍스트:
-                %s
-                """.formatted(text);
-
-        String result = openAiChatClient.summarizeWithChatCompletions(prompt);
-        return "YES".equalsIgnoreCase(result.trim());   // yes가 들어있으면 true, no면 false 반환
     }
 
     // 관리자: 오늘의 뉴스 저장하기
@@ -109,7 +53,7 @@ public class AdminTodayNewsService {
                 .toList();
     }
 
-    // 관리자: 오늘의 뉴스 상세페이지 가져오기 (수정, 삭제 가능페이지)
+    // 관리자: 오늘의 뉴스 상세페이지 가져오기(수정, 삭제 관리자페이지)
     @Transactional(readOnly = true)
     public AdminTodayNewsDetailResponse getTodayNewsDetail(Long id) {
         TodayNews todayNews = todayNewsRepository.findById(id)
@@ -140,19 +84,9 @@ public class AdminTodayNewsService {
     public AdminImageGenerateResponse generateImage(String text) {
         if (!StringUtils.hasText(text)) {
             throw new IllegalArgumentException("이미지 생성 프롬프트를 입력해주세요.");
-            }
-            String prompt = """
-            경제 뉴스 대표 이미지용 장면을 생성하라.
-            아래 내용을 바탕으로 핵심 주제를 시각적으로 표현하라.
-            텍스트, 글자, 로고, 워터마크는 넣지 마라.
-            깔끔하고 사실적인 뉴스 썸네일 스타일로 만들어라.
-            크기는 600px * 600px
-            내용:
-            %s
-            """.formatted(text);
+        }
 
-        String imageBase64 = openAiImageClient.generateImage(prompt);
-        return new AdminImageGenerateResponse(imageBase64);
+        return todayNewsAiClient.generateImage(text);
     }
 
     // 이미지 url db에 저장

@@ -25,7 +25,7 @@ public class SummaryController {
     public SummaryGenerateResponse summarize(@Valid @RequestBody SummaryGenerateRequest request, @AuthenticationPrincipal CustomUserDetails userDetails) {
         return summaryService.summarize(request.getText(), userDetails.getUserId());
     }
-    // controller -> service -> OpenAiChatClient(OpenAI API와 통신) -> service -> controller
+    // controller -> service -> SummaryAiClient(FastAPI AI 서비스와 통신) -> service -> controller
 
     @PostMapping("/api/summaries")
     public ResponseEntity<Void> saveSummary(@Valid @RequestBody SummaryCreateRequest dto,
@@ -63,5 +63,3 @@ public class SummaryController {
         return ResponseEntity.noContent().build();
     }
 }
-
-

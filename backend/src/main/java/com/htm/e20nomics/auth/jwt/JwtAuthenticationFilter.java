@@ -43,10 +43,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String email = jwtTokenProvider.getEmail(token);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);  // db에서 사용자 조회
 
-                // Authentication 객체 생성
+                // UsernamePasswordAuthenticationToken: Authentication 구현체
                 // 서버는 로그인 상태를 기억하지 않으므로 매 요청마다 SecurityContext에 (db에서 방금 꺼내온) 유저정보를 저장해야함
                 UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());  //파라미터 순서대로 principal / 비번 / 권한
 
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));   // Authentication 객체에 요청 관련 정보를 추가
                 SecurityContextHolder.getContext().setAuthentication(authentication);  // 생성한 authentication을 security context에 집어넣어라
@@ -87,6 +87,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 //SecurityContext
 //      ↓
 //Authentication   ← 현재 로그인 사용자 정보
-//      ├ principal (사용자 정보)
+//      ├ principal (사용자 정보)  (CustomUserDetails)
 //      ├ credentials (비밀번호)
 //      └ authorities (권한)

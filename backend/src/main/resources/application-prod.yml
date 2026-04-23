@@ -29,6 +29,10 @@ openai:
   api-key: ${OPENAI_API_KEY}
   model: gpt-4o-mini
 
+ai:
+  service:
+    base-url: ${AI_SERVICE_BASE_URL:http://localhost:8000}
+
 app:
   briefing:
     max-length: 3000

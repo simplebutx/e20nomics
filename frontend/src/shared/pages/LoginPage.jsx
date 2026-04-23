@@ -49,7 +49,7 @@ export default function LoginPage() {
 
   function googleLogin() {
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      const backendUrl = import.meta.env.VITE_API_BASE_URL;
 
       if(!backendUrl) {
         toast.error("구글로그인불가");

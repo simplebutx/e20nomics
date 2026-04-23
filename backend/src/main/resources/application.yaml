@@ -4,3 +4,7 @@ spring:
 
 server:
   port: ${PORT:8080}
+
+ai:
+  service:
+    base-url: ${AI_SERVICE_BASE_URL:http://localhost:8000}
